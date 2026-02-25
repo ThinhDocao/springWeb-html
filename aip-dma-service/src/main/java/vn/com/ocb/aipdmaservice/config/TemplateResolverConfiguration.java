@@ -36,4 +36,18 @@ public class TemplateResolverConfiguration {
 
         return templateResolver;
     }
+
+    @Bean
+    public SpringResourceTemplateResolver thirstTemplateResolver() {
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+        templateResolver.setPrefix("classpath:/templates/customer/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateResolver.setCharacterEncoding("UTF-8");
+        templateResolver.setOrder(0);
+        templateResolver.setCacheable(false);
+        templateResolver.setCheckExistence(true);
+
+        return templateResolver;
+    }
 }
