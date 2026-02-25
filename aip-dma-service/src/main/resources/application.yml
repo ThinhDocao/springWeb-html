@@ -1,0 +1,62 @@
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+  web:
+    resources:
+      cache:
+        period: 0
+
+xslt:
+  mask:
+    file: classpath:xslt/maskInput.xslt
+    params:
+      key: PIN,credentials,oldPassword,newPassword,customerPassword
+      value: XXX
+
+#mask sensitive data when write log
+log:
+  mask:
+    params:
+      key: PIN,credentials,oldPassword,newPassword,password,jwtToken,fileDataBase64
+      value: XXX
+
+url:
+  currentAccount: http://10.96.24.101:80/currentaccount/v1/ws
+  corporateTreasury: http://10.96.24.101:80/corporatetreasury/v1/ws
+  customerRefDataMgmt: http://10.96.24.101:80/customerrefdatamgmt/v1/ws
+  depositAccount: http://10.96.24.101:80/depositaccount/v1/ws
+  dictionary: http://10.96.24.101:80/dictionary/v1/ws
+  paymentExecution: http://10.96.24.101:80/paymentexecution/v1/ws
+  productCombination: http://10.96.24.101:80/productcombination/v1/ws
+  partnerGateway: http://10.96.24.101:80/partnergateway/v1/ws
+  partnerEwallet: http://10.96.24.101:80/partnerewallet/v1/ws
+  card: http://10.96.24.101:80/card/v1/ws
+  rewardPointAccount: http://10.96.24.101:80/rewardpointaccount/v1/ws?wsdl
+  awardRedemption: http://10.96.24.101:80/awardredemption/v1/ws?wsdl
+  loan: http://10.96.24.101:80/loan/v1/ws
+  transactionAuthorization: http://10.96.24.101:80/transactionauthorization/v1/ws
+  documentServices: http://10.96.24.101:80/documentservices/v1/ws
+  eBranchMgmt: http://10.96.24.101:80/ebranchmgmt/v1/ws
+  partyauthentication: http://10.96.24.101:80/partyauthentication/v1/ws
+  correspondentbanks: http://10.96.24.101:80/correspondentbank/v1/ws
+  productSalesSupport: http://10.96.24.101:80/productsalessupport/v1/ws
+  branchLocationManagement: http://10.96.24.101:80/branchlocationmanagement/v1/ws
+  paymentOrder: http://10.96.24.101:80/paymentorder/v1/ws
+  correspondence: http://10.96.24.101:80/correspondence/v1/ws
+  amlresolution: http://10.96.24.101:80/amlresolution/v1/ws
+  salesproductagreement: http://10.96.24.101:80/salesproductagreement/v1/ws
+  customerrelationshipmgmt: http://10.96.24.101:80/customerrelationshipmgmt/v1/ws
+  ebranchoperation: http://10.96.24.101:80/ebranchoperation/v1/ws
+  cryptography: http://10.96.24.101:80/cryptography/v1/ws
+  virtualaccount: http://10.96.24.101:80/virtualaccount/v1/ws
+  partnerpayment: http://10.96.24.101:80/partnerpayment/v1/ws
+  paymentExecutionV2: http://10.96.24.101:80/paymentexecutionv2/v1/ws
+
+
+omni:
+  url-cbp: ${OMNI_CBP_URL:http://10.102.61.127:9080}
+  secretKey: ${JWT_TOKEN_KEY:passmh2}
+  expireToken: ${EXPIRE_TOKEN:2592000}

@@ -1,0 +1,160 @@
+.main-layout{
+    width: 100%;
+    height: 100vh;
+}
+
+.main-background{
+    background-image: url(/images/welcome_picture.jpg);
+    min-height: 100%;
+    background-size: cover;
+    background-position: center center;
+}
+.main-content-container{
+    display: flex;
+    height: 100vh;
+    padding: 0px 108px;
+    margin: 0px;
+}
+.main-content{
+    margin: auto;
+}
+.main-content-left{
+    max-width: 420px;
+}
+
+.main-content-right {
+    max-width: 456px;
+    text-align: right;
+    margin-left: auto;
+    background: rgb(255, 255, 255);
+    border-radius: 12px;
+    padding: 40px 32px 52px;
+}
+
+.ocb-logo {
+    max-width: 139px;
+    margin-bottom: 34px;
+}
+.ocb-title {
+    width: 100%;
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 36px;
+    letter-spacing: 0.36px;
+    color: rgb(255, 255, 255);
+}
+.selection-title {
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 32px;
+    text-align: center;
+    letter-spacing: 0.35px;
+    color: rgb(72, 72, 74);
+    margin-bottom: 40px;
+}
+.button-login{
+    text-align: center;
+    width: 100%;
+    margin-bottom: 24px;
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.408px;
+    color: rgb(1, 141, 70);
+    padding: 16px;
+    background: rgb(255, 255, 255);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(1, 141, 70);
+    border-image: initial;
+    border-radius: 8px;
+}
+.selection-description {
+    width: 100%;
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: -0.24px;
+    color: rgb(117, 117, 117);
+    margin: 12px;
+}
+.p-login{
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+
+.modal-content {
+    width: 80%;
+    margin: 0 auto;
+}
+.modal-body {
+    padding: 0 !important;
+}
+.btn-close {
+    position: absolute;
+    right: 0;
+    padding: 1em;
+}
+h1 {
+    font-size: 2.3em;
+    font-weight: bold;
+}
+.myform {
+    padding: 2em;
+    max-width: 100%;
+    color: #000;
+    box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.18);
+}
+@media (max-width: 576px) {
+    .myform {
+        max-width: 90%;
+        margin: 0 auto;
+    }
+}
+.form-control:focus {
+    box-shadow: inset 0 -1px 0 #7e7e7e;
+}
+.form-control {
+    background-color: inherit;
+    color: #000;
+    padding-left: 0;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #000;
+}
+.myform .btn {
+    width: 100%;
+    background-color: #1fb266;
+    color: #fff;
+    border-radius: 0;
+    padding: 0.5em 0;
+}
+.myform .btn:hover {
+    background-color: seagreen;
+    color: #fff;
+    border-color: #000;
+}
+p {
+    text-align: center;
+    color: grey;
+}
+p a {
+    color: #000;
+    text-decoration: none;
+}
+p a:hover {
+    color: #000;
+}
