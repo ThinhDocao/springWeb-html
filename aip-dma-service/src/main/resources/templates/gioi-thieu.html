@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title th:text="${pageTitle}">Giới thiệu</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+  <div th:replace="fragments/header :: header"></div>
+  <section class="page-banner"><div class="container"><h1>Giới thiệu</h1><p class="breadcrumb"><a href="/">Trang chủ</a> / Giới thiệu</p></div></section>
+  <section class="page-content">
+    <div class="container">
+      <h3>Cơ sở Đúc Đồng Mỹ Nghệ Thành Đạt</h3>
+      <p>Cơ sở đồ đồng Thành Đạt là một trong những đơn vị uy tín hàng đầu chuyên sản xuất và cung cấp các sản phẩm tượng đồng, trống đồng, tranh đồng, quà tặng mạ vàng cao cấp. Với đội ngũ nghệ nhân tay nghề cao và nhiều năm kinh nghiệm, chúng tôi cam kết mang đến những sản phẩm chất lượng nhất.</p>
+      <h3>Tầm nhìn &amp; Sứ mệnh</h3>
+      <p>Chúng tôi luôn tận tâm với mọi nhu cầu, kết hợp phương châm làm việc đạt chất lượng, tiến độ, cầu thị, cởi mở, nhiệt tình với mọi ý kiến đóng góp. Sứ mệnh của chúng tôi là lưu truyền và phát triển văn hóa Việt thông qua các sản phẩm đồ đồng mỹ nghệ truyền thống.</p>
+      <h3>Sản phẩm chính</h3>
+      <p>Đồ thờ cúng bằng đồng, tượng đồng (danh nhân, phật, linh vật), tranh đồng phong thủy, trống đồng (quả trống, mặt trống, tranh trống), quà tặng lưu niệm mạ vàng 24k, công trình tiêu biểu, và các dịch vụ đúc đồng, mạ vàng, thiết kế phòng thờ theo yêu cầu.</p>
+      <h3>Liên hệ</h3>
+      <p>Địa chỉ: Nguyệt Thượng – Tân Minh – Ninh Bình (Ý Yên – Nam Định cũ)<br/>Hotline: 0978.828.626<br/>Email: ducdongthanhdat@gmail.com</p>
+    </div>
+  </section>
+  <div th:replace="fragments/footer :: footer"></div>
+  <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

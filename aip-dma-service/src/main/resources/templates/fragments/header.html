@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- HEADER FRAGMENT -->
+<div th:fragment="header">
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-left">
+        <a href="tel:0978828626">&#9742; Hotline: 0978.828.626</a>
+        <a href="mailto:ducdongthanhdat@gmail.com">&#9993; ducdongthanhdat@gmail.com</a>
+      </div>
+      <div class="top-bar-right">
+        <a href="#" title="Facebook">f</a>
+        <a href="#" title="Youtube">&#9654;</a>
+        <a href="#" title="Zalo">Z</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Header -->
+  <header class="main-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="/" class="logo">
+          <div class="logo-text">
+            ĐỒ ĐỒNG THÀNH ĐẠT
+            <span>Lưu truyền phát triển văn hóa Việt</span>
+          </div>
+        </a>
+
+        <button class="nav-toggle" id="navToggle">
+          <span></span><span></span><span></span>
+        </button>
+
+        <ul class="nav-menu" id="navMenu">
+          <li class="active"><a href="/">Trang chủ</a></li>
+          <li><a href="/gioi-thieu">Giới thiệu</a></li>
+          <li class="has-dropdown">
+            <a href="/san-pham">Sản phẩm &#9662;</a>
+            <ul class="dropdown-menu">
+              <li class="has-submenu">
+                <a href="/danh-muc/do-tho-cung">Đồ thờ cúng bằng đồng</a>
+                <ul class="submenu">
+                  <li><a href="/danh-muc/dinh-dong">Đỉnh đồng</a></li>
+                  <li><a href="/danh-muc/do-tho-cao-cap">Đồ thờ cao cấp</a></li>
+                  <li><a href="/danh-muc/do-tho-lon">Đồ thờ lớn</a></li>
+                  <li><a href="/danh-muc/phu-kien-do-tho">Phụ kiện đồ thờ</a></li>
+                  <li><a href="/danh-muc/do-tho-khac">Đồ thờ khác</a></li>
+                </ul>
+              </li>
+              <li class="has-submenu">
+                <a href="/danh-muc/tuong-dong">Tượng đồng</a>
+                <ul class="submenu">
+                  <li><a href="/danh-muc/tuong-danh-nhan">Tượng danh nhân</a></li>
+                  <li><a href="/danh-muc/tuong-phat">Tượng phật bằng đồng</a></li>
+                  <li><a href="/danh-muc/tuong-linh-vat">Tượng linh vật</a></li>
+                  <li><a href="/danh-muc/tuong-thanh-mau-vua">Tượng – Thánh – Mẫu – Vua</a></li>
+                  <li><a href="/danh-muc/tuong-chan-dung">Tượng chân dung</a></li>
+                  <li><a href="/danh-muc/tuong-dong-khac">Tượng đồng khác</a></li>
+                </ul>
+              </li>
+              <li class="has-submenu">
+                <a href="/danh-muc/tranh-dong">Tranh đồng</a>
+                <ul class="submenu">
+                  <li><a href="/danh-muc/tranh-phong-thuy">Tranh đồng phong thủy</a></li>
+                  <li><a href="/danh-muc/tranh-chu">Tranh chữ</a></li>
+                  <li><a href="/danh-muc/tranh-mung-tho">Tranh mừng thọ</a></li>
+                </ul>
+              </li>
+              <li class="has-submenu">
+                <a href="/danh-muc/trong-dong">Trống đồng</a>
+                <ul class="submenu">
+                  <li><a href="/danh-muc/qua-trong-dong">Quả trống đồng</a></li>
+                  <li><a href="/danh-muc/tranh-trong-dong">Tranh trống đồng</a></li>
+                  <li><a href="/danh-muc/mat-trong-dong">Mặt trống đồng</a></li>
+                  <li><a href="/danh-muc/trong-dong-qua-tang">Trống đồng quà tặng</a></li>
+                  <li><a href="/danh-muc/trong-dong-ma-vang">Trống đồng mạ vàng</a></li>
+                </ul>
+              </li>
+              <li class="has-submenu">
+                <a href="/danh-muc/qua-tang-luu-niem">Quà tặng lưu niệm</a>
+                <ul class="submenu">
+                  <li><a href="/danh-muc/qua-tang-ma-vang-24k">Quà tặng mạ vàng 24k</a></li>
+                  <li><a href="/danh-muc/qua-tang-phong-thuy">Quà tặng phong thủy</a></li>
+                  <li><a href="/danh-muc/tranh-ma-vang-24k">Tranh quà tặng mạ vàng 24k</a></li>
+                  <li><a href="/danh-muc/cay-phong-thuy-ma-vang">Cây phong thủy mạ vàng 24k</a></li>
+                </ul>
+              </li>
+              <li class="has-submenu">
+                <a href="/danh-muc/cong-trinh-tieu-bieu">Công trình tiêu biểu</a>
+                <ul class="submenu">
+                  <li><a href="/danh-muc/duc-tuong-danh-nhan-lon">Đúc tượng danh nhân cỡ lớn</a></li>
+                  <li><a href="/danh-muc/duc-tuong-phat-co-lon">Đúc tượng phật cỡ lớn</a></li>
+                </ul>
+              </li>
+              <li class="has-submenu">
+                <a href="/danh-muc/dich-vu">Dịch vụ</a>
+                <ul class="submenu">
+                  <li><a href="/danh-muc/duc-dong-theo-yeu-cau">Đúc đồng theo yêu cầu</a></li>
+                  <li><a href="/danh-muc/ma-vang-dat-vang">Mạ vàng – dát vàng</a></li>
+                  <li><a href="/danh-muc/thiet-ke-phong-tho">Thiết kế thi công phòng thờ</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><a href="/tin-tuc">Tin tức</a></li>
+          <li><a href="/lien-he">Liên hệ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+</div>
+</html>

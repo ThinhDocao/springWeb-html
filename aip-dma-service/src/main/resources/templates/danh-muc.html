@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${pageTitle}">Danh mục sản phẩm - Đồ Đồng Thành Đạt</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <div th:replace="fragments/header :: header"></div>
+
+    <main class="category-page">
+        <div class="container">
+            <!-- BREADCRUMB -->
+            <nav class="breadcrumb">
+                <a href="/">Trang chủ</a> / <span>Đồ thờ cúng bằng đồng</span>
+            </nav>
+
+            <div class="category-layout">
+                <!-- SIDEBAR FILTER -->
+                <aside class="category-sidebar">
+                    <div class="filter-box">
+                        <h3 class="filter-title">Danh mục sản phẩm</h3>
+                        <ul class="filter-list">
+                            <li><a href="#" class="active">Đồ thờ cúng bằng đồng (110)</a>
+                                <ul class="sub-filter-list">
+                                    <li><a href="#">Đỉnh đồng</a></li>
+                                    <li><a href="#">Đồ thờ cao cấp</a></li>
+                                    <li><a href="#">Đồ thờ lớn</a></li>
+                                    <li><a href="#">Phụ kiện đồ thờ</a></li>
+                                    <li><a href="#">Đồ thờ khác</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Tượng đồng</a></li>
+                            <li><a href="#">Tranh đồng</a></li>
+                            <li><a href="#">Trống đồng</a></li>
+                            <li><a href="#">Quà tặng lưu niệm</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-box">
+                        <h3 class="filter-title">Lọc theo giá</h3>
+                        <div class="price-filter">
+                            <input type="range" min="0" max="100000000" step="1000000" id="priceRange"/>
+                            <div class="price-labels">
+                                <span>0đ</span> - <span id="priceVal">100.000.000đ</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- PRODUCT CONTENT -->
+                <div class="category-content">
+                    <div class="category-header">
+                        <h1>Đồ thờ cúng bằng đồng</h1>
+                        <div class="sort-box">
+                            <span>Sắp xếp theo: </span>
+                            <select>
+                                <option>Mới nhất</option>
+                                <option>Giá thấp đến cao</option>
+                                <option>Giá cao đến thấp</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="product-grid">
+                        <div class="product-card">
+                            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/03/dinh-dong-vuong-catut-65cm-2.jpg" alt="Đỉnh đồng"/></div>
+                            <div class="card-body"><h4>Đỉnh Vuông Đồng Vàng Catut Cao 62cm</h4><a href="/san-pham/dinh-vuong" class="btn-buy">Mua ngay</a></div>
+                        </div>
+                        <div class="product-card">
+                            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/03/dinh-dong-vuong-dong-do-60cm-hun-3.jpg" alt="Đỉnh đồng"/></div>
+                            <div class="card-body"><h4>Đỉnh Đồng Vuông Đồng Đỏ Cao 60cm Màu Hun Cổ Điển</h4><a href="/san-pham/dinh-vuong-do" class="btn-buy">Mua ngay</a></div>
+                        </div>
+                        <div class="product-card">
+                            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/02/den-mai-chua-dong-vang-75cm-1.jpg" alt="Đèn mái chùa"/></div>
+                            <div class="card-body"><h4>Đôi Đèn Mái Chùa Bằng Đồng Vàng Cao 75cm</h4><a href="/san-pham/den-mai-chua" class="btn-buy">Mua ngay</a></div>
+                        </div>
+                        <div class="product-card">
+                            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/07/Bai-vi-42cm-kham-ngu-sac-1.jpg" alt="Bài vị"/></div>
+                            <div class="card-body"><h4>Bài Vị Cao 42cm Khảm Ngũ Sắc</h4><a href="/san-pham/bai-vi" class="btn-buy">Mua ngay</a></div>
+                        </div>
+                        <div class="product-card">
+                            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/Bo-ngu-su-kham-ngu-sac-60cm-cao-cap-hang-ky-nhieu-vang-1.jpg" alt="Bộ ngũ sự"/></div>
+                            <div class="card-body"><h4>Bộ Ngũ Sự Khảm Ngũ Sắc Khảm Kỹ Nhiều Vàng Cao 60cm</h4><a href="/san-pham/ngu-su" class="btn-buy">Mua ngay</a></div>
+                        </div>
+                        <div class="product-card">
+                            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/Bo-ngu-su-dong-catut-cao-45cm-2-1.jpg" alt="Bộ ngũ sự"/></div>
+                            <div class="card-body"><h4>Bộ Ngũ Sự Đồng Catut Cao 45cm</h4><a href="/san-pham/ngu-su-catut" class="btn-buy">Mua ngay</a></div>
+                        </div>
+                        <!-- ... More products -->
+                    </div>
+
+                    <div class="pagination">
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments/footer :: footer"></div>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

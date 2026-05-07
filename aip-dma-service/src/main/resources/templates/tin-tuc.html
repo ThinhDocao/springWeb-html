@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title th:text="${pageTitle}">Tin tức</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+  <div th:replace="fragments/header :: header"></div>
+  <section class="page-banner"><div class="container"><h1>Tin tức</h1><p class="breadcrumb"><a href="/">Trang chủ</a> / Tin tức</p></div></section>
+  <section class="news-section">
+    <div class="container">
+      <div class="news-grid">
+        <div class="news-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/03/Tranh-chu-ma-vang.png" alt="Quà Tặng Mạ Vàng"/></div><div class="card-body"><h4>Quà Tặng Mạ Vàng Khai Trương – Nghệ Thuật Chọn Quà Đẳng Cấp Và Ý Nghĩa</h4><a href="#" class="btn-detail">Xem chi tiết</a></div></div>
+        <div class="news-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/07/ly-thuong-kiet-doc-nam-quoc-son-ha.png" alt="Vị Tướng"/></div><div class="card-body"><h4>Top Những Vị Tướng Làm Thay Đổi Lịch Sử Việt Nam – Những Linh Hồn Bất Tử</h4><a href="#" class="btn-detail">Xem chi tiết</a></div></div>
+        <div class="news-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/04/tuong-ngua-bang-dong-phong-thuy-2026-4-1.jpg" alt="Tượng Ngựa"/></div><div class="card-body"><h4>Tượng Ngựa Bằng Đồng Hợp Tuổi Nào? Điểm Tựa Phong Thủy Cho Sự Nghiệp</h4><a href="#" class="btn-detail">Xem chi tiết</a></div></div>
+        <div class="news-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/04/baner-qua-tang-dip-30-4-1-5.png" alt="Quà tặng 30/4"/></div><div class="card-body"><h4>Top 10 quà tặng ngày 30/4 – 1/5 ý nghĩa, độc đáo tặng sếp, lãnh đạo</h4><a href="#" class="btn-detail">Xem chi tiết</a></div></div>
+        <div class="news-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/04/tuong-ngua-ma-vang-bang-dong-qua-tang-cao-cap-6.jpg" alt="Tượng ngựa mạ vàng"/></div><div class="card-body"><h4>Vì sao tượng ngựa mạ vàng là quà tặng khai trương được ưa chuộng nhất?</h4><a href="#" class="btn-detail">Xem chi tiết</a></div></div>
+        <div class="news-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/03/cac-mau-qua-trong-dong-phong-thuy.jpg" alt="Trống đồng"/></div><div class="card-body"><h4>Các Mẫu Quả Trống Đồng Đẹp Phổ Biến Nhất Hiện Nay</h4><a href="#" class="btn-detail">Xem chi tiết</a></div></div>
+      </div>
+    </div>
+  </section>
+  <div th:replace="fragments/footer :: footer"></div>
+  <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

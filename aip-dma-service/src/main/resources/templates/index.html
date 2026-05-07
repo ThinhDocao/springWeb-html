@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title th:text="${pageTitle}">Đồ Đồng Thành Đạt</title>
+  <meta name="description" content="Cơ sở đồ đồng Thành Đạt chuyên sản xuất tượng đồng, trống đồng, tranh đồng, quà tặng mạ vàng cao cấp."/>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+  <div th:replace="fragments/header :: header"></div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-categories">
+        <a href="/san-pham#tranh-dong" class="hero-cat-card">
+          <img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/baner-tranh-dong.jpg" alt="Tranh đồng"/>
+          <div class="overlay"><h3>Tranh đồng</h3></div>
+        </a>
+        <a href="/san-pham#trong-dong" class="hero-cat-card">
+          <img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/baner-trong-dong.jpg" alt="Trống đồng"/>
+          <div class="overlay"><h3>Trống đồng</h3></div>
+        </a>
+        <a href="/san-pham#tuong-dong" class="hero-cat-card">
+          <img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/baner-tuong-dong.jpg" alt="Tượng đồng"/>
+          <div class="overlay"><h3>Tượng đồng</h3></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PRODUCTS -->
+  <section class="featured-section">
+    <div class="container">
+      <div class="section-title"><h2>Sản phẩm nổi bật</h2><p>Những tác phẩm đồ đồng mỹ nghệ tinh xảo</p></div>
+      <div class="carousel-wrapper">
+        <button class="carousel-btn prev">&#10094;</button>
+        <div class="carousel-track">
+          <div class="product-card">
+            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/Bac-Ho-ban-than-60cm-dong-do-4.jpeg" alt="Tượng Bác Hồ bán thân đồng đỏ 60cm"/></div>
+            <div class="card-body"><h4>Tượng Bác Hồ bán thân đồng đỏ 60cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div>
+          </div>
+          <div class="product-card">
+            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/12/Mat-trong-dong-dat-vang-24k-80cm-khung-1m1-1.jpg" alt="Tranh trống đồng dát vàng 24k"/></div>
+            <div class="card-body"><h4>Tranh trống đồng dát vàng 24k khung gỗ gụ 1m1</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div>
+          </div>
+          <div class="product-card">
+            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/photo_2_2025-03-19_14-52-27thumb.jpeg" alt="Tượng Trần Hưng Đạo"/></div>
+            <div class="card-body"><h4>Tượng Trần Hưng Đạo bằng đồng khảm tam khí 38cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div>
+          </div>
+          <div class="product-card">
+            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/12/qua-trong-dong-dat-vang-24k-40cm-7.jpg" alt="Quả trống đồng dát vàng"/></div>
+            <div class="card-body"><h4>Quả trống đồng dát vàng 24k đường kính 40cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div>
+          </div>
+          <div class="product-card">
+            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/MoHinhThuyenMaVang24k21x10x17cm-2-0978828626-1.jpg" alt="Thuyền mạ vàng"/></div>
+            <div class="card-body"><h4>Thuyền Đế Đồng Mạ Vàng 24k KT:30x22cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div>
+          </div>
+          <div class="product-card">
+            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/TranhMaDaoThanhCongMaVang24k-27x34cm-1-0978828626.jpg" alt="Tranh Bát Mã"/></div>
+            <div class="card-body"><h4>Tranh Bát Mã Thành Công Mạ Vàng 24k</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div>
+          </div>
+          <div class="product-card">
+            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/photo_4_2025-04-23_13-53-18.jpg" alt="Bộ Ngũ Sự"/></div>
+            <div class="card-body"><h4>Bộ Ngũ Sự Đồng Catut Rồng Cao 60cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div>
+          </div>
+          <div class="product-card">
+            <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/12/qua-trong-dong-qua-tang-ma-vang-20cm-5.jpg" alt="Quả trống đồng quà tặng"/></div>
+            <div class="card-body"><h4>Quả trống đồng quà tặng mạ vàng 20cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div>
+          </div>
+        </div>
+        <button class="carousel-btn next">&#10095;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY TABS -->
+  <section class="category-section">
+    <div class="container">
+      <div class="section-title"><h2>Danh mục sản phẩm</h2></div>
+      <div class="tab-nav">
+        <button class="tab-btn active" data-tab="tab-dotho">Đồ thờ cúng</button>
+        <button class="tab-btn" data-tab="tab-tuong">Tượng đồng</button>
+        <button class="tab-btn" data-tab="tab-quatang">Quà tặng lưu niệm</button>
+        <button class="tab-btn" data-tab="tab-trong">Trống đồng</button>
+      </div>
+
+      <!-- Tab: Đồ thờ cúng -->
+      <div id="tab-dotho" class="tab-content active">
+        <div class="product-grid">
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/Den-dat-vang-9999-cao-55cm-1.jpg" alt="Đèn Thờ Dát Vàng"/></div><div class="card-body"><h4>Đèn Thờ Dát Vàng 9999 Cao 55cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/Bo-ngai-chen-dat-vang-cay-sen-noi-2.jpg" alt="Ngai Chén Dát Vàng"/></div><div class="card-body"><h4>Ngai Chén Dát Vàng 9999</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/Doi-hac-bang-dong-1m92-cao-mau-3.jpg" alt="Hạc Đồng"/></div><div class="card-body"><h4>Hạc Đồng Đỏ Cạo Màu Cao 1m92</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/IMG_4006.jpg" alt="Bộ Đỉnh Đồng"/></div><div class="card-body"><h4>Bộ Đỉnh Đồng Đỏ Cạo Màu Chạm Sòi Cao 60cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+        </div>
+        <a href="/san-pham" class="view-all-btn">Xem tất cả +</a>
+      </div>
+
+      <!-- Tab: Tượng đồng -->
+      <div id="tab-tuong" class="tab-content">
+        <div class="product-grid">
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/11/tuong-ngua-dat-vang-37cm-3.jpg" alt="Tượng Ngựa"/></div><div class="card-body"><h4>Tượng Ngựa Bằng Đồng Dát Vàng 9999 Cao 37cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/03/tuong-dong-tran-quoc-tuan-40cm-mau-hun-2.jpg" alt="Tượng Trần Quốc Tuấn"/></div><div class="card-body"><h4>Tượng Trần Quốc Tuấn Đồng Vàng Hun Cao 40cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/03/tuong-ho-ma-vang-24k-16cm1.jpg" alt="Tượng Hổ"/></div><div class="card-body"><h4>Tượng Hổ Bằng Đồng Mạ Vàng 24K Cao 16cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/Bac-Ho-ban-than-70-dat-vang-2.jpeg" alt="Tượng Bác Hồ dát vàng"/></div><div class="card-body"><h4>Tượng Bác Hồ bán thân dát vàng 9999 cao 70cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+        </div>
+        <a href="/san-pham" class="view-all-btn">Xem tất cả +</a>
+      </div>
+
+      <!-- Tab: Quà tặng -->
+      <div id="tab-quatang" class="tab-content">
+        <div class="product-grid">
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/TranhSenNenDenDatVang24k-32x25cm-1-0978828626.jpg" alt="Tranh sen dát vàng"/></div><div class="card-body"><h4>Tranh sen dát vàng 24k Kt:25x32cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/03/tuong-heo-tai-loc-ma-vang-15cmx18cm-2.jpg" alt="Tượng Heo"/></div><div class="card-body"><h4>Tượng Heo Tài Lộc Mạ Vàng Cao 15cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/KimNganMaVang24kChuLoc17x13x22cm-2-0978828626.jpg" alt="Cây kim ngân"/></div><div class="card-body"><h4>Cây kim ngân chữ lộc dát vàng 9999</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/TranhThuyenMaVang24k20x20cm-4-0978828626-1.jpg" alt="Tranh Thuận Buồm"/></div><div class="card-body"><h4>Tranh Thuận Buồm Xuôi Gió Mạ Vàng 24K</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+        </div>
+        <a href="/san-pham" class="view-all-btn">Xem tất cả +</a>
+      </div>
+
+      <!-- Tab: Trống đồng -->
+      <div id="tab-trong" class="tab-content">
+        <div class="product-grid">
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/11/qua-trong-dong-luu-niem-hun-gia-co-10cm-1.jpg" alt="Quả trống lưu niệm"/></div><div class="card-body"><h4>Quả trống đồng lưu niệm hun giả cổ dk 10cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/Qua-trong-van-chim-duong-kinh-20cm-4.jpg" alt="Quả trống vân chìm"/></div><div class="card-body"><h4>Quả trống đồng vân chìm đường kính 20cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/12/mat-trong-dong-duc-60cm-3.jpg" alt="Mặt trống đồng"/></div><div class="card-body"><h4>Mặt trống đồng đúc 60cm</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+          <div class="product-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/mat-trong-dong-80-dat-vang-vang-1m1-2.jpg" alt="Mặt Trống Dát Vàng"/></div><div class="card-body"><h4>Mặt Trống Đồng Dát Vàng 9999 Khung Gỗ Gụ 1m1</h4><a href="/san-pham/tuong-tran-hung-dao-bang-dong-kham-tam-khi" class="btn-buy">Mua ngay</a></div></div>
+        </div>
+        <a href="/san-pham" class="view-all-btn">Xem tất cả +</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-title"><h2>Khách hàng nói gì về chúng tôi</h2><p>Mỗi sản phẩm mang lại giá trị đích thực về tính năng, mỹ thuật và cảm xúc</p></div>
+      <div class="testimonial-grid">
+        <div class="testimonial-card"><div class="author"><h4>Chị Thủy</h4><span>Công ty CP Thảo Dược Thiên Nhiên</span></div><p>Chất lượng tuyệt vời, Thành Đạt đã đáp ứng mọi yêu cầu mà tôi cần, hiện tại tôi đang mua sản phẩm ở đây và rất hài lòng.</p></div>
+        <div class="testimonial-card"><div class="author"><h4>Anh Hùng - Hà Nội</h4><span>Công ty cổ phần xây dựng Hùng Mạnh</span></div><p>Tôi đã đặt tượng Bác Hồ bằng đồng cao 1m2, phải nói là cực kỳ hài lòng. Từng đường nét được chế tác tỉ mỉ, thần thái rất chuẩn.</p></div>
+        <div class="testimonial-card"><div class="author"><h4>Chị Trần Thị Lan – TP. HCM</h4><span>Công ty cổ phần thương mại Sao Mai</span></div><p>Mua bộ đồ thờ bằng đồng hun giả cổ, gia đình tôi ai cũng khen đẹp và sang trọng. Nhân viên tư vấn nhiệt tình.</p></div>
+        <div class="testimonial-card"><div class="author"><h4>Anh Dũng</h4><span>Ban quản lý di tích Đền Phú Thọ</span></div><p>Chúng tôi đặt trống đồng và tượng danh nhân phục vụ công trình tâm linh, và kết quả vượt mong đợi.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWS -->
+  <section class="news-section">
+    <div class="container">
+      <div class="section-title"><h2>Tin tức mới nhất</h2></div>
+      <div class="news-grid">
+        <div class="news-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/03/Tranh-chu-ma-vang.png" alt="Quà Tặng Mạ Vàng"/></div><div class="card-body"><h4>Quà Tặng Mạ Vàng Khai Trương – Nghệ Thuật Chọn Quà Đẳng Cấp</h4><a href="/tin-tuc" class="btn-detail">Xem chi tiết</a></div></div>
+        <div class="news-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/07/ly-thuong-kiet-doc-nam-quoc-son-ha.png" alt="Vị Tướng Lịch Sử"/></div><div class="card-body"><h4>Top Những Vị Tướng Làm Thay Đổi Lịch Sử Việt Nam</h4><a href="/tin-tuc" class="btn-detail">Xem chi tiết</a></div></div>
+        <div class="news-card"><div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/04/tuong-ngua-bang-dong-phong-thuy-2026-4-1.jpg" alt="Tượng Ngựa Phong Thủy"/></div><div class="card-body"><h4>Tượng Ngựa Bằng Đồng Hợp Tuổi Nào? Phong Thủy Cho Sự Nghiệp</h4><a href="/tin-tuc" class="btn-detail">Xem chi tiết</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro-banner">
+    <div class="container">
+      <p>Các sản phẩm ở CƠ SỞ ĐÚC ĐỒNG MỸ NGHỆ THÀNH ĐẠT luôn được đánh giá về sự đa dạng từ chủng loại cho đến kỹ thuật chế tác của đội ngũ tay nghề cao, có nhiều năm kinh nghiệm.</p>
+      <p class="address">&#128205; Địa chỉ: Nguyệt Thượng – Tân Minh – Ninh Bình</p>
+    </div>
+  </section>
+
+  <div th:replace="fragments/footer :: footer"></div>
+  <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

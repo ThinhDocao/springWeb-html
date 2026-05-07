@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${pageTitle}">Chi tiết sản phẩm - Đồ Đồng Thành Đạt</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <div th:replace="fragments/header :: header"></div>
+
+    <main class="product-detail-page">
+        <div class="container">
+            <!-- BREADCRUMB -->
+            <nav class="breadcrumb">
+                <a href="/">Trang chủ</a> / 
+                <a href="/san-pham">Tượng đồng</a> / 
+                <span>Tượng Trần Hưng Đạo bằng đồng khảm tam khí cao 38cm</span>
+            </nav>
+
+            <div class="product-essential">
+                <!-- PRODUCT GALLERY -->
+                <div class="product-gallery">
+                    <div class="main-img-wrap">
+                        <img id="mainProductImg" src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/photo_3_2025-03-19_14-52-27thumb.jpeg" alt="Tượng Trần Hưng Đạo"/>
+                    </div>
+                    <div class="thumb-list">
+                        <img class="thumb active" src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/photo_3_2025-03-19_14-52-27thumb.jpeg" onclick="changeImage(this.src, this)"/>
+                        <img class="thumb" src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/photo_1_2025-03-19_14-52-27thumb.jpeg" onclick="changeImage(this.src, this)"/>
+                        <img class="thumb" src="https://ducdongthanhdat.com/wp-content/uploads/2025/05/photo_5_2025-03-19_14-52-27thumb.jpeg" onclick="changeImage(this.src, this)"/>
+                        <img class="thumb" src="https://ducdongthanhdat.com/wp-content/uploads/2025/03/photo_2_2025-03-19_14-52-27thumb.jpeg" onclick="changeImage(this.src, this)"/>
+                    </div>
+                </div>
+
+                <!-- PRODUCT INFO -->
+                <div class="product-info">
+                    <h1 class="product-title">Tượng Trần Hưng Đạo bằng đồng khảm tam khí cao 38cm - Quà tặng</h1>
+                    <div class="product-price">11.500.000 ₫</div>
+                    
+                    <div class="short-desc">
+                        <ul>
+                            <li>✔ <strong>Chất liệu đồng cao cấp:</strong> Đúc từ đồng nguyên chất, bề mặt được khảm tam khí gồm vàng, bạc và đồng.</li>
+                            <li>✔ <strong>Chiều cao 38cm:</strong> Phù hợp để trưng bày trên bàn thờ, bàn làm việc, kệ trang trí.</li>
+                            <li>✔ <strong>Thiết kế oai nghiêm:</strong> Hình tượng Trần Hưng Đạo với tư thế tay chỉ về phía trước, thể hiện tinh thần quyết đoán.</li>
+                        </ul>
+                    </div>
+
+                    <div class="purchase-actions">
+                        <div class="qty-selector">
+                            <button onclick="changeQty(-1)">-</button>
+                            <input type="number" id="quantity" value="1" min="1"/>
+                            <button onclick="changeQty(1)">+</button>
+                        </div>
+                        <button class="btn-primary-buy">MUA NGAY</button>
+                    </div>
+
+                    <div class="product-policies">
+                        <div class="policy-item"><span>🛡️</span> Bảo hành sản phẩm 20 năm</div>
+                        <div class="policy-item"><span>🚚</span> Miễn phí giao hàng nội thành Hà Nội & TP. HCM</div>
+                        <div class="policy-item"><span>💰</span> Thanh toán COD (Nhận hàng kiểm tra/thanh toán)</div>
+                        <div class="policy-item"><span>⭐</span> Bồi hoàn khi sản phẩm không đúng mẫu, chất lượng</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABS / DETAILS -->
+            <div class="product-details-tabs">
+                <div class="tabs-header">
+                    <button class="tab-link active" data-tab="desc">Mô tả sản phẩm</button>
+                    <button class="tab-link" data-tab="specs">Thông số kỹ thuật</button>
+                </div>
+                
+                <div id="desc" class="tab-pane active">
+                    <h3>Tượng Trần Hưng Đạo bằng đồng khảm tam khí cao 38cm – Tinh hoa đúc đồng mỹ nghệ</h3>
+                    <p>Hưng Đạo Đại Vương Trần Quốc Tuấn là vị anh hùng dân tộc vĩ đại, biểu tượng của trí tuệ và lòng yêu nước. Tác phẩm tượng Trần Hưng Đạo khảm tam khí cao 38cm được các nghệ nhân Thành Đạt chế tác vô cùng tỉ mỉ, mang đến vẻ đẹp sang trọng và giá trị phong thủy sâu sắc.</p>
+                    <img src="https://ducdongthanhdat.com/wp-content/uploads/2025/03/photo_2_2025-03-19_14-52-27thumb.jpeg" alt="Ảnh chi tiết"/>
+                    <p>Việc trưng bày tượng Trần Hưng Đạo trong nhà hoặc phòng làm việc không chỉ thể hiện lòng tôn kính với vị anh hùng dân tộc mà còn giúp xua đuổi tà ma, mang lại vượng khí và sự quyết đoán cho gia chủ.</p>
+                </div>
+
+                <div id="specs" class="tab-pane">
+                    <table class="specs-table">
+                        <tr><th>Phân nhóm</th><td>Hàng cao cấp</td></tr>
+                        <tr><th>Quy cách</th><td>Đúc thủ công, chế tác bằng tay</td></tr>
+                        <tr><th>Nguyên liệu</th><td>Đồng đỏ thanh khiết, pha tỷ lệ đồng nồi hè cực hiếm</td></tr>
+                        <tr><th>Chất liệu bề mặt</th><td>Khảm tam khí (vàng, bạc, đồng đỏ, đồng vàng)</td></tr>
+                        <tr><th>Kích thước</th><td>Cao 38cm</td></tr>
+                        <tr><th>Trọng lượng</th><td>Khoảng 7kg</td></tr>
+                        <tr><th>Bảo hành</th><td>10 năm</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- RELATED PRODUCTS -->
+            <section class="related-products">
+                <div class="section-title"><h2>Sản phẩm tương tự</h2></div>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/03/Tuong-dong-tran-hung-dao-cam-cuon-thu-50cm-dat-vang-2.jpg" alt="Tượng đồng"/></div>
+                        <div class="card-body"><h4>Tượng Đồng Trần Hưng Đạo Cầm Cuốn Thư Dát Vàng 9999 Cao 50cm</h4><a href="#" class="btn-buy">Mua ngay</a></div>
+                    </div>
+                    <div class="product-card">
+                        <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/07/Dia-tang-cuoi-de-thinh-4.jpg" alt="Tượng địa tạng"/></div>
+                        <div class="card-body"><h4>Tượng Địa Tạng Bồ Tát Cưỡi Đề Thính Cao 40cm Hàng Kỹ</h4><a href="#" class="btn-buy">Mua ngay</a></div>
+                    </div>
+                    <div class="product-card">
+                        <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2026/04/tuong-bac-ho-ban-than-dong-vang-80cm-2.jpg" alt="Tượng Bác Hồ"/></div>
+                        <div class="card-body"><h4>Tượng Bác Hồ Bán Thân Đồng Vàng Cao 80cm</h4><a href="#" class="btn-buy">Mua ngay</a></div>
+                    </div>
+                    <div class="product-card">
+                        <div class="img-wrap"><img src="https://ducdongthanhdat.com/wp-content/uploads/2025/07/tuong-tam-thanh-phat-dung-dong-hun-81cm-6.jpg" alt="Tượng tam thánh"/></div>
+                        <div class="card-body"><h4>Tượng tam thánh phật đứng cao 81cm đồng hun</h4><a href="#" class="btn-buy">Mua ngay</a></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div th:replace="fragments/footer :: footer"></div>
+    <script th:src="@{/js/main.js}"></script>
+    <script>
+        function changeImage(src, el) {
+            document.getElementById('mainProductImg').src = src;
+            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function changeQty(delta) {
+            let input = document.getElementById('quantity');
+            let val = parseInt(input.value) + delta;
+            if (val >= 1) input.value = val;
+        }
+    </script>
+</body>
+</html>
