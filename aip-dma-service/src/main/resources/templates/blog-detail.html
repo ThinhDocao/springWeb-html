@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(${pageTitle}, ${pageDescription})"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container" style="padding-top:100px;">
+    <div class="breadcrumb"><a th:href="@{/}">Trang chủ</a> <span>›</span> <a th:href="@{/tin-tuc}">Tin tức</a> <span>›</span> <span th:text="${post.title}">Bài viết</span></div>
+    <div class="blog-detail-layout">
+        <article class="blog-article">
+            <h1 th:text="${post.title}">Tiêu đề</h1>
+            <div class="blog-article-meta">
+                <span th:text="${post.category}">Phong thủy</span> · <span th:text="${post.publishDate}">Date</span> · Tác giả: <strong th:text="${post.author}">Author</strong>
+            </div>
+            <div class="blog-article-body" th:utext="${post.content}">Nội dung bài viết</div>
+        </article>
+        <aside>
+            <div class="blog-sidebar-block">
+                <h4>Bài Viết Mới</h4>
+                <div th:each="rp : ${recentPosts}" class="sidebar-post">
+                    <img th:src="@{${rp.imageUrl}}" th:alt="${rp.title}">
+                    <div>
+                        <h5><a th:href="@{'/tin-tuc/' + ${rp.slug}}" th:text="${rp.title}">Title</a></h5>
+                        <span class="date" th:text="${rp.publishDate}">Date</span>
+                    </div>
+                </div>
+            </div>
+            <div class="blog-sidebar-block">
+                <h4>Chuyên Mục</h4>
+                <ul>
+                    <li style="padding:8px 0;border-bottom:1px solid var(--gray-100);"><a th:href="@{/tin-tuc}">Kiến thức phong thủy</a></li>
+                    <li style="padding:8px 0;border-bottom:1px solid var(--gray-100);"><a th:href="@{/tin-tuc}">Nghệ thuật đồng</a></li>
+                    <li style="padding:8px 0;"><a th:href="@{/tin-tuc}">Bảo quản đồ đồng</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+<a href="https://zalo.me/0987654321" class="zalo-float">Z</a>
+<button class="back-to-top">↑</button>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

@@ -49,11 +49,11 @@ public class AppController {
 //        return "error";
     }
 
-    @RequestMapping("/")
-    public RedirectView Hello(RedirectAttributes attributes) {
-//            attributes.addFlashAttribute("flashAttribute", "redirectWithRedirectView");
-        return new RedirectView("customer-journey?aip=yes");
-    }
+    // Root mapping moved to HomeController for the new website
+    // @RequestMapping("/")
+    // public RedirectView Hello(RedirectAttributes attributes) {
+    //     return new RedirectView("customer-journey?aip=yes");
+    // }
 
     private AccessProfileDetailsResponse convertToAccessProfileDetails(AccessProfileDetailsDto profileDTO) {
         if (profileDTO == null) {

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(${pageTitle}, ${pageDescription})"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content fade-up">
+            <span class="hero-badge">✨ Thủ công mỹ nghệ truyền thống</span>
+            <h1>Tinh hoa <span class="accent">đồng mỹ nghệ</span> cho không gian đẳng cấp</h1>
+            <p class="hero-subtitle">Mỗi sản phẩm là một tác phẩm nghệ thuật, được chế tác thủ công bởi nghệ nhân lành nghề với hơn 30 năm kinh nghiệm.</p>
+            <div class="hero-cta">
+                <a th:href="@{/san-pham}" class="btn btn-primary">Xem bộ sưu tập</a>
+                <a th:href="@{/lien-he}" class="btn btn-outline">Tư vấn ngay</a>
+            </div>
+        </div>
+        <div class="hero-image fade-up stagger-2">
+            <img th:src="@{/images/hero-statue.png}" alt="Tượng đồng mỹ nghệ cao cấp">
+        </div>
+    </div>
+</section>
+
+<!-- DANH MỤC -->
+<section class="section categories-section">
+    <div class="container">
+        <div class="section-title fade-up">
+            <div class="divider"></div>
+            <h2>Danh Mục Nổi Bật</h2>
+            <p>Khám phá bộ sưu tập đồ đồng mỹ nghệ đa dạng của chúng tôi</p>
+        </div>
+        <div class="category-grid">
+            <a th:each="cat, iter : ${categories}" th:href="@{'/' + ${cat.slug}}"
+               class="category-card fade-up" th:classappend="'stagger-' + ${iter.count}">
+                <img th:src="@{${cat.imageUrl}}" th:alt="${cat.name}">
+                <h3 th:text="${cat.name}">Tượng Đồng</h3>
+                <span class="count" th:text="${cat.productCount} + ' sản phẩm'">24 sản phẩm</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- SẢN PHẨM NỔI BẬT -->
+<section class="section">
+    <div class="container">
+        <div class="section-title fade-up">
+            <div class="divider"></div>
+            <h2>Sản Phẩm Nổi Bật</h2>
+            <p>Những sản phẩm được yêu thích và đánh giá cao nhất</p>
+        </div>
+        <div class="product-tabs fade-up">
+            <button class="product-tab active" data-tab="tab-bestseller">Bán chạy</button>
+            <button class="product-tab" data-tab="tab-new">Mới nhất</button>
+            <button class="product-tab" data-tab="tab-premium">Cao cấp</button>
+        </div>
+        <div id="tab-bestseller" class="tab-content products-grid" style="display:grid">
+            <div th:each="p : ${bestSellers}" class="product-card fade-up">
+                <a th:href="@{'/san-pham/' + ${p.slug}}">
+                    <div class="product-card-image">
+                        <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
+                        <span class="product-badge badge-sale" th:if="${p.originalPrice != null}">Sale</span>
+                        <button class="wishlist-btn">♡</button>
+                    </div>
+                </a>
+                <div class="product-card-info">
+                    <div class="category-label" th:text="${p.category}">Tượng Đồng</div>
+                    <h3><a th:href="@{'/san-pham/' + ${p.slug}}" th:text="${p.name}">Tên sản phẩm</a></h3>
+                    <div class="product-price">
+                        <span class="current" th:text="${p.price}">15.800.000₫</span>
+                        <span class="original" th:if="${p.originalPrice}" th:text="${p.originalPrice}">18.500.000₫</span>
+                    </div>
+                    <a th:href="@{'/san-pham/' + ${p.slug}}" class="btn btn-outline btn-sm product-card-cta">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+        <div id="tab-new" class="tab-content products-grid" style="display:none">
+            <div th:each="p : ${newProducts}" class="product-card fade-up">
+                <a th:href="@{'/san-pham/' + ${p.slug}}">
+                    <div class="product-card-image">
+                        <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
+                        <span class="product-badge badge-new">Mới</span>
+                        <button class="wishlist-btn">♡</button>
+                    </div>
+                </a>
+                <div class="product-card-info">
+                    <div class="category-label" th:text="${p.category}">Tượng Đồng</div>
+                    <h3><a th:href="@{'/san-pham/' + ${p.slug}}" th:text="${p.name}">Tên sản phẩm</a></h3>
+                    <div class="product-price">
+                        <span class="current" th:text="${p.price}">15.800.000₫</span>
+                        <span class="original" th:if="${p.originalPrice}" th:text="${p.originalPrice}">18.500.000₫</span>
+                    </div>
+                    <a th:href="@{'/san-pham/' + ${p.slug}}" class="btn btn-outline btn-sm product-card-cta">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+        <div id="tab-premium" class="tab-content products-grid" style="display:none">
+            <div th:each="p : ${premiumProducts}" class="product-card fade-up">
+                <a th:href="@{'/san-pham/' + ${p.slug}}">
+                    <div class="product-card-image">
+                        <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
+                        <span class="product-badge badge-sale">Premium</span>
+                        <button class="wishlist-btn">♡</button>
+                    </div>
+                </a>
+                <div class="product-card-info">
+                    <div class="category-label" th:text="${p.category}">Tượng Đồng</div>
+                    <h3><a th:href="@{'/san-pham/' + ${p.slug}}" th:text="${p.name}">Tên sản phẩm</a></h3>
+                    <div class="product-price">
+                        <span class="current" th:text="${p.price}">15.800.000₫</span>
+                        <span class="original" th:if="${p.originalPrice}" th:text="${p.originalPrice}">18.500.000₫</span>
+                    </div>
+                    <a th:href="@{'/san-pham/' + ${p.slug}}" class="btn btn-outline btn-sm product-card-cta">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- VÌ SAO CHỌN CHÚNG TÔI -->
+<section class="section trust-section">
+    <div class="container">
+        <div class="section-title fade-up">
+            <div class="divider"></div>
+            <h2>Vì Sao Chọn Chúng Tôi</h2>
+            <p>Cam kết chất lượng và sự hài lòng của khách hàng</p>
+        </div>
+        <div class="trust-grid">
+            <div class="trust-card fade-up stagger-1">
+                <div class="trust-icon">🎨</div>
+                <h3>Thủ Công Tinh Xảo</h3>
+                <p>Mỗi sản phẩm được chế tác thủ công qua hơn 20 công đoạn bởi nghệ nhân lành nghề.</p>
+            </div>
+            <div class="trust-card fade-up stagger-2">
+                <div class="trust-icon">💎</div>
+                <h3>Chất Liệu Cao Cấp</h3>
+                <p>Sử dụng đồng nguyên chất 99.9%, đảm bảo độ bền và vẻ đẹp vĩnh cửu.</p>
+            </div>
+            <div class="trust-card fade-up stagger-3">
+                <div class="trust-icon">🛡️</div>
+                <h3>Bảo Hành Lâu Dài</h3>
+                <p>Cam kết bảo hành từ 5-15 năm, đổi trả miễn phí nếu lỗi từ nhà sản xuất.</p>
+            </div>
+            <div class="trust-card fade-up stagger-4">
+                <div class="trust-icon">🚚</div>
+                <h3>Giao Hàng Toàn Quốc</h3>
+                <p>Miễn phí vận chuyển đơn hàng từ 5 triệu, đóng gói cẩn thận chống va đập.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BRAND STORY -->
+<section class="section story-section">
+    <div class="container">
+        <div class="story-image fade-up">
+            <img th:src="@{/images/artisan.png}" alt="Nghệ nhân đúc đồng">
+        </div>
+        <div class="story-content fade-up stagger-2">
+            <div class="story-label">Câu chuyện thương hiệu</div>
+            <h2>Hơn 30 Năm Gìn Giữ Tinh Hoa Đồng Việt</h2>
+            <p>Từ một xưởng đúc nhỏ tại làng nghề truyền thống, chúng tôi đã không ngừng phát triển để trở thành đơn vị hàng đầu trong lĩnh vực đồ đồng mỹ nghệ cao cấp.</p>
+            <p>Mỗi sản phẩm đều mang trong mình tâm huyết của những nghệ nhân tài hoa, kết hợp giữa kỹ thuật truyền thống và thẩm mỹ hiện đại.</p>
+            <div class="story-stats">
+                <div class="stat-item">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Năm kinh nghiệm</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5000+</div>
+                    <div class="stat-label">Sản phẩm đã bán</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Nghệ nhân</div>
+                </div>
+            </div>
+            <a th:href="@{/gioi-thieu}" class="btn btn-primary">Tìm hiểu thêm</a>
+        </div>
+    </div>
+</section>
+
+<!-- TIN TỨC -->
+<section class="section" style="background: var(--white);">
+    <div class="container">
+        <div class="section-title fade-up">
+            <div class="divider"></div>
+            <h2>Tin Tức & Kiến Thức</h2>
+            <p>Chia sẻ kiến thức phong thủy và nghệ thuật đồ đồng</p>
+        </div>
+        <div class="blog-grid">
+            <a th:each="post : ${blogPosts}" th:href="@{'/tin-tuc/' + ${post.slug}}" class="blog-card fade-up">
+                <div class="blog-card-image">
+                    <img th:src="@{${post.imageUrl}}" th:alt="${post.title}">
+                </div>
+                <div class="blog-card-content">
+                    <div class="blog-card-meta">
+                        <span class="blog-category" th:text="${post.category}">Phong thủy</span> · <span th:text="${post.publishDate}">15/04/2026</span>
+                    </div>
+                    <h3 th:text="${post.title}">Tiêu đề bài viết</h3>
+                    <p th:text="${post.excerpt}">Mô tả ngắn...</p>
+                    <span class="read-more">Đọc tiếp →</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<!-- FLOATING -->
+<a href="https://zalo.me/0987654321" class="zalo-float" title="Chat Zalo">Z</a>
+<button class="back-to-top" title="Lên đầu trang">↑</button>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

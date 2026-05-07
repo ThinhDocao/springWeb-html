@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(${pageTitle}, ${pageDescription})"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container" style="padding-top:100px;">
+    <div class="breadcrumb">
+        <a th:href="@{/}">Trang chủ</a> <span>›</span>
+        <a th:href="@{'/' + ${product.categorySlug}}" th:text="${product.category}">Danh mục</a> <span>›</span>
+        <span th:text="${product.name}">Sản phẩm</span>
+    </div>
+    <div class="product-detail">
+        <div class="gallery">
+            <div class="gallery-main">
+                <img th:src="@{${product.imageUrl}}" th:alt="${product.name}" id="mainImage">
+            </div>
+            <div class="gallery-thumbs">
+                <div th:each="img : ${product.images}" class="gallery-thumb" th:classappend="${imgStat.first} ? 'active'">
+                    <img th:src="@{${img}}" th:alt="${product.name}">
+                </div>
+            </div>
+        </div>
+        <div class="product-info">
+            <h1 th:text="${product.name}">Tên sản phẩm</h1>
+            <div class="price-block">
+                <span class="price-current" th:text="${product.price}">0₫</span>
+                <span class="price-original" th:if="${product.originalPrice}" th:text="${product.originalPrice}">0₫</span>
+            </div>
+            <p class="short-desc" th:text="${product.shortDescription}">Mô tả ngắn</p>
+            <div class="product-specs">
+                <div class="spec-row"><span class="spec-label">Chất liệu</span><span class="spec-value" th:text="${product.material}">Đồng</span></div>
+                <div class="spec-row"><span class="spec-label">Kích thước</span><span class="spec-value" th:text="${product.size}">30cm</span></div>
+                <div class="spec-row"><span class="spec-label">Trọng lượng</span><span class="spec-value" th:text="${product.weight}">5kg</span></div>
+                <div class="spec-row"><span class="spec-label">Danh mục</span><span class="spec-value" th:text="${product.category}">Tượng Đồng</span></div>
+            </div>
+            <div class="product-cta-group">
+                <a href="#" class="btn btn-primary">🛒 Mua ngay</a>
+                <a th:href="@{/lien-he}" class="btn btn-outline">📞 Liên hệ tư vấn</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="detail-tabs">
+        <div class="detail-tab-nav">
+            <button class="detail-tab-btn active" data-tab="desc-tab">Mô tả chi tiết</button>
+            <button class="detail-tab-btn" data-tab="specs-tab">Thông số</button>
+            <button class="detail-tab-btn" data-tab="feng-tab">Ý nghĩa phong thủy</button>
+        </div>
+        <div id="desc-tab" class="detail-tab-content active">
+            <h3>Mô Tả Chi Tiết</h3>
+            <p th:text="${product.detailDescription}">Chi tiết sản phẩm</p>
+            <p th:text="${product.description}">Mô tả</p>
+        </div>
+        <div id="specs-tab" class="detail-tab-content">
+            <h3>Thông Số Kỹ Thuật</h3>
+            <p th:text="${product.specifications}">Thông số</p>
+        </div>
+        <div id="feng-tab" class="detail-tab-content">
+            <h3>Ý Nghĩa Phong Thủy</h3>
+            <p th:text="${product.fengShuiMeaning}">Phong thủy</p>
+        </div>
+    </div>
+
+    <!-- RELATED -->
+    <div class="related-section section" th:if="${!#lists.isEmpty(relatedProducts)}">
+        <div class="section-title"><div class="divider"></div><h2>Sản Phẩm Liên Quan</h2></div>
+        <div class="products-grid">
+            <div th:each="p : ${relatedProducts}" class="product-card fade-up">
+                <a th:href="@{'/san-pham/' + ${p.slug}}">
+                    <div class="product-card-image">
+                        <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
+                    </div>
+                </a>
+                <div class="product-card-info">
+                    <h3><a th:href="@{'/san-pham/' + ${p.slug}}" th:text="${p.name}">SP</a></h3>
+                    <div class="product-price">
+                        <span class="current" th:text="${p.price}">0₫</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+<a href="https://zalo.me/0987654321" class="zalo-float">Z</a>
+<button class="back-to-top">↑</button>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

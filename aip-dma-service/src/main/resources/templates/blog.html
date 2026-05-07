@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(${pageTitle}, ${pageDescription})"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<section class="page-hero">
+    <div class="container">
+        <div class="breadcrumb"><a th:href="@{/}">Trang chủ</a> <span>›</span> Tin tức</div>
+        <h1>Tin Tức & Kiến Thức</h1>
+        <p>Kiến thức phong thủy, nghệ thuật đồng và hướng dẫn bảo quản</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="blog-filters fade-up">
+            <button class="blog-filter active">Tất cả</button>
+            <button class="blog-filter">Kiến thức phong thủy</button>
+            <button class="blog-filter">Nghệ thuật đồng</button>
+            <button class="blog-filter">Bảo quản đồ đồng</button>
+        </div>
+        <div class="blog-grid">
+            <a th:each="post : ${blogPosts}" th:href="@{'/tin-tuc/' + ${post.slug}}" class="blog-card fade-up">
+                <div class="blog-card-image"><img th:src="@{${post.imageUrl}}" th:alt="${post.title}"></div>
+                <div class="blog-card-content">
+                    <div class="blog-card-meta"><span class="blog-category" th:text="${post.category}">Cat</span> · <span th:text="${post.publishDate}">Date</span></div>
+                    <h3 th:text="${post.title}">Title</h3>
+                    <p th:text="${post.excerpt}">Excerpt</p>
+                    <span class="read-more">Đọc tiếp →</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+<a href="https://zalo.me/0987654321" class="zalo-float">Z</a>
+<button class="back-to-top">↑</button>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

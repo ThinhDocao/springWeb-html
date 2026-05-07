@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(${pageTitle}, ${pageDescription})"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<section class="about-hero">
+    <div class="container">
+        <h1>Về Chúng Tôi</h1>
+        <p>Hơn 30 năm gìn giữ và phát triển tinh hoa đồ đồng mỹ nghệ truyền thống Việt Nam</p>
+    </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section">
+    <div class="container">
+        <div class="section-title fade-up"><div class="divider"></div><h2>Lịch Sử Phát Triển</h2></div>
+        <div class="timeline">
+            <div class="timeline-item fade-up">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-year">1995</div>
+                    <h3>Khởi Đầu</h3>
+                    <p>Xưởng đúc đồng nhỏ được thành lập tại làng nghề truyền thống với 3 nghệ nhân.</p>
+                </div>
+            </div>
+            <div class="timeline-item fade-up">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-year">2005</div>
+                    <h3>Mở Rộng</h3>
+                    <p>Phát triển xưởng sản xuất quy mô lớn, đào tạo thế hệ nghệ nhân mới.</p>
+                </div>
+            </div>
+            <div class="timeline-item fade-up">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-year">2015</div>
+                    <h3>Thương Hiệu</h3>
+                    <p>Xây dựng thương hiệu Đồ Đồng Mỹ Nghệ, mở showroom tại TP.HCM.</p>
+                </div>
+            </div>
+            <div class="timeline-item fade-up">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-year">2026</div>
+                    <h3>Hiện Tại</h3>
+                    <p>Hơn 5000 sản phẩm đã được giao đến khách hàng trên toàn quốc và quốc tế.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ARTISAN -->
+<section class="section story-section" style="background:var(--white);">
+    <div class="container">
+        <div class="story-image fade-up">
+            <img th:src="@{/images/artisan.png}" alt="Nghệ nhân đúc đồng">
+        </div>
+        <div class="story-content fade-up stagger-2">
+            <div class="story-label">Nghệ nhân chế tác</div>
+            <h2>Bàn Tay Vàng Tạo Nên Kiệt Tác</h2>
+            <p>Đội ngũ 15 nghệ nhân lành nghề của chúng tôi, mỗi người đều có trên 20 năm kinh nghiệm trong nghề đúc đồng truyền thống.</p>
+            <p>Từ khâu tạo khuôn, nung đồng, đúc, chạm khắc đến hoàn thiện — mỗi công đoạn đều được thực hiện thủ công với sự tỉ mỉ tuyệt đối.</p>
+        </div>
+    </div>
+</section>
+
+<!-- VALUES -->
+<section class="section">
+    <div class="container">
+        <div class="section-title fade-up"><div class="divider"></div><h2>Giá Trị Cốt Lõi</h2></div>
+        <div class="values-grid">
+            <div class="value-card fade-up"><div class="value-icon">🎯</div><h3>Chất Lượng</h3><p>Cam kết sử dụng nguyên liệu đồng nguyên chất, không pha tạp.</p></div>
+            <div class="value-card fade-up"><div class="value-icon">🤝</div><h3>Uy Tín</h3><p>Hơn 30 năm xây dựng uy tín với hàng nghìn khách hàng.</p></div>
+            <div class="value-card fade-up"><div class="value-icon">💡</div><h3>Sáng Tạo</h3><p>Kết hợp truyền thống và hiện đại trong mỗi thiết kế.</p></div>
+            <div class="value-card fade-up"><div class="value-icon">❤️</div><h3>Tâm Huyết</h3><p>Mỗi sản phẩm là kết tinh của tình yêu nghề và tâm huyết.</p></div>
+        </div>
+    </div>
+</section>
+
+<div style="text-align:center;padding:40px 0 80px;">
+    <a th:href="@{/lien-he}" class="btn btn-primary">Liên hệ tư vấn ngay</a>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+<a href="https://zalo.me/0987654321" class="zalo-float">Z</a>
+<button class="back-to-top">↑</button>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
