@@ -41,7 +41,7 @@ public class AppController {
 //        if ((String) params.get("aip") != null && params.get("aip").toString().equals("yes")) {
 //            model.addAttribute("aip", "yes");
 //            return "aip_main";
-//        } else if ( (String) params.get("dma") != null && params.get("dma").toString().equals("yes")) {
+//        } else if ((String) params.get("dma") != null && params.get("dma").toString().equals("yes")) {
 //            model.addAttribute("aip", "no");
 //            return "dma_main";
 //        }
