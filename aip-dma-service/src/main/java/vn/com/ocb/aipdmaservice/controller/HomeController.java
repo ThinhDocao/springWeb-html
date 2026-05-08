@@ -24,14 +24,16 @@ public class HomeController {
         model.addAttribute("allProducts", ProductDataProvider.getAllProducts());
         model.addAttribute("blogPosts", ProductDataProvider.getAllBlogPosts());
         model.addAttribute("pageTitle", "Đồ Đồng Mỹ Nghệ - Tinh Hoa Đồng Việt");
-        model.addAttribute("pageDescription", "Chuyên cung cấp đồ đồng mỹ nghệ cao cấp: tượng đồng, đỉnh đồng, tranh đồng, đồ phong thủy. Sản phẩm thủ công tinh xảo từ nghệ nhân lành nghề.");
+        model.addAttribute("pageDescription",
+                "Chuyên cung cấp đồ đồng mỹ nghệ cao cấp: tượng đồng, đỉnh đồng, tranh đồng, đồ phong thủy. Sản phẩm thủ công tinh xảo từ nghệ nhân lành nghề.");
         return "index";
     }
 
     @GetMapping("/gioi-thieu")
     public String about(Model model) {
         model.addAttribute("pageTitle", "Giới Thiệu - Đồ Đồng Mỹ Nghệ");
-        model.addAttribute("pageDescription", "Tìm hiểu về thương hiệu đồ đồng mỹ nghệ hàng đầu Việt Nam với hơn 30 năm kinh nghiệm chế tác thủ công.");
+        model.addAttribute("pageDescription",
+                "Tìm hiểu về thương hiệu đồ đồng mỹ nghệ hàng đầu Việt Nam với hơn 30 năm kinh nghiệm chế tác thủ công.");
         return "about";
     }
 
@@ -42,7 +44,8 @@ public class HomeController {
         model.addAttribute("categoryName", "Tất Cả Sản Phẩm");
         model.addAttribute("currentSlug", "san-pham");
         model.addAttribute("pageTitle", "Sản Phẩm Đồ Đồng Mỹ Nghệ");
-        model.addAttribute("pageDescription", "Khám phá bộ sưu tập đồ đồng mỹ nghệ cao cấp: tượng đồng, đỉnh đồng, tranh đồng, đồ phong thủy và quà tặng.");
+        model.addAttribute("pageDescription",
+                "Khám phá bộ sưu tập đồ đồng mỹ nghệ cao cấp: tượng đồng, đỉnh đồng, tranh đồng, đồ phong thủy và quà tặng.");
         return "category";
     }
 
@@ -53,7 +56,20 @@ public class HomeController {
         model.addAttribute("categoryName", "Tượng Đồng");
         model.addAttribute("currentSlug", "tuong-dong");
         model.addAttribute("pageTitle", "Tượng Đồng Mỹ Nghệ Cao Cấp");
-        model.addAttribute("pageDescription", "Bộ sưu tập tượng đồng mỹ nghệ: Quan Công, Phật Di Lặc, tượng phong thủy. Đúc thủ công, chất lượng cao.");
+        model.addAttribute("pageDescription",
+                "Bộ sưu tập tượng đồng mỹ nghệ: Quan Công, Phật Di Lặc, tượng phong thủy. Đúc thủ công, chất lượng cao.");
+        return "category";
+    }
+
+    @GetMapping("/dinh-dong")
+    public String dinhDong(Model model) {
+        model.addAttribute("products", ProductDataProvider.getProductsByCategory("dinh-dong"));
+        model.addAttribute("categories", ProductDataProvider.getCategories());
+        model.addAttribute("categoryName", "Đỉnh Đồng");
+        model.addAttribute("currentSlug", "dinh-dong");
+        model.addAttribute("pageTitle", "Tượng Đồng Mỹ Nghệ Cao Cấp");
+        model.addAttribute("pageDescription",
+                "Bộ sưu tập tượng đồng mỹ nghệ: Quan Công, Phật Di Lặc, tượng phong thủy. Đúc thủ công, chất lượng cao.");
         return "category";
     }
 
@@ -64,7 +80,8 @@ public class HomeController {
         model.addAttribute("categoryName", "Tranh Đồng");
         model.addAttribute("currentSlug", "tranh-dong");
         model.addAttribute("pageTitle", "Tranh Đồng Nghệ Thuật");
-        model.addAttribute("pageDescription", "Tranh đồng chạm nổi nghệ thuật: Thuận Buồm Xuôi Gió, Mã Đáo Thành Công, tranh đồng quê.");
+        model.addAttribute("pageDescription",
+                "Tranh đồng chạm nổi nghệ thuật: Thuận Buồm Xuôi Gió, Mã Đáo Thành Công, tranh đồng quê.");
         return "category";
     }
 
@@ -75,7 +92,8 @@ public class HomeController {
         model.addAttribute("categoryName", "Đồ Thờ Đồng");
         model.addAttribute("currentSlug", "do-tho-dong");
         model.addAttribute("pageTitle", "Đồ Thờ Cúng Bằng Đồng");
-        model.addAttribute("pageDescription", "Đồ thờ cúng bằng đồng: bộ tam sự, ngũ sự, đỉnh đồng, chân nến. Trang nghiêm, tôn kính.");
+        model.addAttribute("pageDescription",
+                "Đồ thờ cúng bằng đồng: bộ tam sự, ngũ sự, đỉnh đồng, chân nến. Trang nghiêm, tôn kính.");
         return "category";
     }
 
@@ -86,7 +104,8 @@ public class HomeController {
         model.addAttribute("categoryName", "Đồ Phong Thủy");
         model.addAttribute("currentSlug", "do-phong-thuy");
         model.addAttribute("pageTitle", "Đồ Phong Thủy Bằng Đồng");
-        model.addAttribute("pageDescription", "Đồ phong thủy bằng đồng: Tỳ Hưu, Cóc Ba Chân, Rồng Phong Thủy. Chiêu tài, hóa sát.");
+        model.addAttribute("pageDescription",
+                "Đồ phong thủy bằng đồng: Tỳ Hưu, Cóc Ba Chân, Rồng Phong Thủy. Chiêu tài, hóa sát.");
         return "category";
     }
 
@@ -97,7 +116,8 @@ public class HomeController {
         model.addAttribute("categoryName", "Quà Tặng Doanh Nghiệp");
         model.addAttribute("currentSlug", "qua-tang");
         model.addAttribute("pageTitle", "Quà Tặng Đồ Đồng Cao Cấp");
-        model.addAttribute("pageDescription", "Quà tặng doanh nghiệp bằng đồng: trống đồng, kỷ niệm chương, biểu trưng. Sang trọng, ý nghĩa.");
+        model.addAttribute("pageDescription",
+                "Quà tặng doanh nghiệp bằng đồng: trống đồng, kỷ niệm chương, biểu trưng. Sang trọng, ý nghĩa.");
         return "category";
     }
 
@@ -121,7 +141,8 @@ public class HomeController {
     public String blog(Model model) {
         model.addAttribute("blogPosts", ProductDataProvider.getAllBlogPosts());
         model.addAttribute("pageTitle", "Tin Tức & Kiến Thức Đồ Đồng");
-        model.addAttribute("pageDescription", "Tin tức, kiến thức phong thủy, hướng dẫn bảo quản đồ đồng mỹ nghệ và xu hướng trang trí nội thất.");
+        model.addAttribute("pageDescription",
+                "Tin tức, kiến thức phong thủy, hướng dẫn bảo quản đồ đồng mỹ nghệ và xu hướng trang trí nội thất.");
         return "blog";
     }
 
@@ -141,7 +162,8 @@ public class HomeController {
     @GetMapping("/lien-he")
     public String contact(Model model) {
         model.addAttribute("pageTitle", "Liên Hệ - Đồ Đồng Mỹ Nghệ");
-        model.addAttribute("pageDescription", "Liên hệ với chúng tôi để được tư vấn miễn phí về đồ đồng mỹ nghệ. Hotline: 0987.654.321");
+        model.addAttribute("pageDescription",
+                "Liên hệ với chúng tôi để được tư vấn miễn phí về đồ đồng mỹ nghệ. Hotline: 0987.654.321");
         return "contact";
     }
 }
