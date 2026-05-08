@@ -1,7 +1,11 @@
 {
 	"name": "Bronze Craft Project",
-	"image": "mcr.microsoft.com/devcontainers/java:8-bullseye",
+	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
 	"features": {
+		"ghcr.io/devcontainers/features/java:1": {
+			"version": "8",
+			"installMaven": "true"
+		},
 		"ghcr.io/devcontainers/features/mysql:1": {
 			"version": "latest"
 		}
@@ -11,17 +15,10 @@
 			"extensions": [
 				"vscjava.vscode-java-pack",
 				"vscjava.vscode-spring-boot-dashboard",
-				"vscjava.vscode-spring-initializr",
 				"vscjava.vscode-spring-boot-tools"
 			]
 		}
 	},
-	"postCreateCommand": "sudo service mysql start && mysql -u root -e \"ALTER USER 'root'@'localhost' IDENTIFIED BY '123321'; FLUSH PRIVILEGES; CREATE DATABASE IF NOT EXISTS db;\" && cd aip-dma-service && chmod +x mvnw && ./mvnw install -DskipTests",
-	"forwardPorts": [8080],
-	"portsAttributes": {
-		"8080": {
-			"label": "Application Port",
-			"onAutoForward": "notify"
-		}
-	}
+	"postCreateCommand": "chmod +x .devcontainer/setup.sh && ./.devcontainer/setup.sh",
+	"forwardPorts": [8080]
 }
