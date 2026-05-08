@@ -15,4 +15,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findByIsBestSellerTrueAndIsActiveTrueOrderBySortOrderAsc();
     List<ProductEntity> findByIsNewTrueAndIsActiveTrueOrderBySortOrderAsc();
     List<ProductEntity> findByIsPremiumTrueAndIsActiveTrueOrderBySortOrderAsc();
+    long countByCategory_SlugAndIsActiveTrue(String categorySlug);
+    long countByCategory_Parent_SlugAndIsActiveTrue(String parentCategorySlug);
 }

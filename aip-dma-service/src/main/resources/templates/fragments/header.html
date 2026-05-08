@@ -13,8 +13,9 @@
             <ul class="main-nav" id="mainNav">
                 <li><a th:href="@{/}">Trang chủ</a></li>
                 <li><a th:href="@{/gioi-thieu}">Giới thiệu</a></li>
-                <li>
-                    <a th:href="@{/san-pham}">Sản phẩm ▾</a>
+                <li class="has-dropdown">
+                    <a th:href="@{/san-pham}">Sản phẩm</a>
+                    <span class="mobile-dropdown-toggle">▾</span>
                     <div class="mega-menu">
                         <div class="mega-menu-grid">
                             <div class="mega-menu-column" th:each="rootCat : ${categories}">

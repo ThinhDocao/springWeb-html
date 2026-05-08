@@ -91,6 +91,11 @@ public class AppService {
         }
         dto.setLevel(entity.getLevel());
         
+        // Calculate product count (own + subcategories)
+        long count = productRepository.countByCategory_SlugAndIsActiveTrue(entity.getSlug());
+        count += productRepository.countByCategory_Parent_SlugAndIsActiveTrue(entity.getSlug());
+        dto.setProductCount((int) count);
+        
         if (entity.getSubCategories() != null) {
             dto.setSubCategories(entity.getSubCategories().stream().map(this::mapToCategory).collect(Collectors.toList()));
         }

@@ -25,6 +25,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // === MOBILE DROPDOWN TOGGLE ===
+  const dropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+  dropdownToggles.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault(); // Prevent default link behavior if any
+      const parentLi = btn.closest('li.has-dropdown');
+      if (parentLi) {
+        parentLi.classList.toggle('show');
+      }
+    });
+  });
+
   // === PRODUCT TABS (Homepage) ===
   const tabs = document.querySelectorAll('.product-tab');
   const grids = document.querySelectorAll('.tab-content');
