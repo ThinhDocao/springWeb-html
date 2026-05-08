@@ -9,19 +9,58 @@ public class ProductDataProvider {
 
     public static List<Category> getCategories() {
         List<Category> categories = new ArrayList<>();
-        categories.add(Category.builder().id(1L).name("Tượng Đồng").slug("tuong-dong")
-                .imageUrl("/images/product-tuong-dong.png").description("Tượng đồng mỹ nghệ cao cấp").productCount(24).build());
-        categories.add(Category.builder().id(2L).name("Đỉnh Đồng").slug("dinh-dong")
-                .imageUrl("/images/product-dinh-dong.png").description("Đỉnh đồng thờ cúng tinh xảo").productCount(18).build());
-        categories.add(Category.builder().id(3L).name("Tranh Đồng").slug("tranh-dong")
-                .imageUrl("/images/product-tranh-dong.png").description("Tranh đồng nghệ thuật treo tường").productCount(15).build());
-        categories.add(Category.builder().id(4L).name("Đồ Phong Thủy").slug("do-phong-thuy")
-                .imageUrl("/images/product-phong-thuy.png").description("Đồ phong thủy bằng đồng").productCount(20).build());
-        categories.add(Category.builder().id(5L).name("Đồ Thờ").slug("do-tho-dong")
-                .imageUrl("/images/product-dinh-dong.png").description("Đồ thờ cúng bằng đồng").productCount(22).build());
-        categories.add(Category.builder().id(6L).name("Quà Tặng Doanh Nghiệp").slug("qua-tang")
-                .imageUrl("/images/product-tuong-dong.png").description("Quà tặng đồng cao cấp").productCount(12).build());
+        
+        Category tuongDong = Category.builder().id(1L).parentId(null).level(0).name("Tượng Đồng").slug("tuong-dong")
+                .imageUrl("/images/product-tuong-dong.png").description("Tượng đồng mỹ nghệ cao cấp").productCount(24)
+                .subCategories(new ArrayList<>()).build();
+        tuongDong.getSubCategories().add(Category.builder().id(7L).parentId(1L).level(1).name("Tượng Bác Hồ").slug("tuong-bac-ho").productCount(5).build());
+        tuongDong.getSubCategories().add(Category.builder().id(8L).parentId(1L).level(1).name("Tượng Thần Tài").slug("tuong-than-tai").productCount(8).build());
+        tuongDong.getSubCategories().add(Category.builder().id(9L).parentId(1L).level(1).name("Tượng Quan Công").slug("tuong-quan-cong").productCount(6).build());
+        tuongDong.getSubCategories().add(Category.builder().id(10L).parentId(1L).level(1).name("Tượng Phật").slug("tuong-phat").productCount(5).build());
+
+        Category dinhDong = Category.builder().id(2L).parentId(null).level(0).name("Đỉnh Đồng").slug("dinh-dong")
+                .imageUrl("/images/product-dinh-dong.png").description("Đỉnh đồng thờ cúng tinh xảo").productCount(18)
+                .subCategories(new ArrayList<>()).build();
+        dinhDong.getSubCategories().add(Category.builder().id(11L).parentId(2L).level(1).name("Đỉnh Thờ Cúng").slug("dinh-tho-cung").productCount(10).build());
+        dinhDong.getSubCategories().add(Category.builder().id(12L).parentId(2L).level(1).name("Đỉnh Trang Trí").slug("dinh-trang-tri").productCount(8).build());
+
+        Category tranhDong = Category.builder().id(3L).parentId(null).level(0).name("Tranh Đồng").slug("tranh-dong")
+                .imageUrl("/images/product-tranh-dong.png").description("Tranh đồng nghệ thuật treo tường").productCount(15)
+                .subCategories(new ArrayList<>()).build();
+        tranhDong.getSubCategories().add(Category.builder().id(13L).parentId(3L).level(1).name("Tranh Phong Cảnh").slug("tranh-phong-canh").productCount(7).build());
+        tranhDong.getSubCategories().add(Category.builder().id(14L).parentId(3L).level(1).name("Tranh Thư Pháp").slug("tranh-thu-phap").productCount(8).build());
+
+        Category phongThuy = Category.builder().id(4L).parentId(null).level(0).name("Đồ Phong Thủy").slug("do-phong-thuy")
+                .imageUrl("/images/product-phong-thuy.png").description("Đồ phong thủy bằng đồng").productCount(20)
+                .subCategories(new ArrayList<>()).build();
+
+        Category doTho = Category.builder().id(5L).parentId(null).level(0).name("Đồ Thờ").slug("do-tho-dong")
+                .imageUrl("/images/product-dinh-dong.png").description("Đồ thờ cúng bằng đồng").productCount(22)
+                .subCategories(new ArrayList<>()).build();
+
+        Category quaTang = Category.builder().id(6L).parentId(null).level(0).name("Quà Tặng Doanh Nghiệp").slug("qua-tang")
+                .imageUrl("/images/product-tuong-dong.png").description("Quà tặng đồng cao cấp").productCount(12)
+                .subCategories(new ArrayList<>()).build();
+
+        categories.add(tuongDong);
+        categories.add(dinhDong);
+        categories.add(tranhDong);
+        categories.add(phongThuy);
+        categories.add(doTho);
+        categories.add(quaTang);
+        
         return categories;
+    }
+    
+    public static List<Category> getAllCategoriesFlat() {
+        List<Category> all = new ArrayList<>();
+        for (Category root : getCategories()) {
+            all.add(root);
+            if (root.getSubCategories() != null) {
+                all.addAll(root.getSubCategories());
+            }
+        }
+        return all;
     }
 
     public static List<Product> getAllProducts() {
@@ -32,7 +71,7 @@ public class ProductDataProvider {
                 .price("15.800.000₫").originalPrice("18.500.000₫")
                 .shortDescription("Tượng Quan Công cưỡi ngựa Xích Thố, đúc đồng nguyên chất, phủ patina tự nhiên.")
                 .description("Tượng Quan Công cưỡi ngựa Xích Thố được đúc hoàn toàn bằng đồng đỏ nguyên chất, qua quy trình thủ công truyền thống với hơn 20 công đoạn tinh xảo. Mỗi chi tiết trên tượng đều được chạm khắc tỉ mỉ bởi nghệ nhân lành nghề, từ nếp áo bay, đao Thanh Long đến dáng ngựa oai phong.")
-                .category("Tượng Đồng").categorySlug("tuong-dong")
+                .category("Tượng Quan Công").categorySlug("tuong-quan-cong")
                 .material("Đồng đỏ nguyên chất").size("Cao 45cm x Ngang 35cm x Sâu 20cm").weight("8.5 kg")
                 .imageUrl("/images/product-tuong-dong.png")
                 .images(Arrays.asList("/images/product-tuong-dong.png", "/images/product-tuong-dong.png", "/images/product-tuong-dong.png"))
@@ -46,7 +85,7 @@ public class ProductDataProvider {
                 .price("12.500.000₫").originalPrice("14.000.000₫")
                 .shortDescription("Tượng Phật Di Lặc ngồi cười tươi, đúc đồng vàng, biểu tượng may mắn và hạnh phúc.")
                 .description("Tượng Phật Di Lặc với nụ cười hiền hòa, bụng phệ tượng trưng cho sự sung túc và an lạc.")
-                .category("Tượng Đồng").categorySlug("tuong-dong")
+                .category("Tượng Phật").categorySlug("tuong-phat")
                 .material("Đồng vàng").size("Cao 30cm x Ngang 25cm").weight("5.2 kg")
                 .imageUrl("/images/product-tuong-dong.png")
                 .images(Arrays.asList("/images/product-tuong-dong.png"))
@@ -56,12 +95,54 @@ public class ProductDataProvider {
                 .specifications("Chất liệu: Đồng vàng | Kích thước: 30x25cm | Trọng lượng: 5.2kg")
                 .build());
 
+        products.add(Product.builder().id(11L).name("Tượng Bác Hồ Vẫy Tay Chào").slug("tuong-bac-ho-vay-tay")
+                .price("18.500.000₫").originalPrice("20.000.000₫")
+                .shortDescription("Tượng Bác Hồ vẫy tay chào bằng đồng nguyên chất, khắc họa chân thực thần thái vị lãnh tụ.")
+                .description("Tác phẩm Tượng Bác Hồ được nghệ nhân lão làng chạm khắc tỉ mỉ từ đồng đỏ nguyên khối, thể hiện sự tôn kính sâu sắc. Kích thước chuẩn phong thủy, phù hợp đặt ở phòng khách, phòng làm việc hoặc cơ quan nhà nước.")
+                .category("Tượng Bác Hồ").categorySlug("tuong-bac-ho")
+                .material("Đồng đỏ").size("Cao 60cm").weight("15 kg")
+                .imageUrl("/images/product-tuong-dong.png")
+                .images(Arrays.asList("/images/product-tuong-dong.png"))
+                .bestSeller(true).newProduct(false).premium(true)
+                .fengShuiMeaning("Thể hiện sự tự hào dân tộc, nhắc nhở tinh thần học tập và làm việc theo tấm gương đạo đức Hồ Chí Minh.")
+                .detailDescription("Khuôn mặt Bác được khắc họa vô cùng có hồn, nụ cười hiền từ, ánh mắt sáng.")
+                .specifications("Chất liệu: Đồng đỏ 99% | Kích thước: Cao 60cm | Bảo hành: Trọn đời")
+                .build());
+
+        products.add(Product.builder().id(20L).name("Tượng Bác Hồ Bán Thân Bằng Đồng Đỏ 69cm Màu Mộc").slug("tuong-bac-ho-ban-than-bang-dong-do-69cm-mau-moc")
+                .price("Liên hệ")
+                .shortDescription("Tượng Bác Hồ bán thân bằng đồng đỏ 69cm màu mộc. Sản phẩm được các nghệ nhân tạo dựng, mô phỏng dựa trên mẫu tượng chuẩn Quốc gia.")
+                .description("Tượng được chế tác từ đồng đỏ thanh kiết, quy cách đúc hoàn toàn thủ công 100%. Bề mặt tượng được hoàn thiện với màu sắc tự nhiên, diện tượng truyền thần. Pho tượng có kích thước nhỏ gọn, chế tác tinh xảo, thích hợp là tượng trưng bày hoặc thờ cúng.")
+                .category("Tượng Bác Hồ").categorySlug("tuong-bac-ho")
+                .material("Đồng đỏ thanh khiết").size("Cao 69cm").weight("Tùy khối lượng đúc")
+                .imageUrl("/images/product-tuong-dong.png")
+                .images(Arrays.asList("/images/product-tuong-dong.png", "/images/product-tuong-dong.png"))
+                .bestSeller(true).newProduct(true).premium(true)
+                .fengShuiMeaning("Thể hiện lòng tôn kính, niềm tự hào dân tộc và nhắc nhở thế hệ sau noi gương đạo đức Hồ Chí Minh.")
+                .detailDescription("Tượng có kiểu dáng bán thân. Pho tượng được đúc thủ công dựa trên nguyên mẫu Bác Hồ với độ truyền thần cực cao. Bề mặt tượng giữ nguyên màu đỏ mộc của đồng thanh khiết, rất nổi bật và sang trọng.")
+                .specifications("Chất liệu: Đồng đỏ thanh khiết | Kích thước: Cao 69cm | Chế tác: Thủ công 100% | Bảo hành: 10 năm")
+                .build());
+
+        products.add(Product.builder().id(12L).name("Tượng Thần Tài Thổ Địa").slug("tuong-than-tai-tho-dia")
+                .price("5.500.000₫").originalPrice("6.000.000₫")
+                .shortDescription("Bộ tượng Thần Tài Thổ Địa bằng đồng vàng sáng bóng, mang lại tài lộc cho gia chủ.")
+                .description("Bộ tượng Thần Tài Thổ Địa là vật phẩm không thể thiếu trong các gia đình, cửa hàng kinh doanh. Được đúc thủ công tinh xảo, nụ cười hoan hỷ mang năng lượng tích cực.")
+                .category("Tượng Thần Tài").categorySlug("tuong-than-tai")
+                .material("Đồng vàng").size("Cao 20cm").weight("4.5 kg")
+                .imageUrl("/images/product-tuong-dong.png")
+                .images(Arrays.asList("/images/product-tuong-dong.png"))
+                .bestSeller(true).newProduct(true).premium(false)
+                .fengShuiMeaning("Chiêu tài lộc, giữ của cải, giúp công việc kinh doanh buôn bán thuận buồm xuôi gió.")
+                .detailDescription("Sản phẩm đúc đặc nguyên khối, hoa văn chi tiết rõ nét.")
+                .specifications("Chất liệu: Đồng vàng | Kích thước: Cao 20cm/tượng | Trọng lượng: 4.5kg cả bộ")
+                .build());
+
         // Đỉnh Đồng
         products.add(Product.builder().id(3L).name("Đỉnh Đồng Song Long Chầu Nguyệt").slug("dinh-dong-song-long-chau-nguyet")
                 .price("22.000.000₫").originalPrice("25.000.000₫")
                 .shortDescription("Đỉnh đồng Song Long Chầu Nguyệt, chạm khắc tinh xảo, dùng cho thờ cúng trang trọng.")
                 .description("Đỉnh đồng với họa tiết Song Long Chầu Nguyệt cổ điển, được đúc nguyên khối và chạm khắc thủ công.")
-                .category("Đỉnh Đồng").categorySlug("dinh-dong")
+                .category("Đỉnh Thờ Cúng").categorySlug("dinh-tho-cung")
                 .material("Đồng đỏ nguyên chất").size("Cao 60cm x Đường kính 35cm").weight("12 kg")
                 .imageUrl("/images/product-dinh-dong.png")
                 .images(Arrays.asList("/images/product-dinh-dong.png"))
@@ -75,7 +156,7 @@ public class ProductDataProvider {
                 .price("8.500.000₫").originalPrice("10.000.000₫")
                 .shortDescription("Đỉnh đồng Hoa Sòi nhỏ gọn, phù hợp ban thờ gia đình.")
                 .description("Đỉnh đồng hoa sòi kích thước nhỏ, phù hợp cho ban thờ gia đình hiện đại.")
-                .category("Đỉnh Đồng").categorySlug("dinh-dong")
+                .category("Đỉnh Trang Trí").categorySlug("dinh-trang-tri")
                 .material("Đồng vàng").size("Cao 40cm x Đường kính 25cm").weight("6 kg")
                 .imageUrl("/images/product-dinh-dong.png")
                 .images(Arrays.asList("/images/product-dinh-dong.png"))

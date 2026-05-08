@@ -14,14 +14,18 @@
                 <li><a th:href="@{/}">Trang chủ</a></li>
                 <li><a th:href="@{/gioi-thieu}">Giới thiệu</a></li>
                 <li>
-                    <a href="#">Sản phẩm ▾</a>
+                    <a th:href="@{/san-pham}">Sản phẩm ▾</a>
                     <div class="mega-menu">
-                        <a th:href="@{/san-pham}">Tất cả sản phẩm</a>
-                        <a th:href="@{/tuong-dong}">Tượng Đồng</a>
-                        <a th:href="@{/tranh-dong}">Tranh Đồng</a>
-                        <a th:href="@{/do-phong-thuy}">Đồ Phong Thủy</a>
-                        <a th:href="@{/do-tho-dong}">Đồ Thờ</a>
-                        <a th:href="@{/qua-tang}">Quà Tặng</a>
+                        <div class="mega-menu-grid">
+                            <div class="mega-menu-column" th:each="rootCat : ${categories}">
+                                <a class="mega-menu-title" th:href="@{'/' + ${rootCat.slug}}" th:text="${rootCat.name}">Tượng Đồng</a>
+                                <ul th:if="${rootCat.subCategories != null and !rootCat.subCategories.isEmpty()}">
+                                    <li th:each="subCat : ${rootCat.subCategories}">
+                                        <a th:href="@{'/' + ${subCat.slug}}" th:text="${subCat.name}">Tượng Bác Hồ</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </li>
                 <li><a th:href="@{/tin-tuc}">Tin tức</a></li>

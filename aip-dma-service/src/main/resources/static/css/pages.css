@@ -19,11 +19,23 @@
   font-size: 1rem; margin-bottom: 16px; padding-bottom: 12px;
   border-bottom: 2px solid var(--bronze);
 }
-.sidebar-block ul li a {
-  display: block; padding: 10px 0; font-size: 0.9rem; color: var(--gray-700);
-  border-bottom: 1px solid var(--gray-100);
+.category-tree { list-style: none; padding-left: 0; }
+.category-tree > li { border-bottom: 1px solid var(--gray-100); }
+.category-tree li a {
+  display: block; padding: 10px 0; font-size: 0.95rem; color: var(--gray-700);
 }
-.sidebar-block ul li a:hover, .sidebar-block ul li a.active { color: var(--bronze); font-weight: 500; }
+.category-tree li a:hover, .category-tree li a.active { color: var(--bronze); font-weight: 500; }
+.cat-item { display: flex; justify-content: space-between; align-items: center; }
+.cat-item a { flex: 1; border-bottom: none !important; }
+.toggle-sub {
+  background: none; border: none; font-size: 1.2rem; color: var(--gray-500);
+  cursor: pointer; padding: 0 8px; line-height: 1; transition: var(--transition);
+}
+.toggle-sub:hover { color: var(--bronze); }
+.sub-categories { list-style: none; padding-left: 16px; margin-bottom: 10px; display: none; border-left: 2px solid var(--gray-100); }
+.sub-categories.open { display: block; }
+.sub-categories li { border-bottom: none; }
+.sub-categories li a { padding: 6px 0; font-size: 0.85rem; }
 .price-range { display: flex; flex-direction: column; gap: 8px; }
 .price-range label { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer; }
 .price-range input[type="radio"] { accent-color: var(--bronze); }

@@ -17,10 +17,18 @@
         <aside class="sidebar">
             <div class="sidebar-block">
                 <h4>Danh Mục</h4>
-                <ul>
+                <ul class="category-tree">
                     <li><a th:href="@{/san-pham}" th:classappend="${currentSlug == 'san-pham'} ? 'active'">Tất cả sản phẩm</a></li>
                     <li th:each="cat : ${categories}">
-                        <a th:href="@{'/' + ${cat.slug}}" th:text="${cat.name}" th:classappend="${currentSlug == cat.slug} ? 'active'">Tượng Đồng</a>
+                        <div class="cat-item">
+                            <a th:href="@{'/' + ${cat.slug}}" th:text="${cat.name}" th:classappend="${currentSlug == cat.slug} ? 'active'">Tượng Đồng</a>
+                            <button class="toggle-sub" th:if="${cat.subCategories != null and !cat.subCategories.isEmpty()}">+</button>
+                        </div>
+                        <ul th:if="${cat.subCategories != null and !cat.subCategories.isEmpty()}" class="sub-categories">
+                            <li th:each="subCat : ${cat.subCategories}">
+                                <a th:href="@{'/' + ${subCat.slug}}" th:text="${subCat.name}" th:classappend="${currentSlug == subCat.slug} ? 'active'">Tượng Bác Hồ</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>

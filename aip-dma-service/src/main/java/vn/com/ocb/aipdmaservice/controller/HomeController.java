@@ -1,5 +1,6 @@
 package vn.com.ocb.aipdmaservice.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,22 +8,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import vn.com.ocb.aipdmaservice.model.BlogPost;
 import vn.com.ocb.aipdmaservice.model.Product;
-import vn.com.ocb.aipdmaservice.model.ProductDataProvider;
+import vn.com.ocb.aipdmaservice.service.AppService;
 
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @Slf4j
 public class HomeController {
 
+    private final AppService appService;
+
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("categories", ProductDataProvider.getCategories());
-        model.addAttribute("bestSellers", ProductDataProvider.getBestSellers());
-        model.addAttribute("newProducts", ProductDataProvider.getNewProducts());
-        model.addAttribute("premiumProducts", ProductDataProvider.getPremiumProducts());
-        model.addAttribute("allProducts", ProductDataProvider.getAllProducts());
-        model.addAttribute("blogPosts", ProductDataProvider.getAllBlogPosts());
+        model.addAttribute("categories", appService.getCategories());
+        model.addAttribute("bestSellers", appService.getBestSellers());
+        model.addAttribute("newProducts", appService.getNewProducts());
+        model.addAttribute("premiumProducts", appService.getPremiumProducts());
+        model.addAttribute("allProducts", appService.getAllProducts());
+        model.addAttribute("blogPosts", appService.getAllBlogPosts());
         model.addAttribute("pageTitle", "Đồ Đồng Mỹ Nghệ - Tinh Hoa Đồng Việt");
         model.addAttribute("pageDescription",
                 "Chuyên cung cấp đồ đồng mỹ nghệ cao cấp: tượng đồng, đỉnh đồng, tranh đồng, đồ phong thủy. Sản phẩm thủ công tinh xảo từ nghệ nhân lành nghề.");
@@ -39,8 +43,8 @@ public class HomeController {
 
     @GetMapping("/san-pham")
     public String allProducts(Model model) {
-        model.addAttribute("products", ProductDataProvider.getAllProducts());
-        model.addAttribute("categories", ProductDataProvider.getCategories());
+        model.addAttribute("products", appService.getAllProducts());
+        model.addAttribute("categories", appService.getCategories());
         model.addAttribute("categoryName", "Tất Cả Sản Phẩm");
         model.addAttribute("currentSlug", "san-pham");
         model.addAttribute("pageTitle", "Sản Phẩm Đồ Đồng Mỹ Nghệ");
@@ -51,8 +55,8 @@ public class HomeController {
 
     @GetMapping("/tuong-dong")
     public String tuongDong(Model model) {
-        model.addAttribute("products", ProductDataProvider.getProductsByCategory("tuong-dong"));
-        model.addAttribute("categories", ProductDataProvider.getCategories());
+        model.addAttribute("products", appService.getProductsByCategory("tuong-dong"));
+        model.addAttribute("categories", appService.getCategories());
         model.addAttribute("categoryName", "Tượng Đồng");
         model.addAttribute("currentSlug", "tuong-dong");
         model.addAttribute("pageTitle", "Tượng Đồng Mỹ Nghệ Cao Cấp");
@@ -63,8 +67,8 @@ public class HomeController {
 
     @GetMapping("/dinh-dong")
     public String dinhDong(Model model) {
-        model.addAttribute("products", ProductDataProvider.getProductsByCategory("dinh-dong"));
-        model.addAttribute("categories", ProductDataProvider.getCategories());
+        model.addAttribute("products", appService.getProductsByCategory("dinh-dong"));
+        model.addAttribute("categories", appService.getCategories());
         model.addAttribute("categoryName", "Đỉnh Đồng");
         model.addAttribute("currentSlug", "dinh-dong");
         model.addAttribute("pageTitle", "Tượng Đồng Mỹ Nghệ Cao Cấp");
@@ -75,8 +79,8 @@ public class HomeController {
 
     @GetMapping("/tranh-dong")
     public String tranhDong(Model model) {
-        model.addAttribute("products", ProductDataProvider.getProductsByCategory("tranh-dong"));
-        model.addAttribute("categories", ProductDataProvider.getCategories());
+        model.addAttribute("products", appService.getProductsByCategory("tranh-dong"));
+        model.addAttribute("categories", appService.getCategories());
         model.addAttribute("categoryName", "Tranh Đồng");
         model.addAttribute("currentSlug", "tranh-dong");
         model.addAttribute("pageTitle", "Tranh Đồng Nghệ Thuật");
@@ -87,8 +91,8 @@ public class HomeController {
 
     @GetMapping("/do-tho-dong")
     public String doThoDong(Model model) {
-        model.addAttribute("products", ProductDataProvider.getProductsByCategory("do-tho-dong"));
-        model.addAttribute("categories", ProductDataProvider.getCategories());
+        model.addAttribute("products", appService.getProductsByCategory("do-tho-dong"));
+        model.addAttribute("categories", appService.getCategories());
         model.addAttribute("categoryName", "Đồ Thờ Đồng");
         model.addAttribute("currentSlug", "do-tho-dong");
         model.addAttribute("pageTitle", "Đồ Thờ Cúng Bằng Đồng");
@@ -99,8 +103,8 @@ public class HomeController {
 
     @GetMapping("/do-phong-thuy")
     public String doPhongThuy(Model model) {
-        model.addAttribute("products", ProductDataProvider.getProductsByCategory("do-phong-thuy"));
-        model.addAttribute("categories", ProductDataProvider.getCategories());
+        model.addAttribute("products", appService.getProductsByCategory("do-phong-thuy"));
+        model.addAttribute("categories", appService.getCategories());
         model.addAttribute("categoryName", "Đồ Phong Thủy");
         model.addAttribute("currentSlug", "do-phong-thuy");
         model.addAttribute("pageTitle", "Đồ Phong Thủy Bằng Đồng");
@@ -111,8 +115,8 @@ public class HomeController {
 
     @GetMapping("/qua-tang")
     public String quaTang(Model model) {
-        model.addAttribute("products", ProductDataProvider.getProductsByCategory("qua-tang"));
-        model.addAttribute("categories", ProductDataProvider.getCategories());
+        model.addAttribute("products", appService.getProductsByCategory("qua-tang"));
+        model.addAttribute("categories", appService.getCategories());
         model.addAttribute("categoryName", "Quà Tặng Doanh Nghiệp");
         model.addAttribute("currentSlug", "qua-tang");
         model.addAttribute("pageTitle", "Quà Tặng Đồ Đồng Cao Cấp");
@@ -123,11 +127,11 @@ public class HomeController {
 
     @GetMapping("/san-pham/{slug}")
     public String productDetail(@PathVariable String slug, Model model) {
-        Product product = ProductDataProvider.getProductBySlug(slug);
+        Product product = appService.getProductBySlug(slug);
         if (product == null) {
             return "error";
         }
-        List<Product> relatedProducts = ProductDataProvider.getProductsByCategory(product.getCategorySlug());
+        List<Product> relatedProducts = appService.getProductsByCategory(product.getCategorySlug());
         relatedProducts.removeIf(p -> p.getSlug().equals(slug));
 
         model.addAttribute("product", product);
@@ -137,9 +141,24 @@ public class HomeController {
         return "product-detail";
     }
 
+    @GetMapping("/{slug}")
+    public String categoryBySlug(@PathVariable String slug, Model model) {
+        vn.com.ocb.aipdmaservice.entity.CategoryEntity category = appService.getCategoryEntityBySlug(slug);
+        if(category != null) {
+            model.addAttribute("products", appService.getProductsByCategory(slug));
+            model.addAttribute("categories", appService.getCategories());
+            model.addAttribute("categoryName", category.getName());
+            model.addAttribute("currentSlug", slug);
+            model.addAttribute("pageTitle", category.getName() + " - Đồ Đồng Mỹ Nghệ");
+            model.addAttribute("pageDescription", category.getDescription() != null ? category.getDescription() : category.getName());
+            return "category";
+        }
+        return "error";
+    }
+
     @GetMapping("/tin-tuc")
     public String blog(Model model) {
-        model.addAttribute("blogPosts", ProductDataProvider.getAllBlogPosts());
+        model.addAttribute("blogPosts", appService.getAllBlogPosts());
         model.addAttribute("pageTitle", "Tin Tức & Kiến Thức Đồ Đồng");
         model.addAttribute("pageDescription",
                 "Tin tức, kiến thức phong thủy, hướng dẫn bảo quản đồ đồng mỹ nghệ và xu hướng trang trí nội thất.");
@@ -148,12 +167,12 @@ public class HomeController {
 
     @GetMapping("/tin-tuc/{slug}")
     public String blogDetail(@PathVariable String slug, Model model) {
-        BlogPost post = ProductDataProvider.getBlogPostBySlug(slug);
+        BlogPost post = appService.getBlogPostBySlug(slug);
         if (post == null) {
             return "error";
         }
         model.addAttribute("post", post);
-        model.addAttribute("recentPosts", ProductDataProvider.getAllBlogPosts());
+        model.addAttribute("recentPosts", appService.getAllBlogPosts());
         model.addAttribute("pageTitle", post.getTitle() + " - Đồ Đồng Mỹ Nghệ");
         model.addAttribute("pageDescription", post.getExcerpt());
         return "blog-detail";

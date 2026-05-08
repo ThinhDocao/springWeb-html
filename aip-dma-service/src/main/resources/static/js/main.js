@@ -65,13 +65,23 @@ document.addEventListener('DOMContentLoaded', function() {
   // === GALLERY ZOOM ===
   const galleryMain = document.querySelector('.gallery-main');
   if (galleryMain && mainImg) {
+    let zoomTimeout;
+    galleryMain.addEventListener('mouseenter', () => {
+      mainImg.style.transition = 'transform 0.3s ease';
+      clearTimeout(zoomTimeout);
+      zoomTimeout = setTimeout(() => {
+        mainImg.style.transition = 'none';
+      }, 300);
+    });
     galleryMain.addEventListener('mousemove', (e) => {
       const rect = galleryMain.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 100;
       const y = ((e.clientY - rect.top) / rect.height) * 100;
-      mainImg.style.transformOrigin = x + '% ' + y + '%';
+      mainImg.style.transformOrigin = `${x}% ${y}%`;
     });
     galleryMain.addEventListener('mouseleave', () => {
+      clearTimeout(zoomTimeout);
+      mainImg.style.transition = 'transform 0.3s ease';
       mainImg.style.transformOrigin = 'center center';
     });
   }
@@ -80,6 +90,18 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.faq-question').forEach(q => {
     q.addEventListener('click', () => {
       q.closest('.faq-item').classList.toggle('open');
+    });
+  });
+
+  // === SIDEBAR CATEGORY TOGGLE ===
+  document.querySelectorAll('.toggle-sub').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const sub = btn.parentElement.nextElementSibling;
+      if (sub && sub.classList.contains('sub-categories')) {
+        sub.classList.toggle('open');
+        btn.textContent = sub.classList.contains('open') ? '-' : '+';
+      }
     });
   });
 
