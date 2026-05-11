@@ -39,6 +39,36 @@ public class AppService {
         return productRepository.findAll().stream().map(this::mapToProduct).collect(Collectors.toList());
     }
 
+    public List<Product> getFilteredProducts(String categorySlug, String priceRange, String material) {
+        java.math.BigDecimal min = null;
+        java.math.BigDecimal max = null;
+        
+        if (priceRange != null && !priceRange.isEmpty() && !priceRange.equals("all")) {
+            switch (priceRange) {
+                case "under-5m":
+                    max = new java.math.BigDecimal("5000000");
+                    break;
+                case "5-10m":
+                    min = new java.math.BigDecimal("5000000");
+                    max = new java.math.BigDecimal("10000000");
+                    break;
+                case "10-20m":
+                    min = new java.math.BigDecimal("10000000");
+                    max = new java.math.BigDecimal("20000000");
+                    break;
+                case "over-20m":
+                    min = new java.math.BigDecimal("20000000");
+                    break;
+            }
+        }
+        
+        // Treat empty or "all" as null for the query
+        String materialFilter = (material != null && !material.isEmpty() && !material.equals("all")) ? material : null;
+        
+        return productRepository.findFiltered(categorySlug, min, max, materialFilter)
+                .stream().map(this::mapToProduct).collect(Collectors.toList());
+    }
+
     public List<Product> getProductsByCategory(String categorySlug) {
         // Fetch products by exactly this category
         List<ProductEntity> directProducts = productRepository.findByCategory_SlugAndIsActiveTrueOrderBySortOrderAsc(categorySlug);
@@ -118,14 +148,18 @@ public class AppService {
             dto.setMaterial("Đồng cao cấp");
         }
         
-        if (entity.getPrice() != null) {
-            dto.setPrice(df.format(entity.getPrice()));
-        } else {
+        if (entity.getPrice() == null) {
+            dto.setPrice("0₫");
+        } else if (entity.getPrice().compareTo(java.math.BigDecimal.ZERO) == 0) {
             dto.setPrice("Liên hệ");
+        } else {
+            dto.setPrice(df.format(entity.getPrice()));
         }
         
-        if (entity.getOriginalPrice() != null) {
+        if (entity.getOriginalPrice() != null && entity.getOriginalPrice().compareTo(java.math.BigDecimal.ZERO) > 0) {
             dto.setOriginalPrice(df.format(entity.getOriginalPrice()));
+        } else {
+            dto.setOriginalPrice("0₫");
         }
 
         dto.setShortDescription(entity.getShortDescription());

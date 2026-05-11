@@ -47,7 +47,7 @@ p { margin-bottom: 1rem; }
 
 /* ===== BUTTONS ===== */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 14px 32px; border-radius: var(--radius-sm);
   font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem;
   border: none; cursor: pointer; transition: var(--transition);

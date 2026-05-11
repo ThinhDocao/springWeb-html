@@ -1,90 +1,172 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="fragments/head :: head(${pageTitle}, ${pageDescription})"></head>
+
 <body>
-<div th:replace="fragments/header :: header"></div>
+    <div th:replace="fragments/header :: header"></div>
 
-<section class="page-hero">
+    <section class="page-hero">
+        <div class="container">
+            <div class="breadcrumb"><a th:href="@{/}">Trang chủ</a> <span>›</span> <span th:text="${categoryName}">Danh
+                    mục</span></div>
+            <h1 th:text="${categoryName}">Tượng Đồng</h1>
+            <p>Khám phá bộ sưu tập đồ đồng mỹ nghệ cao cấp</p>
+        </div>
+    </section>
+
     <div class="container">
-        <div class="breadcrumb"><a th:href="@{/}">Trang chủ</a> <span>›</span> <span th:text="${categoryName}">Danh mục</span></div>
-        <h1 th:text="${categoryName}">Tượng Đồng</h1>
-        <p>Khám phá bộ sưu tập đồ đồng mỹ nghệ cao cấp</p>
-    </div>
-</section>
-
-<div class="container">
-    <div class="category-layout">
-        <aside class="sidebar">
-            <div class="sidebar-block">
-                <h4>Danh Mục</h4>
-                <ul class="category-tree">
-                    <li><a th:href="@{/san-pham}" th:classappend="${currentSlug == 'san-pham'} ? 'active'">Tất cả sản phẩm</a></li>
-                    <li th:each="cat : ${categories}">
-                        <div class="cat-item">
-                            <a th:href="@{'/' + ${cat.slug}}" th:text="${cat.name}" th:classappend="${currentSlug == cat.slug} ? 'active'">Tượng Đồng</a>
-                            <button class="toggle-sub" th:if="${cat.subCategories != null and !cat.subCategories.isEmpty()}">+</button>
-                        </div>
-                        <ul th:if="${cat.subCategories != null and !cat.subCategories.isEmpty()}" class="sub-categories">
-                            <li th:each="subCat : ${cat.subCategories}">
-                                <a th:href="@{'/' + ${subCat.slug}}" th:text="${subCat.name}" th:classappend="${currentSlug == subCat.slug} ? 'active'">Tượng Bác Hồ</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div class="sidebar-block">
-                <h4>Khoảng Giá</h4>
-                <div class="price-range">
-                    <label><input type="radio" name="price" checked> Tất cả</label>
-                    <label><input type="radio" name="price"> Dưới 5 triệu</label>
-                    <label><input type="radio" name="price"> 5 - 10 triệu</label>
-                    <label><input type="radio" name="price"> 10 - 20 triệu</label>
-                    <label><input type="radio" name="price"> Trên 20 triệu</label>
+        <div class="category-layout">
+            <aside class="sidebar">
+                <div class="sidebar-block">
+                    <h4>Danh Mục</h4>
+                    <ul class="category-tree">
+                        <li>
+                            <a th:href="@{/san-pham(price=${currentPrice != 'all' ? currentPrice : null}, material=${currentMaterial != 'all' ? currentMaterial : null})}"
+                                th:classappend="${currentSlug == 'san-pham'} ? 'active'">
+                                Tất cả sản phẩm
+                            </a>
+                        </li>
+                        <li th:each="cat : ${categories}" th:with="isActiveChild=${cat.subCategories != null && !cat.subCategories.?[slug == '__${currentSlug}__'].isEmpty()},
+                                 isExpanded=${currentSlug == cat.slug or isActiveChild}">
+                            <div class="cat-item" th:classappend="${isExpanded} ? 'expanded'">
+                                <a th:href="@{'/' + ${cat.slug}(price=${currentPrice != 'all' ? currentPrice : null}, material=${currentMaterial != 'all' ? currentMaterial : null})}"
+                                    th:text="${cat.name}" th:classappend="${currentSlug == cat.slug} ? 'active'">Tượng
+                                    Đồng</a>
+                                <div class="toggle-sub"
+                                    th:if="${cat.subCategories != null and !cat.subCategories.isEmpty()}">
+                                    <svg class="arrow-icon" viewBox="0 0 24 24">
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <ul th:if="${cat.subCategories != null and !cat.subCategories.isEmpty()}"
+                                class="sub-categories" th:classappend="${isExpanded} ? 'open'"
+                                th:style="${isExpanded ? 'display:block' : 'display:none'}">
+                                <li th:each="subCat : ${cat.subCategories}">
+                                    <a th:href="@{'/' + ${subCat.slug}(price=${currentPrice != 'all' ? currentPrice : null}, material=${currentMaterial != 'all' ? currentMaterial : null})}"
+                                        th:text="${subCat.name}"
+                                        th:classappend="${currentSlug == subCat.slug} ? 'active'">Tượng Bác Hồ</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-            <div class="sidebar-block">
-                <h4>Chất Liệu</h4>
-                <div class="price-range">
-                    <label><input type="radio" name="material" checked> Tất cả</label>
-                    <label><input type="radio" name="material"> Đồng đỏ</label>
-                    <label><input type="radio" name="material"> Đồng vàng</label>
-                    <label><input type="radio" name="material"> Đồng hun</label>
-                </div>
-            </div>
-        </aside>
-        <main>
-            <div class="products-grid">
-                <div th:each="p : ${products}" class="product-card fade-up">
-                    <a th:href="@{'/san-pham/' + ${p.slug}}">
-                        <div class="product-card-image">
-                            <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
-                            <span class="product-badge badge-new" th:if="${p.newProduct}">Mới</span>
-                            <span class="product-badge badge-sale" th:if="${p.bestSeller && !p.newProduct}">Hot</span>
-                            <button class="wishlist-btn">♡</button>
-                        </div>
-                    </a>
-                    <div class="product-card-info">
-                        <div class="category-label" th:text="${p.category}">Danh mục</div>
-                        <h3><a th:href="@{'/san-pham/' + ${p.slug}}" th:text="${p.name}">Tên SP</a></h3>
-                        <div class="product-price">
-                            <span class="current" th:text="${p.price}">0₫</span>
-                            <span class="original" th:if="${p.originalPrice}" th:text="${p.originalPrice}">0₫</span>
-                        </div>
-                        <a th:href="@{'/san-pham/' + ${p.slug}}" class="btn btn-outline btn-sm product-card-cta">Xem chi tiết</a>
+                <div class="sidebar-block">
+                    <h4>Khoảng Giá</h4>
+                    <div class="price-range">
+                        <label><input type="radio" name="price" value="all"
+                                th:checked="${currentPrice == null or currentPrice == 'all'}" onchange="applyFilter()">
+                            Tất cả</label>
+                        <label><input type="radio" name="price" value="under-5m"
+                                th:checked="${currentPrice == 'under-5m'}" onchange="applyFilter()"> Dưới 5
+                            triệu</label>
+                        <label><input type="radio" name="price" value="5-10m" th:checked="${currentPrice == '5-10m'}"
+                                onchange="applyFilter()"> 5 - 10 triệu</label>
+                        <label><input type="radio" name="price" value="10-20m" th:checked="${currentPrice == '10-20m'}"
+                                onchange="applyFilter()"> 10 - 20 triệu</label>
+                        <label><input type="radio" name="price" value="over-20m"
+                                th:checked="${currentPrice == 'over-20m'}" onchange="applyFilter()"> Trên 20
+                            triệu</label>
                     </div>
                 </div>
-            </div>
-            <div th:if="${#lists.isEmpty(products)}" style="text-align:center;padding:60px 0;">
-                <h3>Chưa có sản phẩm trong danh mục này</h3>
-                <p style="color:var(--gray-500);">Vui lòng quay lại sau hoặc xem các danh mục khác.</p>
-            </div>
-        </main>
-    </div>
-</div>
+                <div class="sidebar-block">
+                    <h4>Chất Liệu</h4>
+                    <div class="price-range">
+                        <label><input type="radio" name="material" value="all"
+                                th:checked="${currentMaterial == null or currentMaterial == 'all'}"
+                                onchange="applyFilter()"> Tất cả</label>
+                        <label><input type="radio" name="material" value="Đồng đỏ"
+                                th:checked="${currentMaterial == 'Đồng đỏ'}" onchange="applyFilter()"> Đồng đỏ</label>
+                        <label><input type="radio" name="material" value="Đồng vàng"
+                                th:checked="${currentMaterial == 'Đồng vàng'}" onchange="applyFilter()"> Đồng
+                            vàng</label>
+                        <label><input type="radio" name="material" value="Đồng hun"
+                                th:checked="${currentMaterial == 'Đồng hun'}" onchange="applyFilter()"> Đồng hun</label>
+                    </div>
+                </div>
+            </aside>
 
-<div th:replace="fragments/footer :: footer"></div>
+            <script>
+                function applyFilter() {
+                    const priceEl = document.querySelector('input[name="price"]:checked');
+                    const materialEl = document.querySelector('input[name="material"]:checked');
+
+                    const price = priceEl ? priceEl.value : 'all';
+                    const material = materialEl ? materialEl.value : 'all';
+
+                    const url = new URL(window.location.href);
+                    if (price && price !== 'all') url.searchParams.set('price', price);
+                    else url.searchParams.delete('price');
+
+                    if (material && material !== 'all') url.searchParams.set('material', material);
+                    else url.searchParams.delete('material');
+
+                    window.location.href = url.toString();
+                }
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    const catItems = document.querySelectorAll('.cat-item');
+                    catItems.forEach(item => {
+                        const toggle = item.querySelector('.toggle-sub');
+                        if (toggle) {
+                            toggle.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                const subMenu = item.nextElementSibling;
+                                item.classList.toggle('expanded');
+                                if (subMenu.style.display === 'block') {
+                                    subMenu.style.display = 'none';
+                                } else {
+                                    subMenu.style.display = 'block';
+                                }
+                            });
+                        }
+                    });
+                });
+            </script>
+            <main>
+                <div class="products-grid">
+                    <div th:each="p : ${products}" class="product-card fade-up">
+                        <a th:href="@{'/san-pham/' + ${p.slug}}">
+                            <div class="product-card-image">
+                                <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
+                                <span class="product-badge badge-new" th:if="${p.newProduct}">Mới</span>
+                                <span class="product-badge badge-sale"
+                                    th:if="${p.bestSeller && !p.newProduct}">Hot</span>
+                                <button class="wishlist-btn">♡</button>
+                            </div>
+                        </a>
+                        <div class="product-card-info">
+                            <div class="category-label" th:text="${p.category}">Danh mục</div>
+                            <h3><a th:href="@{'/san-pham/' + ${p.slug}}" th:text="${p.name}">Tên SP</a></h3>
+                            <div class="product-price">
+                                <span class="current" th:text="${p.price}">0₫</span>
+                                <span class="original" th:if="${p.originalPrice}" th:text="${p.originalPrice}">0₫</span>
+                            </div>
+                            <a th:href="@{'/san-pham/' + ${p.slug}}" class="btn btn-outline btn-sm product-card-cta">Xem
+                                chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${#lists.isEmpty(products)}" style="text-align:center;padding:60px 0;">
+                    <h3>Chưa có sản phẩm trong danh mục này</h3>
+                    <p style="color:var(--gray-500);">Vui lòng quay lại sau hoặc xem các danh mục khác.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+    <a href="https://zalo.me/0987654321" class="zalo-float" title="Chat Zalo">Z</a>
+    <button class="back-to-top">↑</button>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+
+</html>
 <a href="https://zalo.me/0987654321" class="zalo-float" title="Chat Zalo">Z</a>
 <button class="back-to-top">↑</button>
 <script th:src="@{/js/main.js}"></script>
 </body>
+
 </html>
