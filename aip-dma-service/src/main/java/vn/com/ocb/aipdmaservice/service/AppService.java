@@ -164,16 +164,36 @@ public class AppService {
 
         dto.setShortDescription(entity.getShortDescription());
         dto.setDescription(entity.getDescription());
+        dto.setDetailDescription(entity.getDetailDescription());
+        dto.setFengShuiMeaning(entity.getFengShuiMeaning());
+        dto.setSpecifications(entity.getSpecifications());
+        dto.setSize(entity.getSize());
+        dto.setWeight(entity.getWeight());
+        
         dto.setBestSeller(entity.isBestSeller());
         dto.setNewProduct(entity.isNew());
         dto.setPremium(entity.isPremium());
         
-        // Mock image mapping for now
-        dto.setImageUrl(entity.getCategory() != null && entity.getCategory().getImageUrl() != null 
-            ? entity.getCategory().getImageUrl() 
-            : "/images/product-tuong-dong.png");
+        // Map images from database
+        if (entity.getImages() != null && !entity.getImages().isEmpty()) {
+            // Find primary image or use the first one
+            String primaryImageUrl = entity.getImages().stream()
+                    .filter(vn.com.ocb.aipdmaservice.entity.ProductImageEntity::isPrimary)
+                    .map(vn.com.ocb.aipdmaservice.entity.ProductImageEntity::getImageUrl)
+                    .findFirst()
+                    .orElse(entity.getImages().get(0).getImageUrl());
             
-        dto.setImages(java.util.Arrays.asList(dto.getImageUrl(), dto.getImageUrl()));
+            dto.setImageUrl(primaryImageUrl);
+            
+            // Map all image URLs
+            dto.setImages(entity.getImages().stream()
+                    .map(vn.com.ocb.aipdmaservice.entity.ProductImageEntity::getImageUrl)
+                    .collect(java.util.stream.Collectors.toList()));
+        } else {
+            // Fallback if no images in DB
+            dto.setImageUrl("/images/product-tuong-dong.png");
+            dto.setImages(java.util.Arrays.asList("/images/product-tuong-dong.png"));
+        }
         
         return dto;
     }

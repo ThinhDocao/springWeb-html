@@ -143,4 +143,27 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.style.color = btn.textContent === '♥' ? '#E74C3C' : '';
     });
   });
+
+  // === CATEGORY FILTER DRAWER ===
+  const filterBtn = document.getElementById('filterTrigger');
+  const sidebar = document.getElementById('categorySidebar');
+  const sidebarClose = document.getElementById('sidebarClose');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+  if (filterBtn && sidebar) {
+    filterBtn.addEventListener('click', () => {
+      sidebar.classList.add('open');
+      if (sidebarOverlay) sidebarOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+
+    const closeSidebar = () => {
+      sidebar.classList.remove('open');
+      if (sidebarOverlay) sidebarOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+
+    if (sidebarClose) sidebarClose.addEventListener('click', closeSidebar);
+    if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+  }
 });

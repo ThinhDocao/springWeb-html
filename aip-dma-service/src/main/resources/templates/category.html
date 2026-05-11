@@ -15,10 +15,21 @@
         </div>
     </section>
 
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <div class="container">
+        <div class="filter-mobile-bar">
+            <button class="btn-filter-trigger" id="filterTrigger">
+                <span class="icon">🔍</span> Bộ lọc & Danh mục
+            </button>
+        </div>
         <div class="category-layout">
-            <aside class="sidebar">
-                <div class="sidebar-block">
+            <aside class="sidebar" id="categorySidebar">
+                <div class="sidebar-header">
+                    <h3>Bộ lọc & Danh mục</h3>
+                    <button class="sidebar-close" id="sidebarClose">×</button>
+                </div>
+                <div class="sidebar-content">
+                    <div class="sidebar-block">
                     <h4>Danh Mục</h4>
                     <ul class="category-tree">
                         <li>
@@ -56,17 +67,15 @@
                     <h4>Khoảng Giá</h4>
                     <div class="price-range">
                         <label><input type="radio" name="price" value="all"
-                                th:checked="${currentPrice == null or currentPrice == 'all'}" onchange="applyFilter()">
+                                th:checked="${currentPrice == null or currentPrice == 'all'}">
                             Tất cả</label>
                         <label><input type="radio" name="price" value="under-5m"
-                                th:checked="${currentPrice == 'under-5m'}" onchange="applyFilter()"> Dưới 5
+                                th:checked="${currentPrice == 'under-5m'}"> Dưới 5
                             triệu</label>
-                        <label><input type="radio" name="price" value="5-10m" th:checked="${currentPrice == '5-10m'}"
-                                onchange="applyFilter()"> 5 - 10 triệu</label>
-                        <label><input type="radio" name="price" value="10-20m" th:checked="${currentPrice == '10-20m'}"
-                                onchange="applyFilter()"> 10 - 20 triệu</label>
+                        <label><input type="radio" name="price" value="5-10m" th:checked="${currentPrice == '5-10m'}"> 5 - 10 triệu</label>
+                        <label><input type="radio" name="price" value="10-20m" th:checked="${currentPrice == '10-20m'}"> 10 - 20 triệu</label>
                         <label><input type="radio" name="price" value="over-20m"
-                                th:checked="${currentPrice == 'over-20m'}" onchange="applyFilter()"> Trên 20
+                                th:checked="${currentPrice == 'over-20m'}"> Trên 20
                             triệu</label>
                     </div>
                 </div>
@@ -74,16 +83,19 @@
                     <h4>Chất Liệu</h4>
                     <div class="price-range">
                         <label><input type="radio" name="material" value="all"
-                                th:checked="${currentMaterial == null or currentMaterial == 'all'}"
-                                onchange="applyFilter()"> Tất cả</label>
+                                th:checked="${currentMaterial == null or currentMaterial == 'all'}"> Tất cả</label>
                         <label><input type="radio" name="material" value="Đồng đỏ"
-                                th:checked="${currentMaterial == 'Đồng đỏ'}" onchange="applyFilter()"> Đồng đỏ</label>
+                                th:checked="${currentMaterial == 'Đồng đỏ'}"> Đồng đỏ</label>
                         <label><input type="radio" name="material" value="Đồng vàng"
-                                th:checked="${currentMaterial == 'Đồng vàng'}" onchange="applyFilter()"> Đồng
+                                th:checked="${currentMaterial == 'Đồng vàng'}"> Đồng
                             vàng</label>
                         <label><input type="radio" name="material" value="Đồng hun"
-                                th:checked="${currentMaterial == 'Đồng hun'}" onchange="applyFilter()"> Đồng hun</label>
+                                th:checked="${currentMaterial == 'Đồng hun'}"> Đồng hun</label>
                     </div>
+                </div>
+                </div> <!-- end sidebar-content -->
+                <div class="sidebar-footer">
+                    <button class="btn btn-primary btn-block" onclick="applyFilter()">Áp dụng</button>
                 </div>
             </aside>
 
@@ -161,12 +173,6 @@
     <a href="https://zalo.me/0987654321" class="zalo-float" title="Chat Zalo">Z</a>
     <button class="back-to-top">↑</button>
     <script th:src="@{/js/main.js}"></script>
-</body>
-
-</html>
-<a href="https://zalo.me/0987654321" class="zalo-float" title="Chat Zalo">Z</a>
-<button class="back-to-top">↑</button>
-<script th:src="@{/js/main.js}"></script>
 </body>
 
 </html>
