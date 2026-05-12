@@ -48,6 +48,71 @@
             <p>© 2026 Đồ Đồng Mỹ Nghệ. All rights reserved. | Thiết kế bởi ❤️</p>
         </div>
     </div>
+
+    <!-- SEARCH DRAWER OVERLAY -->
+    <div class="search-drawer-overlay" id="searchDrawer">
+        <div class="search-drawer">
+            <div class="search-drawer-header">
+                <div class="logo-text">ĐỒ ĐỒNG MỸ NGHỆ</div>
+                <span class="search-drawer-close" id="searchDrawerClose">✕</span>
+            </div>
+            <div class="search-drawer-body">
+                <div class="search-drawer-input-wrap">
+                    <span class="search-drawer-icon">🔍</span>
+                    <input type="text" id="searchDrawerInput" placeholder="Tìm kiếm sản phẩm đồ đồng..." autocomplete="off">
+                    <span class="search-drawer-clear" id="searchDrawerClear">✕</span>
+                </div>
+                
+                <!-- Default content: trước khi gõ -->
+                <div class="search-drawer-default" id="searchDefault">
+                    <div class="search-section">
+                        <h4>Tìm kiếm phổ biến</h4>
+                        <div class="search-tags">
+                            <span class="search-tag">Tượng Phật</span>
+                            <span class="search-tag">Tranh Mã Đáo</span>
+                            <span class="search-tag">Đỉnh đồng</span>
+                            <span class="search-tag">Bác Hồ</span>
+                            <span class="search-tag">Phong thủy</span>
+                        </div>
+                    </div>
+                    <div class="search-section">
+                        <h4>Danh mục gợi ý</h4>
+                        <div class="search-categories">
+                            <a th:each="cat : ${categories}" th:href="@{'/' + ${cat.slug}}" class="search-cat-card">
+                                <img th:src="@{${cat.imageUrl}}" th:alt="${cat.name}">
+                                <span th:text="${cat.name}">Danh mục</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="search-section">
+                        <h4>Sản phẩm nổi bật</h4>
+                        <div class="search-popular-products">
+                            <a th:each="p : ${popularProducts}" th:href="@{'/san-pham/' + ${p.slug}}" class="search-prod-card">
+                                <div class="prod-img">
+                                    <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
+                                </div>
+                                <div class="prod-info">
+                                    <div class="prod-name" th:text="${p.name}">Tên sản phẩm</div>
+                                    <div class="prod-price" th:text="${p.price}">Giá</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Live results: khi đang gõ -->
+                <div class="search-drawer-results" id="searchResults" style="display:none">
+                    <!-- JS renders product cards here -->
+                </div>
+                
+                <div class="search-no-results" id="searchNoResults" style="display:none">
+                    <div class="no-results-icon">🔍</div>
+                    <p>Không tìm thấy sản phẩm nào phù hợp với từ khóa của bạn.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="floating-group">
         <a href="https://zalo.me/0987654321" class="zalo-float" title="Chat Zalo">Z</a>
         <a href="tel:0987654321" class="hotline-float" title="Gọi Hotline">📞</a>

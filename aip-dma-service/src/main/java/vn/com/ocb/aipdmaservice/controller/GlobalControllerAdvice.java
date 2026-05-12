@@ -18,4 +18,9 @@ public class GlobalControllerAdvice {
     public List<Category> globalCategories() {
         return appService.getCategories();
     }
+
+    @ModelAttribute("popularProducts")
+    public List<vn.com.ocb.aipdmaservice.model.Product> globalPopularProducts() {
+        return appService.getPopularProducts();
+    }
 }

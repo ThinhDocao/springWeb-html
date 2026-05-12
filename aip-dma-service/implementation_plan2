@@ -1,0 +1,57 @@
+# Kế hoạch triển khai: Tích hợp MySQL & JPA theo cấu trúc ERD
+
+Mục tiêu: Chuyển đổi toàn bộ dữ liệu cứng (hardcode) trong `ProductDataProvider` sang cơ sở dữ liệu MySQL thông qua Spring Data JPA, đồng thời đảm bảo mọi giao diện (Web UI) hiện tại vẫn hoạt động bình thường, hỗ trợ cấu trúc danh mục phân cấp.
+
+## User Review Required
+
+> [!WARNING]  
+> 1. Đảm bảo bạn đã cài đặt MySQL Server trên máy tính.
+> 2. Đảm bảo MySQL đang chạy.
+> 3. Đảm bảo bạn đã tạo sẵn schema (database) trống có tên là `db`. Bạn có thể tạo bằng lệnh: `CREATE DATABASE db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`
+
+## Các bước thực hiện
+
+### 1. Cấu hình Dependencies & Properties
+- **[MODIFY]** `pom.xml`: Thêm các thư viện `spring-boot-starter-data-jpa` và `mysql-connector-java`.
+- **[MODIFY]** `application.yml`: Cấu hình thông tin kết nối MySQL:
+  - URL: `jdbc:mysql://localhost:3306/db?useUnicode=true&characterEncoding=utf8`
+  - Username: `root`
+  - Password: `123321`
+  - `spring.jpa.hibernate.ddl-auto=update`: Tự động sinh bảng dựa trên Entity.
+
+### 2. Thiết kế tầng Entity (Database Mapping)
+Tạo package `vn.com.ocb.aipdmaservice.entity` và chuyển đổi 9 bảng từ ERD thành Java Entities với các quan hệ `@OneToMany`, `@ManyToOne`:
+- **[NEW]** `CategoryEntity.java` (Quan hệ self-referencing cho phân cấp cha-con)
+- **[NEW]** `ProductEntity.java`
+- **[NEW]** `ProductImageEntity.java`
+- **[NEW]** `MaterialEntity.java`
+- **[NEW]** `BlogCategoryEntity.java`
+- **[NEW]** `BlogPostEntity.java`
+- **[NEW]** `ProductReviewEntity.java`
+- **[NEW]** `ContactInquiryEntity.java`
+- **[NEW]** `SiteSettingEntity.java`
+
+### 3. Thiết kế tầng Repository
+Tạo package `vn.com.ocb.aipdmaservice.repository` với các Spring Data JPA interfaces:
+- **[NEW]** `CategoryRepository.java`
+- **[NEW]** `ProductRepository.java`
+- **[NEW]** `BlogPostRepository.java`
+
+### 4. Thiết kế tầng Service
+Tạo package `vn.com.ocb.aipdmaservice.service` để xử lý logic business và giao tiếp giữa Controller và Repository:
+- **[NEW]** `CategoryService.java` (Lấy cây danh mục cha-con)
+- **[NEW]** `ProductService.java` (Lấy sản phẩm theo danh mục, tính năng bán chạy, mới, v.v.)
+- **[NEW]** `BlogService.java`
+
+### 5. Seeding Data (Khởi tạo dữ liệu mẫu)
+- **[NEW]** `DatabaseInitializer.java`: Sử dụng `CommandLineRunner` để tự động chèn bộ dữ liệu mẫu (hiện đang nằm trong `ProductDataProvider`) vào MySQL ngay khi ứng dụng khởi chạy lần đầu tiên (kiểm tra `count() == 0`). Điều này đảm bảo bạn có sẵn data để test giao diện.
+
+### 6. Tích hợp Controller & Dọn dẹp
+- **[MODIFY]** `HomeController.java`: Xóa toàn bộ việc gọi `ProductDataProvider` và thay thế bằng các `Service` đã tạo.
+- **[DELETE]** `vn.com.ocb.aipdmaservice.model.*`: Xóa các class cứng cũ sau khi hệ thống JPA hoạt động ổn định.
+
+## Verification Plan
+1. Chạy project.
+2. Kiểm tra log khởi động xem các bảng có được Hibernate tạo trong MySQL không.
+3. Kiểm tra log của `DatabaseInitializer` xem dữ liệu đã chèn thành công chưa.
+4. Truy cập giao diện web (Trang chủ, Mega Menu, Danh mục, Chi tiết) để xác nhận dữ liệu đã load hoàn toàn từ DB và mọi tính năng UI hoạt động bình thường.

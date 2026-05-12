@@ -29,4 +29,11 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
             @org.springframework.data.repository.query.Param("minPrice") java.math.BigDecimal minPrice,
             @org.springframework.data.repository.query.Param("maxPrice") java.math.BigDecimal maxPrice,
             @org.springframework.data.repository.query.Param("material") String material);
+    @org.springframework.data.jpa.repository.Query("SELECT p FROM ProductEntity p WHERE p.isActive = true AND " +
+           "(LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+           "LOWER(p.shortDescription) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+           "ORDER BY p.sortOrder ASC")
+    List<ProductEntity> searchByKeyword(@org.springframework.data.repository.query.Param("keyword") String keyword, org.springframework.data.domain.Pageable pageable);
+
+    List<ProductEntity> findByIsBestSellerTrueAndIsActiveTrueOrderBySortOrderAsc(org.springframework.data.domain.Pageable pageable);
 }

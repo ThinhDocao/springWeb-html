@@ -27,15 +27,101 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // === MOBILE SEARCH TRIGGER ===
-  const searchTrigger = document.getElementById('mobileSearchTrigger');
-  const searchInput = document.querySelector('.mobile-search input');
-  if (searchTrigger && nav && searchInput) {
-    searchTrigger.addEventListener('click', () => {
-      nav.classList.add('open');
-      setTimeout(() => searchInput.focus(), 300);
+  // === SEARCH DRAWER ===
+  const searchDrawer = document.getElementById('searchDrawer');
+  const searchTriggers = document.querySelectorAll('.search-trigger');
+  const searchClose = document.getElementById('searchDrawerClose');
+  const searchInput = document.getElementById('searchDrawerInput');
+  const searchClear = document.getElementById('searchDrawerClear');
+  const searchDefault = document.getElementById('searchDefault');
+  const searchResults = document.getElementById('searchResults');
+  const searchNoResults = document.getElementById('searchNoResults');
+  const searchTags = document.querySelectorAll('.search-tag');
+
+  const openSearch = () => {
+    searchDrawer.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => searchInput.focus(), 300);
+  };
+
+  const closeSearch = () => {
+    searchDrawer.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  searchTriggers.forEach(btn => btn.addEventListener('click', openSearch));
+  if (searchClose) searchClose.addEventListener('click', closeSearch);
+
+  // Close on Escape or click outside
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && searchDrawer.classList.contains('open')) closeSearch();
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+  });
+
+  searchDrawer.addEventListener('click', (e) => {
+    if (e.target === searchDrawer) closeSearch();
+  });
+
+  // Live Search with Debounce
+  let searchTimeout;
+  const performSearch = (query) => {
+    if (query.length < 2) {
+      searchDefault.style.display = 'block';
+      searchResults.style.display = 'none';
+      searchNoResults.style.display = 'none';
+      searchClear.style.display = 'none';
+      return;
+    }
+
+    searchClear.style.display = 'block';
+    
+    fetch(`/api/search?q=${encodeURIComponent(query)}`)
+      .then(res => res.json())
+      .then(data => {
+        searchDefault.style.display = 'none';
+        if (data.length > 0) {
+          searchResults.style.display = 'grid';
+          searchNoResults.style.display = 'none';
+          searchResults.innerHTML = data.map(p => `
+            <a href="/san-pham/${p.slug}" class="search-prod-card">
+              <div class="prod-img">
+                <img src="${p.imageUrl}" alt="${p.name}">
+              </div>
+              <div class="prod-info">
+                <div class="prod-name">${p.name}</div>
+                <div class="prod-price">${p.price}</div>
+              </div>
+            </a>
+          `).join('');
+        } else {
+          searchResults.style.display = 'none';
+          searchNoResults.style.display = 'block';
+        }
+      })
+      .catch(err => console.error('Search error:', err));
+  };
+
+  searchInput.addEventListener('input', (e) => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => performSearch(e.target.value), 300);
+  });
+
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    performSearch('');
+    searchInput.focus();
+  });
+
+  searchTags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      searchInput.value = tag.textContent;
+      performSearch(tag.textContent);
+      searchInput.focus();
     });
-  }
+  });
 
   // === MOBILE DROPDOWN TOGGLE ===
   const dropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');

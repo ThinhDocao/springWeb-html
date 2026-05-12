@@ -94,6 +94,16 @@ public class AppService {
                 .stream().map(this::mapToProduct).collect(Collectors.toList());
     }
 
+    public List<Product> searchProducts(String keyword) {
+        return productRepository.searchByKeyword(keyword, org.springframework.data.domain.PageRequest.of(0, 8))
+                .stream().map(this::mapToProduct).collect(Collectors.toList());
+    }
+
+    public List<Product> getPopularProducts() {
+        return productRepository.findByIsBestSellerTrueAndIsActiveTrueOrderBySortOrderAsc(org.springframework.data.domain.PageRequest.of(0, 4))
+                .stream().map(this::mapToProduct).collect(Collectors.toList());
+    }
+
     public Product getProductBySlug(String slug) {
         return productRepository.findBySlug(slug).map(this::mapToProduct).orElse(null);
     }
