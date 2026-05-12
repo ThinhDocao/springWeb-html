@@ -21,7 +21,19 @@ document.addEventListener('DOMContentLoaded', function() {
   if (toggle && nav) {
     toggle.addEventListener('click', () => nav.classList.toggle('open'));
     document.addEventListener('click', (e) => {
-      if (!nav.contains(e.target) && !toggle.contains(e.target)) nav.classList.remove('open');
+      if (!nav.contains(e.target) && !toggle.contains(e.target) && !e.target.closest('#mobileSearchTrigger')) {
+        nav.classList.remove('open');
+      }
+    });
+  }
+
+  // === MOBILE SEARCH TRIGGER ===
+  const searchTrigger = document.getElementById('mobileSearchTrigger');
+  const searchInput = document.querySelector('.mobile-search input');
+  if (searchTrigger && nav && searchInput) {
+    searchTrigger.addEventListener('click', () => {
+      nav.classList.add('open');
+      setTimeout(() => searchInput.focus(), 300);
     });
   }
 

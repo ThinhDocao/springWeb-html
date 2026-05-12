@@ -3,7 +3,7 @@
 <header th:fragment="header" class="site-header">
     <div class="container">
         <div class="header-top">
-            <span>📞 Hotline: <a href="tel:0987654321">0987.654.321</a> | Miễn phí giao hàng đơn từ 5.000.000₫</span>
+            <span>🚚 Miễn phí giao hàng đơn từ 5.000.000₫</span>
             <span>🕐 Giờ làm việc: 8:00 - 18:00 | Thứ 2 - Chủ Nhật</span>
         </div>
         <div class="header-main">
@@ -11,6 +11,12 @@
                 <div class="logo-text">ĐỒ ĐỒNG MỸ NGHỆ<span>Tinh hoa đồng Việt</span></div>
             </a>
             <ul class="main-nav" id="mainNav">
+                <li class="mobile-search-item">
+                    <div class="search-bar mobile-search">
+                        <span>🔍</span>
+                        <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                    </div>
+                </li>
                 <li><a th:href="@{/}">Trang chủ</a></li>
                 <li><a th:href="@{/gioi-thieu}">Giới thiệu</a></li>
                 <li class="has-dropdown">
@@ -37,8 +43,8 @@
                     <span>🔍</span>
                     <input type="text" placeholder="Tìm kiếm sản phẩm...">
                 </div>
+                <span class="header-icon mobile-search-trigger" id="mobileSearchTrigger">🔍</span>
                 <a href="#" class="header-icon" title="Giỏ hàng">🛒</a>
-                <a href="tel:0987654321" class="header-icon" title="Hotline">📞</a>
             </div>
             <div class="mobile-toggle" id="mobileToggle">
                 <span></span><span></span><span></span>
