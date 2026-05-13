@@ -51,7 +51,70 @@ public class DatabaseInitializer implements CommandLineRunner {
             // Update materials and sync product details/images to fulfill user request
             ensureMaterialsAndAssignToProducts();
             syncProductDetailsAndImages();
+            syncBlogPostsAndCategories();
         }
+    }
+
+    @Transactional
+    private void syncBlogPostsAndCategories() {
+        log.info("Syncing blog posts and categories...");
+        // Ensure the old "Tin Tức Chung" only setup is overwritten or updated
+        List<BlogPost> modelPosts = ProductDataProvider.getAllBlogPosts();
+        
+        for (BlogPost bp : modelPosts) {
+            // Find or create category based on the mock data category string
+            String catName = bp.getCategory() != null ? bp.getCategory() : "Tin Tức Khác";
+            String catSlug = catName.toLowerCase().replace(" ", "-").replace("đ", "d")
+                    .replace("á", "a").replace("à", "a").replace("ả", "a").replace("ã", "a").replace("ạ", "a")
+                    .replace("ấ", "a").replace("ầ", "a").replace("ẩ", "a").replace("ẫ", "a").replace("ậ", "a")
+                    .replace("é", "e").replace("è", "e").replace("ẻ", "e").replace("ẽ", "e").replace("ẹ", "e")
+                    .replace("ế", "e").replace("ề", "e").replace("ể", "e").replace("ễ", "e").replace("ệ", "e")
+                    .replace("í", "i").replace("ì", "i").replace("ỉ", "i").replace("ĩ", "i").replace("ị", "i")
+                    .replace("ó", "o").replace("ò", "o").replace("ỏ", "o").replace("õ", "o").replace("ọ", "o")
+                    .replace("ố", "o").replace("ồ", "o").replace("ổ", "o").replace("ỗ", "o").replace("ộ", "o")
+                    .replace("ớ", "o").replace("ờ", "o").replace("ở", "o").replace("ỡ", "o").replace("ợ", "o")
+                    .replace("ú", "u").replace("ù", "u").replace("ủ", "u").replace("ũ", "u").replace("ụ", "u")
+                    .replace("ứ", "u").replace("ừ", "u").replace("ử", "u").replace("ữ", "u").replace("ự", "u")
+                    .replace("ý", "y").replace("ỳ", "y").replace("ỷ", "y").replace("ỹ", "y").replace("ỵ", "y");
+            
+            BlogCategoryEntity catEntity = blogCategoryRepository.findAll().stream()
+                    .filter(c -> c.getSlug().equals(catSlug))
+                    .findFirst()
+                    .orElseGet(() -> {
+                        BlogCategoryEntity newCat = BlogCategoryEntity.builder()
+                                .name(catName)
+                                .slug(catSlug)
+                                .build();
+                        return blogCategoryRepository.save(newCat);
+                    });
+
+            java.util.Optional<BlogPostEntity> existingPostOpt = blogPostRepository.findBySlug(bp.getSlug());
+            if (existingPostOpt.isPresent()) {
+                BlogPostEntity pe = existingPostOpt.get();
+                // Update existing
+                pe.setCategory(catEntity);
+                pe.setTitle(bp.getTitle());
+                pe.setExcerpt(bp.getExcerpt());
+                pe.setContent(bp.getContent());
+                pe.setImageUrl(bp.getImageUrl());
+                blogPostRepository.save(pe);
+            } else {
+                // Create new
+                BlogPostEntity bpe = BlogPostEntity.builder()
+                        .title(bp.getTitle())
+                        .slug(bp.getSlug())
+                        .category(catEntity)
+                        .excerpt(bp.getExcerpt())
+                        .content(bp.getContent())
+                        .imageUrl(bp.getImageUrl())
+                        .author(bp.getAuthor())
+                        .publishDate(LocalDate.now())
+                        .isPublished(true)
+                        .build();
+                blogPostRepository.save(bpe);
+            }
+        }
+        log.info("Finished syncing blog posts and categories.");
     }
 
     @Transactional
@@ -224,25 +287,6 @@ public class DatabaseInitializer implements CommandLineRunner {
         }
 
         // 4. Seed Blog Posts
-        BlogCategoryEntity defaultBlogCat = BlogCategoryEntity.builder()
-                .name("Tin Tức Chung")
-                .slug("tin-tuc-chung")
-                .build();
-        blogCategoryRepository.save(defaultBlogCat);
-
-        List<BlogPost> modelPosts = ProductDataProvider.getAllBlogPosts();
-        for (BlogPost bp : modelPosts) {
-            BlogPostEntity bpe = BlogPostEntity.builder()
-                    .title(bp.getTitle())
-                    .slug(bp.getSlug())
-                    .category(defaultBlogCat)
-                    .excerpt(bp.getExcerpt())
-                    .imageUrl(bp.getImageUrl())
-                    .author(bp.getAuthor())
-                    .publishDate(LocalDate.now())
-                    .isPublished(true)
-                    .build();
-            blogPostRepository.save(bpe);
-        }
+        syncBlogPostsAndCategories();
     }
 }

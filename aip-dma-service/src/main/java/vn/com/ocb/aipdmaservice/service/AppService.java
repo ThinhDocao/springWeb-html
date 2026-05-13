@@ -8,6 +8,9 @@ import vn.com.ocb.aipdmaservice.entity.ProductEntity;
 import vn.com.ocb.aipdmaservice.model.BlogPost;
 import vn.com.ocb.aipdmaservice.model.Category;
 import vn.com.ocb.aipdmaservice.model.Product;
+import vn.com.ocb.aipdmaservice.entity.BlogCategoryEntity;
+import vn.com.ocb.aipdmaservice.repository.BlogCategoryRepository;
+import vn.com.ocb.aipdmaservice.model.BlogCategory;
 import vn.com.ocb.aipdmaservice.repository.BlogPostRepository;
 import vn.com.ocb.aipdmaservice.repository.CategoryRepository;
 import vn.com.ocb.aipdmaservice.repository.ProductRepository;
@@ -23,6 +26,7 @@ public class AppService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
     private final BlogPostRepository blogPostRepository;
+    private final BlogCategoryRepository blogCategoryRepository;
     private final vn.com.ocb.aipdmaservice.repository.OrderRepository orderRepository;
 
     private static final DecimalFormat df = new DecimalFormat("#,###₫");
@@ -112,6 +116,16 @@ public class AppService {
     public List<BlogPost> getAllBlogPosts() {
         return blogPostRepository.findByIsPublishedTrueOrderByPublishDateDesc()
                 .stream().map(this::mapToBlogPost).collect(Collectors.toList());
+    }
+
+    public List<BlogPost> getBlogPostsByCategorySlug(String slug) {
+        return blogPostRepository.findByCategory_SlugAndIsPublishedTrueOrderByPublishDateDesc(slug)
+                .stream().map(this::mapToBlogPost).collect(Collectors.toList());
+    }
+
+    public List<BlogCategory> getAllBlogCategories() {
+        return blogCategoryRepository.findAll()
+                .stream().map(this::mapToBlogCategory).collect(Collectors.toList());
     }
 
     public BlogPost getBlogPostBySlug(String slug) {
@@ -273,9 +287,20 @@ public class AppService {
             dto.setCategory(entity.getCategory().getName());
         }
         dto.setExcerpt(entity.getExcerpt());
+        dto.setContent(entity.getContent());
         dto.setImageUrl(entity.getImageUrl());
         dto.setAuthor(entity.getAuthor());
         dto.setPublishDate(entity.getPublishDate() != null ? entity.getPublishDate().toString() : "N/A");
         return dto;
+    }
+
+    private BlogCategory mapToBlogCategory(BlogCategoryEntity entity) {
+        return BlogCategory.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .slug(entity.getSlug())
+                .description(entity.getDescription())
+                .isActive(entity.isActive())
+                .build();
     }
 }

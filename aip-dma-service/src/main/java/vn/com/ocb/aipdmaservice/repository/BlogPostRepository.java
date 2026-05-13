@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface BlogPostRepository extends JpaRepository<BlogPostEntity, Long> {
     Optional<BlogPostEntity> findBySlug(String slug);
     List<BlogPostEntity> findByIsPublishedTrueOrderByPublishDateDesc();
+    List<BlogPostEntity> findByCategory_SlugAndIsPublishedTrueOrderByPublishDateDesc(String categorySlug);
 }

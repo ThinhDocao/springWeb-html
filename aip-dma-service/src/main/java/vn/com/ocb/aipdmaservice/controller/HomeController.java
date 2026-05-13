@@ -96,8 +96,15 @@ public class HomeController {
     }
 
     @GetMapping("/tin-tuc")
-    public String blog(Model model) {
-        model.addAttribute("blogPosts", appService.getAllBlogPosts());
+    public String blog(@org.springframework.web.bind.annotation.RequestParam(required = false) String category, Model model) {
+        if (category != null && !category.isEmpty()) {
+            model.addAttribute("blogPosts", appService.getBlogPostsByCategorySlug(category));
+            model.addAttribute("currentCategory", category);
+        } else {
+            model.addAttribute("blogPosts", appService.getAllBlogPosts());
+            model.addAttribute("currentCategory", "all");
+        }
+        model.addAttribute("blogCategories", appService.getAllBlogCategories());
         model.addAttribute("pageTitle", "Tin Tức & Kiến Thức Đồ Đồng");
         model.addAttribute("pageDescription",
                 "Tin tức, kiến thức phong thủy, hướng dẫn bảo quản đồ đồng mỹ nghệ và xu hướng trang trí nội thất.");

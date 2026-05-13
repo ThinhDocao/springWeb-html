@@ -224,13 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
     btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
-  // === BLOG FILTERS ===
-  document.querySelectorAll('.blog-filter').forEach(f => {
-    f.addEventListener('click', () => {
-      document.querySelectorAll('.blog-filter').forEach(b => b.classList.remove('active'));
-      f.classList.add('active');
-    });
-  });
+
 
   // === WISHLIST TOGGLE ===
   document.querySelectorAll('.wishlist-btn').forEach(btn => {

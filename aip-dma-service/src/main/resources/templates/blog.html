@@ -15,10 +15,12 @@
 <section class="section">
     <div class="container">
         <div class="blog-filters fade-up">
-            <button class="blog-filter active">Tất cả</button>
-            <button class="blog-filter">Kiến thức phong thủy</button>
-            <button class="blog-filter">Nghệ thuật đồng</button>
-            <button class="blog-filter">Bảo quản đồ đồng</button>
+            <a th:href="@{/tin-tuc}" class="blog-filter" th:classappend="${currentCategory == 'all' ? 'active' : ''}">Tất cả</a>
+            <a th:each="cat : ${blogCategories}" 
+               th:href="@{/tin-tuc(category=${cat.slug})}" 
+               class="blog-filter" 
+               th:classappend="${currentCategory == cat.slug ? 'active' : ''}"
+               th:text="${cat.name}">Category</a>
         </div>
         <div class="blog-grid">
             <a th:each="post : ${blogPosts}" th:href="@{'/tin-tuc/' + ${post.slug}}" class="blog-card fade-up">
