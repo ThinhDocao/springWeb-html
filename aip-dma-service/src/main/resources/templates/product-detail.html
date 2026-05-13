@@ -35,8 +35,22 @@
                 <div class="spec-row"><span class="spec-label">Danh mục</span><span class="spec-value" th:text="${product.category}">Tượng Đồng</span></div>
             </div>
             <div class="product-cta-group">
-                <a href="#" class="btn btn-primary">🛒 Mua ngay</a>
-                <a th:href="@{/lien-he}" class="btn btn-outline">📞 Liên hệ tư vấn</a>
+                <button class="btn btn-primary add-to-cart" 
+                        th:data-id="${product.id}" 
+                        th:data-name="${product.name}" 
+                        th:data-price="${product.price}" 
+                        th:data-image="${product.imageUrl}" 
+                        th:data-slug="${product.slug}">
+                    🛒 Thêm vào giỏ hàng
+                </button>
+                <button class="btn btn-outline buy-now"
+                        th:data-id="${product.id}" 
+                        th:data-name="${product.name}" 
+                        th:data-price="${product.price}" 
+                        th:data-image="${product.imageUrl}" 
+                        th:data-slug="${product.slug}">
+                    Mua ngay
+                </button>
             </div>
         </div>
     </div>

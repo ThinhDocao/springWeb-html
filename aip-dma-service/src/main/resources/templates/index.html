@@ -61,6 +61,10 @@
                         <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
                         <span class="product-badge badge-sale" th:if="${p.originalPrice != null}">Sale</span>
                         <button class="wishlist-btn">♡</button>
+                        <button class="quick-add-btn add-to-cart" 
+                                th:data-id="${p.id}" th:data-name="${p.name}" 
+                                th:data-price="${p.price}" th:data-image="${p.imageUrl}" 
+                                th:data-slug="${p.slug}" title="Thêm vào giỏ hàng">+</button>
                     </div>
                 </a>
                 <div class="product-card-info">
@@ -81,6 +85,10 @@
                         <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
                         <span class="product-badge badge-new">Mới</span>
                         <button class="wishlist-btn">♡</button>
+                        <button class="quick-add-btn add-to-cart" 
+                                th:data-id="${p.id}" th:data-name="${p.name}" 
+                                th:data-price="${p.price}" th:data-image="${p.imageUrl}" 
+                                th:data-slug="${p.slug}" title="Thêm vào giỏ hàng">+</button>
                     </div>
                 </a>
                 <div class="product-card-info">
@@ -101,6 +109,10 @@
                         <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
                         <span class="product-badge badge-sale">Premium</span>
                         <button class="wishlist-btn">♡</button>
+                        <button class="quick-add-btn add-to-cart" 
+                                th:data-id="${p.id}" th:data-name="${p.name}" 
+                                th:data-price="${p.price}" th:data-image="${p.imageUrl}" 
+                                th:data-slug="${p.slug}" title="Thêm vào giỏ hàng">+</button>
                     </div>
                 </a>
                 <div class="product-card-info">

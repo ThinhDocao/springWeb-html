@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(${pageTitle}, ${pageDescription})"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container" style="padding-top:160px; padding-bottom: 120px;">
+    <div class="success-page">
+        <div class="success-icon">✨</div>
+        <h1 class="success-title">Yêu cầu đặt hàng đã được ghi nhận</h1>
+        <p class="success-desc">Cảm ơn bạn đã quan tâm đến sản phẩm của <strong>Đồ Đồng Mỹ Nghệ</strong>. <br> Mã đơn hàng của bạn là: <strong id="orderCodeDisplay" class="accent-code">...</strong></p>
+        
+        <div class="success-info-box">
+            <div id="methodRow" style="display:none; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #eee;">
+                <strong>Hình thức xác nhận:</strong> <span id="methodDisplay" class="accent">...</span>
+            </div>
+            <p>Đội ngũ của chúng tôi sẽ liên hệ với bạn qua điện thoại hoặc Zalo trong vòng 24h tới để:</p>
+            <ul>
+                <li>✓ Xác nhận thông tin sản phẩm & tình trạng hàng</li>
+                <li>✓ Tư vấn phí vận chuyển & thời gian giao hàng</li>
+                <li>✓ Hướng dẫn thanh toán & bảo hành</li>
+            </ul>
+        </div>
+
+        <div class="success-support">
+            <p>Cần hỗ trợ ngay? Liên hệ với chúng tôi:</p>
+            <div class="support-links">
+                <a href="tel:0987654321" class="btn btn-outline btn-sm">📞 0987.654.321</a>
+                <a href="https://zalo.me/0987654321" class="btn btn-outline btn-sm">💬 Zalo Tư vấn</a>
+            </div>
+        </div>
+
+        <div class="success-actions">
+            <a th:href="@{/}" class="btn btn-primary">Về trang chủ</a>
+            <a th:href="@{/san-pham}" class="btn btn-outline">Khám phá sản phẩm khác</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderCode = urlParams.get('code');
+        const method = urlParams.get('method');
+        
+        if (orderCode) {
+            document.getElementById('orderCodeDisplay').textContent = orderCode;
+        }
+
+        const methodDisplay = document.getElementById('methodDisplay');
+        if (method && methodDisplay) {
+            let methodText = "";
+            switch(method) {
+                case 'BANK_TRANSFER': methodText = "Chuyển khoản ngân hàng"; break;
+                case 'MANUAL_CHECK': methodText = "Kiểm tra xác nhận trực tiếp"; break;
+                case 'COD': methodText = "Thanh toán khi nhận hàng (COD)"; break;
+                default: methodText = "Sẽ trao đổi khi liên hệ";
+            }
+            methodDisplay.textContent = methodText;
+            document.getElementById('methodRow').style.display = 'block';
+        }
+    });
+</script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

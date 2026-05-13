@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(${pageTitle}, ${pageDescription})"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container" style="padding-top:120px; padding-bottom: 80px;">
+    <div class="checkout-layout">
+        <!-- LEFT: FORM -->
+        <div class="checkout-left">
+            <h1 class="checkout-title">Xác nhận đơn hàng</h1>
+            
+            <form id="checkoutForm" class="checkout-form">
+                <!-- Section 1: Customer Info -->
+                <div class="form-section">
+                    <h3>1. Thông tin khách hàng</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName">Họ và tên *</label>
+                            <input type="text" id="fullName" name="fullName" placeholder="Ví dụ: Nguyễn Văn A" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Ví dụ: 0987654321" required>
+                        </div>
+                        <div class="form-group full">
+                            <label for="email">Email (Không bắt buộc)</label>
+                            <input type="email" id="email" name="email" placeholder="Ví dụ: customer@email.com">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Shipping Address -->
+                <div class="form-section">
+                    <h3>2. Địa chỉ nhận hàng</h3>
+                    <div class="form-group">
+                        <label for="address">Địa chỉ chi tiết *</label>
+                        <textarea id="address" name="address" placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố..." required></textarea>
+                    </div>
+                </div>
+
+                <!-- Section 3: Confirmation Method -->
+                <div class="form-section">
+                    <h3>3. Hình thức xác nhận đơn hàng</h3>
+                    <p class="section-desc">Đội ngũ của chúng tôi sẽ liên hệ xác nhận và hướng dẫn thanh toán sau khi tiếp nhận đơn hàng.</p>
+                    
+                    <div class="confirmation-methods">
+                        <div class="confirmation-card active" data-method="BANK_TRANSFER">
+                            <div class="card-icon">🏦</div>
+                            <div class="card-info">
+                                <strong>Chuyển khoản ngân hàng</strong>
+                                <p>Sau khi xác nhận đơn hàng, chúng tôi sẽ gửi thông tin chuyển khoản qua Zalo hoặc điện thoại.</p>
+                            </div>
+                            <div class="card-check">✓</div>
+                        </div>
+                        
+                        <div class="confirmation-card" data-method="MANUAL_CHECK">
+                            <div class="card-icon">📋</div>
+                            <div class="card-info">
+                                <strong>Kiểm tra xác nhận trực tiếp</strong>
+                                <p>Đội ngũ sẽ liên hệ xác nhận thông tin sản phẩm và hướng dẫn thanh toán phù hợp.</p>
+                            </div>
+                            <div class="card-check">✓</div>
+                        </div>
+                        
+                        <div class="confirmation-card" data-method="COD">
+                            <div class="card-icon">💵</div>
+                            <div class="card-info">
+                                <strong>Thanh toán khi nhận hàng (COD)</strong>
+                                <p>Thanh toán trực tiếp khi nhận hàng và kiểm tra sản phẩm.</p>
+                            </div>
+                            <div class="card-check">✓</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="confirmationMethod" name="confirmationMethod" value="BANK_TRANSFER">
+                </div>
+
+                <!-- Section 4: Note -->
+                <div class="form-section">
+                    <h3>4. Ghi chú đơn hàng</h3>
+                    <div class="form-group">
+                        <textarea id="note" name="note" placeholder="Yêu cầu riêng về sản phẩm, thời gian giao hàng..."></textarea>
+                    </div>
+                </div>
+
+                <div class="checkout-actions">
+                    <button type="submit" class="btn btn-primary btn-large" id="submitOrderBtn">
+                        Gửi yêu cầu đặt hàng
+                    </button>
+                    <p class="terms-note">Bằng cách đặt hàng, bạn đồng ý với các điều khoản của chúng tôi.</p>
+                </div>
+            </form>
+        </div>
+
+        <!-- RIGHT: SUMMARY -->
+        <aside class="checkout-right">
+            <div class="order-summary-sticky">
+                <div class="order-summary-box">
+                    <h3>Đơn hàng của bạn</h3>
+                    <div class="order-summary-items" id="checkoutItemsList">
+                        <!-- Items rendered by JS -->
+                    </div>
+                    
+                    <div class="order-summary-total">
+                        <div class="summary-line">
+                            <span>Tạm tính</span>
+                            <span id="checkoutSubtotal">0₫</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Phí vận chuyển</span>
+                            <span>Tính sau khi xác nhận</span>
+                        </div>
+                        <div class="summary-line total">
+                            <span>Tổng cộng</span>
+                            <span id="checkoutTotal">0₫</span>
+                        </div>
+                    </div>
+                </div>
+                <a th:href="@{/san-pham}" class="back-to-shop">← Tiếp tục mua sắm</a>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

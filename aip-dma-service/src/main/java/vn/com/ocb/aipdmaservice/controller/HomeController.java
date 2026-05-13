@@ -124,4 +124,18 @@ public class HomeController {
                 "Liên hệ với chúng tôi để được tư vấn miễn phí về đồ đồng mỹ nghệ. Hotline: 0987.654.321");
         return "contact";
     }
+
+    @GetMapping("/xac-nhan-don-hang")
+    public String checkout(Model model) {
+        model.addAttribute("pageTitle", "Xác nhận đơn hàng - Fine Art Bronzes");
+        model.addAttribute("pageDescription", "Hoàn tất thông tin đặt hàng để đội ngũ Fine Art Bronzes liên hệ xác nhận sớm nhất.");
+        return "checkout";
+    }
+
+    @GetMapping("/dat-hang-thanh-cong")
+    public String orderSuccess(Model model) {
+        model.addAttribute("pageTitle", "Đặt hàng thành công - Fine Art Bronzes");
+        model.addAttribute("pageDescription", "Cảm ơn bạn đã tin tưởng Fine Art Bronzes. Đơn hàng của bạn đã được ghi nhận.");
+        return "order-success";
+    }
 }

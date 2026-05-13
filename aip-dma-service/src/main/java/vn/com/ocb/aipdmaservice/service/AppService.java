@@ -23,6 +23,7 @@ public class AppService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
     private final BlogPostRepository blogPostRepository;
+    private final vn.com.ocb.aipdmaservice.repository.OrderRepository orderRepository;
 
     private static final DecimalFormat df = new DecimalFormat("#,###₫");
 
@@ -115,6 +116,61 @@ public class AppService {
 
     public BlogPost getBlogPostBySlug(String slug) {
         return blogPostRepository.findBySlug(slug).map(this::mapToBlogPost).orElse(null);
+    }
+
+    public List<Product> getProductsByIds(List<Long> ids) {
+        return productRepository.findAllById(ids).stream()
+                .map(this::mapToProduct)
+                .collect(Collectors.toList());
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    public String createOrder(vn.com.ocb.aipdmaservice.model.OrderRequest request) {
+        String orderCode = "DD-" + java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd").format(java.time.LocalDateTime.now()) + "-" + String.format("%04d", (orderRepository.count() + 1));
+        
+        java.math.BigDecimal totalAmount = java.math.BigDecimal.ZERO;
+        
+        vn.com.ocb.aipdmaservice.entity.OrderEntity order = vn.com.ocb.aipdmaservice.entity.OrderEntity.builder()
+                .orderCode(orderCode)
+                .fullName(request.getFullName())
+                .phone(request.getPhone())
+                .email(request.getEmail())
+                .address(request.getAddress())
+                .confirmationMethod(request.getConfirmationMethod())
+                .note(request.getNote())
+                .status("PENDING")
+                .build();
+        
+        List<vn.com.ocb.aipdmaservice.entity.OrderItemEntity> items = new java.util.ArrayList<>();
+        for (vn.com.ocb.aipdmaservice.model.OrderItemRequest itemReq : request.getItems()) {
+            ProductEntity product = productRepository.findById(itemReq.getProductId()).orElse(null);
+            if (product != null) {
+                java.math.BigDecimal itemPrice = product.getPrice() != null ? product.getPrice() : java.math.BigDecimal.ZERO;
+                totalAmount = totalAmount.add(itemPrice.multiply(java.math.BigDecimal.valueOf(itemReq.getQuantity())));
+                
+                String primaryImg = product.getImages().stream()
+                        .filter(vn.com.ocb.aipdmaservice.entity.ProductImageEntity::isPrimary)
+                        .map(vn.com.ocb.aipdmaservice.entity.ProductImageEntity::getImageUrl)
+                        .findFirst()
+                        .orElse(product.getImages().isEmpty() ? "" : product.getImages().get(0).getImageUrl());
+
+                items.add(vn.com.ocb.aipdmaservice.entity.OrderItemEntity.builder()
+                        .order(order)
+                        .product(product)
+                        .productName(product.getName())
+                        .productSlug(product.getSlug())
+                        .productImageUrl(primaryImg)
+                        .price(itemPrice)
+                        .quantity(itemReq.getQuantity())
+                        .build());
+            }
+        }
+        
+        order.setTotalAmount(totalAmount);
+        order.setItems(items);
+        
+        orderRepository.save(order);
+        return orderCode;
     }
 
     // --- MAPPERS ---
