@@ -131,22 +131,22 @@ public class DatabaseInitializer implements CommandLineRunner {
                 pe.setDetailDescription(p.getDetailDescription());
                 
                 // Sync images
-                if (pe.getImages().isEmpty()) {
-                    if (p.getImageUrl() != null) {
-                        pe.getImages().add(vn.com.ocb.aipdmaservice.entity.ProductImageEntity.builder()
-                                .imageUrl(p.getImageUrl())
-                                .isPrimary(true)
-                                .product(pe)
-                                .build());
-                    }
-                    if (p.getImages() != null) {
-                        for (String imgUrl : p.getImages()) {
-                            if (!imgUrl.equals(p.getImageUrl())) {
-                                pe.getImages().add(vn.com.ocb.aipdmaservice.entity.ProductImageEntity.builder()
-                                        .imageUrl(imgUrl)
-                                        .product(pe)
-                                        .build());
-                            }
+                // Sync images - force re-sync for mock data consistency
+                pe.getImages().clear();
+                if (p.getImageUrl() != null) {
+                    pe.getImages().add(vn.com.ocb.aipdmaservice.entity.ProductImageEntity.builder()
+                            .imageUrl(p.getImageUrl())
+                            .isPrimary(true)
+                            .product(pe)
+                            .build());
+                }
+                if (p.getImages() != null) {
+                    for (String imgUrl : p.getImages()) {
+                        if (!imgUrl.equals(p.getImageUrl())) {
+                            pe.getImages().add(vn.com.ocb.aipdmaservice.entity.ProductImageEntity.builder()
+                                    .imageUrl(imgUrl)
+                                    .product(pe)
+                                    .build());
                         }
                     }
                 }

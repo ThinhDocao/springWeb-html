@@ -12,11 +12,22 @@
     </div>
     <div class="product-detail">
         <div class="gallery">
-            <div class="gallery-main">
-                <img th:src="@{${product.imageUrl}}" th:alt="${product.name}" id="mainImage">
+            <div class="gallery-main carousel" id="productCarousel">
+                <div class="carousel-inner">
+                    <div th:each="img, iter : ${product.images}" 
+                         class="carousel-item" 
+                         th:classappend="${iter.first} ? 'active'">
+                        <img th:src="@{${img}}" th:alt="${product.name}">
+                    </div>
+                </div>
+                <button class="carousel-btn prev" id="prevBtn">‹</button>
+                <button class="carousel-btn next" id="nextBtn">›</button>
             </div>
             <div class="gallery-thumbs">
-                <div th:each="img : ${product.images}" class="gallery-thumb" th:classappend="${imgStat.first} ? 'active'">
+                <div th:each="img, iter : ${product.images}" 
+                     class="gallery-thumb" 
+                     th:classappend="${iter.first} ? 'active'"
+                     th:data-index="${iter.index}">
                     <img th:src="@{${img}}" th:alt="${product.name}">
                 </div>
             </div>
