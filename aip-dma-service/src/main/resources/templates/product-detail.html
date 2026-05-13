@@ -4,7 +4,7 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 
-<div class="container" style="padding-top:100px;">
+<div class="container" style="padding-top:140px;">
     <div class="breadcrumb">
         <a th:href="@{/}">Trang chủ</a> <span>›</span>
         <a th:href="@{'/' + ${product.categorySlug}}" th:text="${product.category}">Danh mục</a> <span>›</span>
