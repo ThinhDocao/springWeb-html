@@ -1,48 +1,33 @@
-# Project Snapshot: Bronze Craft Ecommerce (AIP-DMA Service)
+# AI_CONTEXT.md - Project Snapshot
 
-This document provides the necessary context for the AI assistant to continue development of the "Đồ Đồng Mỹ Nghệ" ecommerce project.
+## 1. Cấu trúc thư mục chính
+Dự án được đặt tại: `c:\Users\PC\Documents\springWeb-html\aip-dma-service`
+- `src/main/java`: Mã nguồn Java (Spring Boot).
+- `src/main/resources`: 
+  - `templates/`: Giao diện Thymeleaf.
+  - `static/`: CSS, JS, Images.
+  - `application.yml`: Cấu hình hệ thống (MySQL, JPA).
+- `target/`: Chứa file `.jar` sau khi build.
+- `logs/`: Chứa các file log của ứng dụng.
+- `pom.xml`: Quản lý phụ thuộc Maven.
 
-## 1. Project Overview & Structure
-A Spring Boot web application for a premium artisan bronze craft store.
+## 2. Công nghệ sử dụng
+- **Backend**: Java 8, Spring Boot 2.7.8, Spring Data JPA.
+- **Database**: MySQL.
+- **Frontend**: HTML5, Vanilla CSS, JavaScript (ES6+), Thymeleaf.
+- **Tiện ích**: Lombok, Maven Wrapper.
 
-**Main Directory Structure:**
-- `/src/main/java/vn/com/ocb/aipdmaservice`:
-    - `/controller`: Web and API controllers (HomeController, OrderController, SearchController).
-    - `/entity`: JPA entities (Product, Category, Order).
-    - `/service`: Business logic for products, categories, and orders.
-    - `/model`: DTOs and request/response objects.
-- `/src/main/resources`:
-    - `/templates`: Thymeleaf HTML templates (index, product-detail, category, checkout, order-success).
-    - `/templates/fragments`: Reusable components (header, footer, head).
-    - `/static/css`: Vanilla CSS stylesheets (main.css imports others like cart.css, pages.css).
-    - `/static/js`: Frontend logic (cart.js for LocalStorage cart, main.js for UI interactions).
-- `pom.xml`: Maven dependencies.
-- `application.yml`: Configuration (MySQL, Thymeleaf settings).
+## 3. Trạng thái hiện tại & Công việc đã hoàn thành
 
-## 2. Technology Stack
-- **Backend**: Java 8, Spring Boot 2.7.8, Spring Data JPA, Hibernate, MySQL.
-- **Frontend**: HTML5, Thymeleaf, Vanilla CSS (Modern aesthetic, dark mode/luxury feel), Javascript.
-- **Cart Logic**: LocalStorage-based `CartManager` in `cart.js`.
-- **Checkout**: Multi-step flow with manual verification/confirmation methods.
+### Tính năng & Sửa lỗi:
+- **Blog Detail**: Đã map thành công trường `content` từ database để hiển thị nội dung chi tiết bài viết thay vì chỉ hiển thị đoạn trích (excerpt).
+- **Product Carousel**: Đã triển khai bộ trình chiếu ảnh tự động (4 giây/ảnh) trên trang chi tiết sản phẩm. Hỗ trợ điều khiển thủ công qua mũi tên và ảnh thu nhỏ.
+- **Mock Data**: Đã cập nhật `ProductDataProvider` và `DatabaseInitializer` để tự động đồng bộ nhiều hình ảnh mẫu cho sản phẩm.
+- **UI Spacing**: 
+  - Đã xử lý vấn đề Header cố định che khuất nội dung.
+  - Tăng khoảng cách `padding-top` lên **140px** cho trang chi tiết sản phẩm và bài viết để hiển thị Breadcrumb rõ ràng.
+  - Tối ưu hóa Header Mobile để ngăn lỗi tràn chữ Logo.
 
-## 3. Current State & Recent Accomplishments
-We have just completed the implementation and verification of the core e-commerce flow.
-
-### Completed Tasks:
-1. **Core Cart Functionality**: Implemented a side-drawer cart using LocalStorage.
-2. **Script Loading Fix**: Resolved an issue where `cart.js` was not loading due to incorrect fragment placement.
-3. **Quick Add Fix**: Prevented event bubbling on the "+" quick-add button to stop unwanted redirects.
-4. **Checkout Flow**: Implemented order submission via `/api/order` and redirection to a success page.
-5. **Confirmation Method**: Added display of the selected confirmation method (Bank Transfer, COD, etc.) on the success page.
-
-### Current Status:
-- The service is fully functional for browsing, adding to cart, and placing orders.
-- UI/UX has been polished for a "Luxury Minimal" feel with smooth animations and responsive layouts.
-- **Next Potential Steps**: Admin dashboard for order management, user accounts, or advanced product filtering.
-
-## 4. How to Run
-```powershell
-$env:JAVA_HOME = "C:\Program Files\Java\jdk1.8.0_202"
-./mvnw spring-boot:run
-```
-URL: `http://localhost:8080`
+### Ghi chú cho AI mới:
+- Các thay đổi về Spacing được thực hiện trực tiếp qua inline style trong `product-detail.html` và `blog-detail.html` theo yêu cầu của User (sau khi discard phương án class global).
+- Database được seed tự động mỗi khi khởi động server thông qua `DatabaseInitializer`. Nếu có thay đổi ở `ProductDataProvider`, cần đảm bảo cơ chế `syncProductDetailsAndImages` hoạt động để cập nhật dữ liệu hiện có.
