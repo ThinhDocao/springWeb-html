@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="topbar(title)" class="admin-topbar">
+    <button class="icon-button sidebar-toggle" type="button" id="sidebarToggle" aria-label="Mở menu">☰</button>
+    <div>
+        <p class="eyebrow">Bảng điều khiển</p>
+        <h1 th:text="${title}">Admin</h1>
+    </div>
+    <a th:href="@{/}" class="admin-view-site" target="_blank">Xem website</a>
+</div>
+</html>

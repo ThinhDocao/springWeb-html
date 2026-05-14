@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <form class="admin-form-grid narrow" method="post"
+                  th:action="${category.id == null} ? @{/admin/blog/categories} : @{/admin/blog/categories/{id}(id=${category.id})}">
+                <div class="admin-panel form-panel">
+                    <div class="form-grid two">
+                        <label>
+                            <span>Tên chuyên mục *</span>
+                            <input type="text" name="name" th:value="${category.name}" required>
+                        </label>
+                        <label>
+                            <span>Slug</span>
+                            <input type="text" name="slug" th:value="${category.slug}" placeholder="Tự tạo nếu để trống">
+                        </label>
+                    </div>
+                    <label>
+                        <span>Mô tả</span>
+                        <textarea name="description" rows="4" th:text="${category.description}"></textarea>
+                    </label>
+                    <div class="toggle-grid">
+                        <label><input type="checkbox" name="isActive" value="true" th:checked="${category.active}"> Hiển thị</label>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <a th:href="@{/admin/blog/categories}" class="admin-btn ghost">Hủy</a>
+                    <button type="submit" class="admin-btn primary">Lưu chuyên mục</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

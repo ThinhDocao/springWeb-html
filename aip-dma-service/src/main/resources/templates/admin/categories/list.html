@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <div th:replace="admin/fragments/flash :: flash"></div>
+            <div class="panel-header page-actions">
+                <div>
+                    <h2>Danh mục sản phẩm</h2>
+                    <p>Quản lý danh mục cha/con, ảnh đại diện và SEO.</p>
+                </div>
+                <a th:href="@{/admin/categories/new}" class="admin-btn primary">Thêm danh mục</a>
+            </div>
+            <div class="admin-panel">
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>Tên</th>
+                            <th>Slug</th>
+                            <th>Cấp</th>
+                            <th>Thứ tự</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="cat : ${categories}">
+                            <td>
+                                <img class="thumb" th:if="${cat.imageUrl}" th:src="@{${cat.imageUrl}}" th:alt="${cat.name}">
+                                <span th:unless="${cat.imageUrl}" class="thumb empty"></span>
+                            </td>
+                            <td>
+                                <div class="category-tree-cell" th:style="'padding-left:' + (${cat.level} * 24) + 'px'">
+                                    <span th:if="${cat.level > 0}" class="tree-connector">└</span>
+                                    <strong th:text="${cat.name}">Danh mục</strong>
+                                    <small th:text="${cat.parent != null ? 'Con của: ' + cat.parent.name : 'Danh mục gốc'}">Gốc</small>
+                                </div>
+                            </td>
+                            <td th:text="${cat.slug}">slug</td>
+                            <td th:text="${cat.level}">0</td>
+                            <td th:text="${cat.sortOrder}">0</td>
+                            <td><span class="status-pill" th:classappend="${cat.active} ? 'ACTIVE' : 'HIDDEN'" th:text="${cat.active} ? 'Hiển thị' : 'Ẩn'">Hiển thị</span></td>
+                            <td class="row-actions">
+                                <a th:href="@{'/' + ${cat.slug}}" target="_blank" class="text-link">Xem</a>
+                                <a th:href="@{/admin/categories/{id}/edit(id=${cat.id})}" class="text-link">Sửa</a>
+                                <form th:action="@{/admin/categories/{id}/delete(id=${cat.id})}" method="post" data-confirm="Xóa danh mục này?">
+                                    <button type="submit" class="link-danger">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(categories)}">
+                            <td colspan="7" class="empty-cell">Chưa có danh mục.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

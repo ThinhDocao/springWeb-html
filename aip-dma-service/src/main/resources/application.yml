@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 20MB
   thymeleaf:
     prefix: classpath:/templates/
     cache: false
@@ -74,3 +78,10 @@ omni:
   url-cbp: ${OMNI_CBP_URL:http://10.102.61.127:9080}
   secretKey: ${JWT_TOKEN_KEY:passmh2}
   expireToken: ${EXPIRE_TOKEN:2592000}
+
+admin:
+  username: ${ADMIN_USERNAME:admin}
+  password: ${ADMIN_PASSWORD:admin123}
+
+app:
+  upload-dir: ${APP_UPLOAD_DIR:uploads}

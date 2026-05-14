@@ -75,16 +75,16 @@
         </div>
         <div id="desc-tab" class="detail-tab-content active">
             <h3>Mô Tả Chi Tiết</h3>
-            <p th:text="${product.detailDescription}">Chi tiết sản phẩm</p>
-            <p th:text="${product.description}">Mô tả</p>
+            <div th:utext="${product.detailDescription}">Chi tiết sản phẩm</div>
+            <div th:utext="${product.description}">Mô tả</div>
         </div>
         <div id="specs-tab" class="detail-tab-content">
             <h3>Thông Số Kỹ Thuật</h3>
-            <p th:text="${product.specifications}">Thông số</p>
+            <div th:utext="${product.specifications}">Thông số</div>
         </div>
         <div id="feng-tab" class="detail-tab-content">
             <h3>Ý Nghĩa Phong Thủy</h3>
-            <p th:text="${product.fengShuiMeaning}">Phong thủy</p>
+            <div th:utext="${product.fengShuiMeaning}">Phong thủy</div>
         </div>
     </div>
 

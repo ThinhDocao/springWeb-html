@@ -30,7 +30,20 @@ public class ContactInquiryEntity {
     @Column(length = 255)
     private String subject;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(length = 20)
+    @Builder.Default
+    private String status = "NEW";
+
+    @Column(name = "source_page", length = 255)
+    private String sourcePage;
+
+    @Column(name = "product_slug", length = 255)
+    private String productSlug;
+
+    @Column(name = "product_name", length = 255)
+    private String productName;
+
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String message;
 
     @Column(name = "is_read", nullable = false)

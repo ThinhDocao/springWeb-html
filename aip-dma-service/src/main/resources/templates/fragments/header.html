@@ -4,11 +4,15 @@
     <div class="container">
         <div class="header-top">
             <span>🚚 Miễn phí giao hàng đơn từ 5.000.000₫</span>
-            <span>🕐 Giờ làm việc: 8:00 - 18:00 | Thứ 2 - Chủ Nhật</span>
+            <span th:text="${siteSettings['workingHours'] != null and !siteSettings['workingHours'].isEmpty() ? siteSettings['workingHours'] : '🕐 Giờ làm việc: 8:00 - 18:00 | Thứ 2 - Chủ Nhật'}">🕐 Giờ làm việc: 8:00 - 18:00 | Thứ 2 - Chủ Nhật</span>
         </div>
         <div class="header-main">
             <a href="/" class="logo">
-                <div class="logo-text">ĐỒ ĐỒNG MỸ NGHỆ<span>Tinh hoa đồng Việt</span></div>
+                <img th:if="${siteSettings['logoUrl'] != null and !siteSettings['logoUrl'].isEmpty()}" th:src="@{${siteSettings['logoUrl']}}" th:alt="${siteSettings['siteName']}" style="height:54px;width:auto;">
+                <div th:unless="${siteSettings['logoUrl'] != null and !siteSettings['logoUrl'].isEmpty()}" class="logo-text">
+                    <span th:remove="tag" th:text="${siteSettings['siteName'] != null and !siteSettings['siteName'].isEmpty() ? siteSettings['siteName'] : 'ĐỒ ĐỒNG MỸ NGHỆ'}">ĐỒ ĐỒNG MỸ NGHỆ</span>
+                    <span>Tinh hoa đồng Việt</span>
+                </div>
             </a>
             <ul class="main-nav" id="mainNav">
 

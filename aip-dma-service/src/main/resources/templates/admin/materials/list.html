@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <div th:replace="admin/fragments/flash :: flash"></div>
+            <div class="panel-header page-actions">
+                <div>
+                    <h2>Chất liệu</h2>
+                    <p>Dùng cho filter và thông số sản phẩm.</p>
+                </div>
+                <a th:href="@{/admin/materials/new}" class="admin-btn primary">Thêm chất liệu</a>
+            </div>
+            <div class="admin-panel">
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Tên</th>
+                            <th>Mô tả</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="material : ${materials}">
+                            <td><strong th:text="${material.name}">Đồng đỏ</strong></td>
+                            <td th:text="${material.description}">Mô tả</td>
+                            <td><span class="status-pill" th:classappend="${material.active} ? 'ACTIVE' : 'HIDDEN'" th:text="${material.active} ? 'Hiển thị' : 'Ẩn'">Hiển thị</span></td>
+                            <td class="row-actions">
+                                <a th:href="@{/admin/materials/{id}/edit(id=${material.id})}" class="text-link">Sửa</a>
+                                <form th:action="@{/admin/materials/{id}/delete(id=${material.id})}" method="post" data-confirm="Xóa chất liệu này?">
+                                    <button type="submit" class="link-danger">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(materials)}">
+                            <td colspan="4" class="empty-cell">Chưa có chất liệu.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

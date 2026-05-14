@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <div class="admin-panel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Cấu trúc thư mục upload</h2>
+                        <p>Chỉ xem folder và hình ảnh đang được phục vụ qua /uploads/**.</p>
+                    </div>
+                </div>
+
+                <div class="media-browser">
+                    <div th:replace="admin/fragments/media-tree :: mediaNode(item=${mediaRoot})"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

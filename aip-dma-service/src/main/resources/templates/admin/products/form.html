@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <form class="admin-form-grid" method="post" enctype="multipart/form-data"
+                  data-upload-type="products"
+                  th:attr="data-current-slug=${product.slug}"
+                  th:action="${product.id == null} ? @{/admin/products} : @{/admin/products/{id}(id=${product.id})}">
+                <div class="admin-panel form-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2>Thông tin chung</h2>
+                            <p>Tối ưu tên, slug, danh mục và trạng thái hiển thị.</p>
+                        </div>
+                    </div>
+                    <div class="form-grid two">
+                        <label>
+                            <span>Tên sản phẩm *</span>
+                            <input type="text" name="name" th:value="${product.name}" required>
+                        </label>
+                        <label>
+                            <span>URL Slug</span>
+                            <input type="text" name="slug" th:value="${product.slug}" placeholder="Tự tạo nếu để trống">
+                        </label>
+                        <label>
+                            <span>Danh mục</span>
+                            <select name="categoryId">
+                                <option value="">Chọn danh mục</option>
+                                <option th:each="cat : ${categories}" th:value="${cat.id}"
+                                        th:text="${cat.level == 0 ? cat.name : (cat.level == 1 ? '— ' + cat.name : '—— ' + cat.name)}"
+                                        th:selected="${product.category != null and product.category.id == cat.id}"></option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Chất liệu</span>
+                            <select name="materialId">
+                                <option value="">Chọn chất liệu</option>
+                                <option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}"
+                                        th:selected="${product.material != null and product.material.id == material.id}"></option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Giá bán</span>
+                            <input type="text" name="price" th:value="${product.price}" placeholder="0 là Liên hệ">
+                        </label>
+                        <label>
+                            <span>Giá gốc</span>
+                            <input type="text" name="originalPrice" th:value="${product.originalPrice}">
+                        </label>
+                        <label>
+                            <span>Kích thước</span>
+                            <input type="text" name="size" th:value="${product.size}">
+                        </label>
+                        <label>
+                            <span>Trọng lượng</span>
+                            <input type="text" name="weight" th:value="${product.weight}">
+                        </label>
+                        <label>
+                            <span>Thứ tự</span>
+                            <input type="number" name="sortOrder" th:value="${product.sortOrder}">
+                        </label>
+                    </div>
+                    <div class="toggle-grid">
+                        <label><input type="checkbox" name="isActive" value="true" th:checked="${product.active}"> Hiển thị</label>
+                        <label><input type="checkbox" name="isBestSeller" value="true" th:checked="${product.bestSeller}"> Bán chạy</label>
+                        <label><input type="checkbox" name="isNew" value="true" th:checked="${product.new}"> Sản phẩm mới</label>
+                        <label><input type="checkbox" name="isPremium" value="true" th:checked="${product.premium}"> Premium</label>
+                    </div>
+                </div>
+
+                <div class="admin-panel form-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2>Hình ảnh</h2>
+                            <p>Upload nhiều ảnh, chọn một ảnh làm thumbnail chính.</p>
+                        </div>
+                    </div>
+                    <div class="image-list sortable-images" th:if="${product.images != null and !#lists.isEmpty(product.images)}">
+                        <div class="image-item" th:each="img, iter : ${product.images}" draggable="true">
+                            <img th:src="@{${img.imageUrl}}" th:alt="${product.name}">
+                            <input type="hidden" name="imageIds" th:value="${img.id}">
+                            <input type="hidden" name="imageSortOrders" class="sort-order-input" th:value="${iter.index}">
+                            <div class="image-item-actions">
+                                <label class="radio-row icon-radio" title="Chọn làm ảnh đại diện">
+                                    <input type="radio" name="primaryImageId" th:value="${img.id}" th:checked="${img.primary}" aria-label="Chọn làm ảnh đại diện">
+                                </label>
+                                <button type="button" class="remove-image-btn" th:data-image-id="${img.id}" title="Xóa ảnh" aria-label="Xóa ảnh">×</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="removed-images-inputs"></div>
+                    <label class="upload-box">
+                        <span>Thêm ảnh mới</span>
+                        <input type="file" name="imageFiles" accept="image/jpeg,image/png,image/webp" multiple>
+                    </label>
+                </div>
+
+                <div class="admin-panel form-panel span-2">
+                    <div class="panel-header">
+                        <div>
+                            <h2>Nội dung sản phẩm</h2>
+                            <p>Rich text dùng cho mô tả chi tiết và SEO nội dung.</p>
+                        </div>
+                    </div>
+                    <label>
+                        <span>Mô tả ngắn</span>
+                        <textarea name="shortDescription" rows="3" th:text="${product.shortDescription}"></textarea>
+                    </label>
+                    <label>
+                        <span>Mô tả tổng quan</span>
+                        <textarea name="description" class="rich-editor" rows="8" th:text="${product.description}"></textarea>
+                    </label>
+                    <label>
+                        <span>Mô tả chi tiết</span>
+                        <textarea name="detailDescription" class="rich-editor" rows="8" th:text="${product.detailDescription}"></textarea>
+                    </label>
+                    <label>
+                        <span>Thông số kỹ thuật</span>
+                        <textarea name="specifications" class="rich-editor" rows="6" th:text="${product.specifications}"></textarea>
+                    </label>
+                    <label>
+                        <span>Ý nghĩa phong thủy</span>
+                        <textarea name="fengShuiMeaning" class="rich-editor" rows="6" th:text="${product.fengShuiMeaning}"></textarea>
+                    </label>
+                </div>
+
+                <div class="admin-panel form-panel span-2">
+                    <div class="panel-header">
+                        <div>
+                            <h2>SEO căn bản</h2>
+                        </div>
+                    </div>
+                    <div class="form-grid two">
+                        <label>
+                            <span>Meta title</span>
+                            <input type="text" name="metaTitle" th:value="${product.metaTitle}">
+                        </label>
+                        <label>
+                            <span>Meta description</span>
+                            <input type="text" name="metaDescription" th:value="${product.metaDescription}">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-actions span-2">
+                    <a th:href="@{/admin/products}" class="admin-btn ghost">Hủy</a>
+                    <button type="submit" class="admin-btn primary">Lưu sản phẩm</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</div>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js"></script>
+<script th:src="@{/js/admin.js(v=${#dates.createNow().time})}"></script>
+</body>
+</html>

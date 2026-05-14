@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="flash" class="admin-flash-wrap">
+    <div th:if="${successMessage}" class="admin-flash success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="admin-flash error" th:text="${errorMessage}"></div>
+</div>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <div th:replace="admin/fragments/flash :: flash"></div>
+            <div class="admin-form-grid">
+                <div class="admin-panel form-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2 th:text="${lead.code}">LH-1</h2>
+                            <p th:text="${lead.type == 'ORDER' ? 'Đơn tư vấn từ giỏ hàng' : 'Yêu cầu liên hệ'}">Lead</p>
+                        </div>
+                    </div>
+                    <dl class="detail-list">
+                        <dt>Khách hàng</dt>
+                        <dd th:text="${lead.fullName}">Khách</dd>
+                        <dt>Số điện thoại</dt>
+                        <dd><a th:href="'tel:' + ${lead.phone}" th:text="${lead.phone}">SĐT</a></dd>
+                        <dt>Email</dt>
+                        <dd th:text="${lead.email ?: '-'}">-</dd>
+                        <dt>Nguồn</dt>
+                        <dd th:text="${lead.source}">Form liên hệ</dd>
+                        <dt>Ngày tạo</dt>
+                        <dd th:text="${lead.createdAt != null ? #temporals.format(lead.createdAt, 'dd/MM/yyyy HH:mm') : '-'}">-</dd>
+                    </dl>
+                </div>
+
+                <div class="admin-panel form-panel">
+                    <div class="panel-header"><h2>Trạng thái xử lý</h2></div>
+                    <form th:action="@{'/admin/leads/' + ${lead.type} + '/' + ${lead.id} + '/status'}" method="post" class="admin-form compact">
+                        <label>
+                            <span>Trạng thái</span>
+                            <select name="status">
+                                <option value="NEW" th:selected="${lead.status == 'NEW'}">Chưa xử lý</option>
+                                <option value="CONSULTING" th:selected="${lead.status == 'CONSULTING'}">Đang tư vấn</option>
+                                <option value="CLOSED" th:selected="${lead.status == 'CLOSED'}">Đã chốt</option>
+                            </select>
+                        </label>
+                        <button type="submit" class="admin-btn primary">Cập nhật</button>
+                    </form>
+                </div>
+
+                <div class="admin-panel form-panel span-2">
+                    <div class="panel-header"><h2>Nội dung yêu cầu</h2></div>
+                    <p class="lead-message" th:text="${lead.message ?: 'Không có ghi chú.'}">Nội dung</p>
+                </div>
+
+                <div class="admin-panel form-panel span-2" th:if="${order != null}">
+                    <div class="panel-header"><h2>Sản phẩm quan tâm</h2></div>
+                    <div class="table-wrap">
+                        <table class="admin-table compact-table">
+                            <thead>
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${order.items}">
+                                <td>
+                                    <strong th:text="${item.productName}">Sản phẩm</strong>
+                                    <small th:text="${item.productSlug}">slug</small>
+                                </td>
+                                <td th:text="${item.price != null ? #numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT') + '₫' : '-'}">-</td>
+                                <td th:text="${item.quantity}">1</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <a th:href="@{/admin/leads}" class="admin-btn ghost">Quay lại</a>
+            </div>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

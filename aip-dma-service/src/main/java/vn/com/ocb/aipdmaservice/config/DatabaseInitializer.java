@@ -3,6 +3,7 @@ package vn.com.ocb.aipdmaservice.config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.ocb.aipdmaservice.entity.BlogCategoryEntity;
@@ -38,10 +39,12 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final BlogCategoryRepository blogCategoryRepository;
     private final MaterialRepository materialRepository;
     private final ProductImageRepository productImageRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
+        ensureRichTextColumns();
         if (categoryRepository.count() == 0) {
             log.info("Database is empty. Initializing seed data...");
             seedData();
@@ -52,6 +55,22 @@ public class DatabaseInitializer implements CommandLineRunner {
             ensureMaterialsAndAssignToProducts();
             syncProductDetailsAndImages();
             syncBlogPostsAndCategories();
+        }
+    }
+
+    private void ensureRichTextColumns() {
+        log.info("Ensuring rich text columns can store CKEditor HTML...");
+        try {
+            jdbcTemplate.execute("ALTER TABLE product MODIFY short_description LONGTEXT");
+            jdbcTemplate.execute("ALTER TABLE product MODIFY description LONGTEXT");
+            jdbcTemplate.execute("ALTER TABLE product MODIFY detail_description LONGTEXT");
+            jdbcTemplate.execute("ALTER TABLE product MODIFY specifications LONGTEXT");
+            jdbcTemplate.execute("ALTER TABLE product MODIFY feng_shui_meaning LONGTEXT");
+            jdbcTemplate.execute("ALTER TABLE blog_post MODIFY excerpt LONGTEXT");
+            jdbcTemplate.execute("ALTER TABLE blog_post MODIFY content LONGTEXT");
+            jdbcTemplate.execute("ALTER TABLE contact_inquiry MODIFY message LONGTEXT NOT NULL");
+        } catch (Exception ex) {
+            log.warn("Could not update rich text column definitions automatically: {}", ex.getMessage());
         }
     }
 

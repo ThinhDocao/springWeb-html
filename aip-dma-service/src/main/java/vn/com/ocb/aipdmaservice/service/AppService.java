@@ -14,6 +14,7 @@ import vn.com.ocb.aipdmaservice.model.BlogCategory;
 import vn.com.ocb.aipdmaservice.repository.BlogPostRepository;
 import vn.com.ocb.aipdmaservice.repository.CategoryRepository;
 import vn.com.ocb.aipdmaservice.repository.ProductRepository;
+import vn.com.ocb.aipdmaservice.repository.ContactInquiryRepository;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -28,6 +29,7 @@ public class AppService {
     private final BlogPostRepository blogPostRepository;
     private final BlogCategoryRepository blogCategoryRepository;
     private final vn.com.ocb.aipdmaservice.repository.OrderRepository orderRepository;
+    private final ContactInquiryRepository contactInquiryRepository;
 
     private static final DecimalFormat df = new DecimalFormat("#,###₫");
 
@@ -139,6 +141,25 @@ public class AppService {
     }
 
     @org.springframework.transaction.annotation.Transactional
+    public void createContactInquiry(String fullName, String phone, String email, String subject, String message,
+                                     String sourcePage, String productSlug, String productName) {
+        vn.com.ocb.aipdmaservice.entity.ContactInquiryEntity inquiry =
+                vn.com.ocb.aipdmaservice.entity.ContactInquiryEntity.builder()
+                        .fullName(fullName)
+                        .phone(phone)
+                        .email(email)
+                        .subject(subject)
+                        .message(message)
+                        .sourcePage(sourcePage)
+                        .productSlug(productSlug)
+                        .productName(productName)
+                        .status("NEW")
+                        .isRead(false)
+                        .build();
+        contactInquiryRepository.save(inquiry);
+    }
+
+    @org.springframework.transaction.annotation.Transactional
     public String createOrder(vn.com.ocb.aipdmaservice.model.OrderRequest request) {
         String orderCode = "DD-" + java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd").format(java.time.LocalDateTime.now()) + "-" + String.format("%04d", (orderRepository.count() + 1));
         
@@ -196,6 +217,8 @@ public class AppService {
         dto.setSlug(entity.getSlug());
         dto.setImageUrl(entity.getImageUrl());
         dto.setDescription(entity.getDescription());
+        dto.setMetaTitle(entity.getMetaTitle());
+        dto.setMetaDescription(entity.getMetaDescription());
         if (entity.getParent() != null) {
             dto.setParentId(entity.getParent().getId());
         }
@@ -217,6 +240,8 @@ public class AppService {
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setSlug(entity.getSlug());
+        dto.setMetaTitle(entity.getMetaTitle());
+        dto.setMetaDescription(entity.getMetaDescription());
         
         if (entity.getCategory() != null) {
             dto.setCategory(entity.getCategory().getName());
@@ -283,6 +308,8 @@ public class AppService {
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
         dto.setSlug(entity.getSlug());
+        dto.setMetaTitle(entity.getMetaTitle());
+        dto.setMetaDescription(entity.getMetaDescription());
         if (entity.getCategory() != null) {
             dto.setCategory(entity.getCategory().getName());
         }

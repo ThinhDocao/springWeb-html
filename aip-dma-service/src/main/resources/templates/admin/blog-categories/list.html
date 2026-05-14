@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <div th:replace="admin/fragments/flash :: flash"></div>
+            <div class="panel-header page-actions">
+                <div>
+                    <h2>Chuyên mục bài viết</h2>
+                </div>
+                <a th:href="@{/admin/blog/categories/new}" class="admin-btn primary">Thêm chuyên mục</a>
+            </div>
+            <div class="admin-panel">
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Tên</th>
+                            <th>Slug</th>
+                            <th>Mô tả</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="cat : ${categories}">
+                            <td><strong th:text="${cat.name}">Chuyên mục</strong></td>
+                            <td th:text="${cat.slug}">slug</td>
+                            <td th:text="${cat.description}">Mô tả</td>
+                            <td><span class="status-pill" th:classappend="${cat.active} ? 'ACTIVE' : 'HIDDEN'" th:text="${cat.active} ? 'Hiển thị' : 'Ẩn'">Hiển thị</span></td>
+                            <td class="row-actions">
+                                <a th:href="@{/admin/blog/categories/{id}/edit(id=${cat.id})}" class="text-link">Sửa</a>
+                                <form th:action="@{/admin/blog/categories/{id}/delete(id=${cat.id})}" method="post" data-confirm="Xóa chuyên mục này?">
+                                    <button type="submit" class="link-danger">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(categories)}">
+                            <td colspan="5" class="empty-cell">Chưa có chuyên mục.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

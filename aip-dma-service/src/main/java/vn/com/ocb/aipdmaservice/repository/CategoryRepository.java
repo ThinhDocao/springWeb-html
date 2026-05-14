@@ -10,6 +10,9 @@ import java.util.Optional;
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
     Optional<CategoryEntity> findBySlug(String slug);
+    List<CategoryEntity> findAllByOrderBySortOrderAsc();
+    List<CategoryEntity> findByIsActiveTrueOrderBySortOrderAsc();
+    List<CategoryEntity> findByParentIsNullOrderBySortOrderAsc();
     List<CategoryEntity> findByParentIsNullAndIsActiveTrueOrderBySortOrderAsc();
     List<CategoryEntity> findByParent_IdAndIsActiveTrueOrderBySortOrderAsc(Long parentId);
 }

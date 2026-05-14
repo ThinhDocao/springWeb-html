@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <div th:replace="admin/fragments/flash :: flash"></div>
+            <form class="admin-form-grid" method="post" enctype="multipart/form-data" th:action="@{/admin/settings}">
+                <div class="admin-panel form-panel">
+                    <div class="panel-header"><h2>Nhận diện website</h2></div>
+                    <label>
+                        <span>Tên website</span>
+                        <input type="text" name="siteName" th:value="${settings['siteName']}">
+                    </label>
+                    <label>
+                        <span>Logo URL</span>
+                        <input type="text" name="logoUrl" th:value="${settings['logoUrl']}">
+                    </label>
+                    <label class="upload-box small">
+                        <span>Upload logo</span>
+                        <input type="file" name="logoFile" accept="image/jpeg,image/png,image/webp">
+                    </label>
+                    <label>
+                        <span>Favicon URL</span>
+                        <input type="text" name="faviconUrl" th:value="${settings['faviconUrl']}">
+                    </label>
+                    <label class="upload-box small">
+                        <span>Upload favicon</span>
+                        <input type="file" name="faviconFile" accept="image/jpeg,image/png,image/webp">
+                    </label>
+                </div>
+
+                <div class="admin-panel form-panel">
+                    <div class="panel-header"><h2>Thông tin liên hệ</h2></div>
+                    <label>
+                        <span>Hotline</span>
+                        <input type="text" name="hotline" th:value="${settings['hotline']}">
+                    </label>
+                    <label>
+                        <span>Email</span>
+                        <input type="email" name="email" th:value="${settings['email']}">
+                    </label>
+                    <label>
+                        <span>Địa chỉ</span>
+                        <textarea name="address" rows="3" th:text="${settings['address']}"></textarea>
+                    </label>
+                    <label>
+                        <span>Giờ làm việc</span>
+                        <input type="text" name="workingHours" th:value="${settings['workingHours']}">
+                    </label>
+                </div>
+
+                <div class="admin-panel form-panel">
+                    <div class="panel-header"><h2>Mạng xã hội</h2></div>
+                    <label>
+                        <span>Facebook</span>
+                        <input type="url" name="facebookUrl" th:value="${settings['facebookUrl']}">
+                    </label>
+                    <label>
+                        <span>Zalo</span>
+                        <input type="url" name="zaloUrl" th:value="${settings['zaloUrl']}">
+                    </label>
+                    <label>
+                        <span>YouTube</span>
+                        <input type="url" name="youtubeUrl" th:value="${settings['youtubeUrl']}">
+                    </label>
+                    <label>
+                        <span>Mô tả footer</span>
+                        <textarea name="footerDescription" rows="4" th:text="${settings['footerDescription']}"></textarea>
+                    </label>
+                </div>
+
+                <div class="admin-panel form-panel">
+                    <div class="panel-header"><h2>Mã nhúng</h2></div>
+                    <label>
+                        <span>Google Analytics</span>
+                        <textarea name="googleAnalyticsScript" rows="4" th:text="${settings['googleAnalyticsScript']}"></textarea>
+                    </label>
+                    <label>
+                        <span>Facebook Pixel</span>
+                        <textarea name="facebookPixelScript" rows="4" th:text="${settings['facebookPixelScript']}"></textarea>
+                    </label>
+                    <label>
+                        <span>Tawk.to / Zalo widget</span>
+                        <textarea name="chatWidgetScript" rows="4" th:text="${settings['chatWidgetScript']}"></textarea>
+                    </label>
+                </div>
+
+                <div class="form-actions span-2">
+                    <button type="submit" class="admin-btn primary">Lưu cài đặt</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

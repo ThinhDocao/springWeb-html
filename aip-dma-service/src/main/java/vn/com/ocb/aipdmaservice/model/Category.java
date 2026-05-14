@@ -15,6 +15,8 @@ public class Category {
     private int level;
     private String name;
     private String slug;
+    private String metaTitle;
+    private String metaDescription;
     private String imageUrl;
     private String description;
     private int productCount;

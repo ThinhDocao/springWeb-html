@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <div th:replace="admin/fragments/flash :: flash"></div>
+            <div class="stats-grid">
+                <a th:href="@{/admin/leads}" class="stat-card urgent">
+                    <span>Lead mới</span>
+                    <strong th:text="${newLeadCount}">0</strong>
+                </a>
+                <a th:href="@{/admin/products}" class="stat-card">
+                    <span>Sản phẩm</span>
+                    <strong th:text="${productCount}">0</strong>
+                </a>
+                <a th:href="@{/admin/blog}" class="stat-card">
+                    <span>Bài viết</span>
+                    <strong th:text="${blogPostCount}">0</strong>
+                </a>
+                <a th:href="@{/admin/categories}" class="stat-card">
+                    <span>Danh mục</span>
+                    <strong th:text="${categoryCount}">0</strong>
+                </a>
+            </div>
+
+            <div class="admin-panel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Hoạt động gần đây</h2>
+                        <p>Yêu cầu tư vấn và đơn xác nhận mới nhất.</p>
+                    </div>
+                    <a th:href="@{/admin/leads}" class="admin-btn ghost">Xem tất cả</a>
+                </div>
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Khách hàng</th>
+                            <th>Nguồn</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày tạo</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="lead : ${recentLeads}">
+                            <td th:text="${lead.code}">LH-1</td>
+                            <td>
+                                <strong th:text="${lead.fullName}">Khách</strong>
+                                <small th:text="${lead.phone}">SĐT</small>
+                            </td>
+                            <td th:text="${lead.source}">Form liên hệ</td>
+                            <td><span class="status-pill" th:classappend="${lead.status}" th:text="${lead.status}">NEW</span></td>
+                            <td th:text="${lead.createdAt != null ? #temporals.format(lead.createdAt, 'dd/MM/yyyy HH:mm') : '-'}">-</td>
+                            <td><a th:href="@{'/admin/leads/' + ${lead.type} + '/' + ${lead.id}}" class="text-link">Chi tiết</a></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(recentLeads)}">
+                            <td colspan="6" class="empty-cell">Chưa có yêu cầu nào.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <div th:replace="admin/fragments/flash :: flash"></div>
+            <div class="panel-header page-actions">
+                <div>
+                    <h2>Quản lý bài viết</h2>
+                    <p>Tạo nội dung SEO, tin tức và kiến thức phong thủy.</p>
+                </div>
+                <a th:href="@{/admin/blog/new}" class="admin-btn primary">Thêm bài viết</a>
+            </div>
+            <div class="admin-panel">
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>Bài viết</th>
+                            <th>Chuyên mục</th>
+                            <th>Ngày đăng</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="post : ${posts}">
+                            <td>
+                                <img class="thumb" th:if="${post.imageUrl}" th:src="@{${post.imageUrl}}" th:alt="${post.title}">
+                                <span th:unless="${post.imageUrl}" class="thumb empty"></span>
+                            </td>
+                            <td>
+                                <strong th:text="${post.title}">Bài viết</strong>
+                                <small th:text="${post.slug}">slug</small>
+                            </td>
+                            <td th:text="${post.category != null ? post.category.name : '-'}">Chuyên mục</td>
+                            <td th:text="${post.publishDate != null ? #temporals.format(post.publishDate, 'dd/MM/yyyy') : '-'}">-</td>
+                            <td><span class="status-pill" th:classappend="${post.published} ? 'ACTIVE' : 'HIDDEN'" th:text="${post.published} ? 'Đã xuất bản' : 'Nháp'">Đã xuất bản</span></td>
+                            <td class="row-actions">
+                                <a th:href="@{/tin-tuc/{slug}(slug=${post.slug})}" target="_blank" class="text-link">Xem</a>
+                                <a th:href="@{/admin/blog/{id}/edit(id=${post.id})}" class="text-link">Sửa</a>
+                                <form th:action="@{/admin/blog/{id}/delete(id=${post.id})}" method="post" data-confirm="Xóa bài viết này?">
+                                    <button type="submit" class="link-danger">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(posts)}">
+                            <td colspan="6" class="empty-cell">Chưa có bài viết.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

@@ -28,6 +28,12 @@ public class ProductEntity {
     @Column(unique = true, length = 255)
     private String slug;
 
+    @Column(name = "meta_title", length = 255)
+    private String metaTitle;
+
+    @Column(name = "meta_description", length = 500)
+    private String metaDescription;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @ToString.Exclude
@@ -46,13 +52,13 @@ public class ProductEntity {
     @Column(name = "original_price", precision = 15, scale = 0)
     private BigDecimal originalPrice;
 
-    @Column(name = "short_description", columnDefinition = "TEXT")
+    @Column(name = "short_description", columnDefinition = "LONGTEXT")
     private String shortDescription;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
 
-    @Column(name = "detail_description", columnDefinition = "TEXT")
+    @Column(name = "detail_description", columnDefinition = "LONGTEXT")
     private String detailDescription;
 
     @Column(length = 100)
@@ -61,10 +67,10 @@ public class ProductEntity {
     @Column(length = 50)
     private String weight;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String specifications;
 
-    @Column(name = "feng_shui_meaning", columnDefinition = "TEXT")
+    @Column(name = "feng_shui_meaning", columnDefinition = "LONGTEXT")
     private String fengShuiMeaning;
 
     @Column(name = "is_best_seller", nullable = false)
@@ -92,6 +98,7 @@ public class ProductEntity {
     private int viewCount = 0;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("sortOrder ASC")
     @Builder.Default
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <div th:replace="admin/fragments/flash :: flash"></div>
+            <div class="panel-header page-actions">
+                <form th:action="@{/admin/products}" method="get" class="admin-search">
+                    <input type="search" name="q" th:value="${q}" placeholder="Tìm sản phẩm...">
+                    <button type="submit" class="admin-btn ghost">Tìm</button>
+                </form>
+                <a th:href="@{/admin/products/new}" class="admin-btn primary">Thêm sản phẩm</a>
+            </div>
+            <div class="admin-panel">
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>Sản phẩm</th>
+                            <th>Danh mục</th>
+                            <th>Giá</th>
+                            <th>Trạng thái</th>
+                            <th>Nhãn</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="product : ${products}">
+                            <td>
+                                <img class="thumb" th:if="${product.images != null and !#lists.isEmpty(product.images)}"
+                                     th:src="@{${product.images[0].imageUrl}}" th:alt="${product.name}">
+                                <span th:if="${product.images == null or #lists.isEmpty(product.images)}" class="thumb empty"></span>
+                            </td>
+                            <td>
+                                <strong th:text="${product.name}">Tên sản phẩm</strong>
+                                <small th:text="${product.slug}">slug</small>
+                            </td>
+                            <td th:text="${product.category != null ? product.category.name : '-'}">Danh mục</td>
+                            <td th:text="${product.price != null and product.price.compareTo(T(java.math.BigDecimal).ZERO) > 0 ? #numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + '₫' : 'Liên hệ'}">Liên hệ</td>
+                            <td><span class="status-pill" th:classappend="${product.active} ? 'ACTIVE' : 'HIDDEN'" th:text="${product.active} ? 'Hiển thị' : 'Ẩn'">Hiển thị</span></td>
+                            <td class="tag-stack">
+                                <span th:if="${product.bestSeller}" class="mini-tag">Bán chạy</span>
+                                <span th:if="${product.new}" class="mini-tag">Mới</span>
+                                <span th:if="${product.premium}" class="mini-tag">Premium</span>
+                            </td>
+                            <td class="row-actions">
+                                <a th:href="@{/san-pham/{slug}(slug=${product.slug})}" target="_blank" class="text-link">Xem</a>
+                                <a th:href="@{/admin/products/{id}/edit(id=${product.id})}" class="text-link">Sửa</a>
+                                <form th:action="@{/admin/products/{id}/delete(id=${product.id})}" method="post" data-confirm="Xóa sản phẩm này?">
+                                    <button type="submit" class="link-danger">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(products)}">
+                            <td colspan="7" class="empty-cell">Chưa có sản phẩm phù hợp.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

@@ -26,16 +26,22 @@ public class BlogPostEntity {
     @Column(unique = true, nullable = false, length = 255)
     private String slug;
 
+    @Column(name = "meta_title", length = 255)
+    private String metaTitle;
+
+    @Column(name = "meta_description", length = 500)
+    private String metaDescription;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "blog_category_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private BlogCategoryEntity category;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String excerpt;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     @Column(name = "image_url", length = 500)

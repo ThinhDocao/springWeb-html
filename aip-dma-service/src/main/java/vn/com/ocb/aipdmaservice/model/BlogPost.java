@@ -13,6 +13,8 @@ public class BlogPost {
     private Long id;
     private String title;
     private String slug;
+    private String metaTitle;
+    private String metaDescription;
     private String excerpt;
     private String content;
     private String category;

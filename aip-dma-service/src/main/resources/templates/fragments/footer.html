@@ -4,14 +4,14 @@
     <div class="container">
         <div class="footer-grid">
             <div class="footer-col">
-                <h4>Đồ Đồng Mỹ Nghệ</h4>
-                <p>Chuyên cung cấp đồ đồng mỹ nghệ cao cấp, chế tác thủ công bởi nghệ nhân lành nghề với hơn 30 năm kinh nghiệm.</p>
-                <p>📍 123 Đường Nguyễn Trãi, Quận 1, TP. Hồ Chí Minh</p>
-                <p>📞 0987.654.321 | 📧 info@dodongmynghe.vn</p>
+                <h4 th:text="${siteSettings['siteName'] != null and !siteSettings['siteName'].isEmpty() ? siteSettings['siteName'] : 'Đồ Đồng Mỹ Nghệ'}">Đồ Đồng Mỹ Nghệ</h4>
+                <p th:text="${siteSettings['footerDescription'] != null and !siteSettings['footerDescription'].isEmpty() ? siteSettings['footerDescription'] : 'Chuyên cung cấp đồ đồng mỹ nghệ cao cấp, chế tác thủ công bởi nghệ nhân lành nghề với hơn 30 năm kinh nghiệm.'}">Chuyên cung cấp đồ đồng mỹ nghệ cao cấp, chế tác thủ công bởi nghệ nhân lành nghề với hơn 30 năm kinh nghiệm.</p>
+                <p>📍 <span th:text="${siteSettings['address'] != null and !siteSettings['address'].isEmpty() ? siteSettings['address'] : '123 Đường Nguyễn Trãi, Quận 1, TP. Hồ Chí Minh'}">123 Đường Nguyễn Trãi, Quận 1, TP. Hồ Chí Minh</span></p>
+                <p>📞 <span th:text="${siteSettings['hotline'] != null and !siteSettings['hotline'].isEmpty() ? siteSettings['hotline'] : '0987.654.321'}">0987.654.321</span> | 📧 <span th:text="${siteSettings['email'] != null and !siteSettings['email'].isEmpty() ? siteSettings['email'] : 'info@dodongmynghe.vn'}">info@dodongmynghe.vn</span></p>
                 <div class="footer-social">
-                    <a href="#" title="Facebook">f</a>
-                    <a href="#" title="Youtube">▶</a>
-                    <a href="#" title="Zalo">Z</a>
+                    <a th:href="${siteSettings['facebookUrl'] != null and !siteSettings['facebookUrl'].isEmpty() ? siteSettings['facebookUrl'] : '#'}" title="Facebook">f</a>
+                    <a th:href="${siteSettings['youtubeUrl'] != null and !siteSettings['youtubeUrl'].isEmpty() ? siteSettings['youtubeUrl'] : '#'}" title="Youtube">▶</a>
+                    <a th:href="${siteSettings['zaloUrl'] != null and !siteSettings['zaloUrl'].isEmpty() ? siteSettings['zaloUrl'] : '#'}" title="Zalo">Z</a>
                     <a href="#" title="Instagram">📷</a>
                 </div>
             </div>
@@ -146,10 +146,12 @@
     </div>
 
     <div class="floating-group">
-        <a href="https://zalo.me/0987654321" class="zalo-float" title="Chat Zalo">Z</a>
-        <a href="tel:0987654321" class="hotline-float" title="Gọi Hotline">📞</a>
+        <a th:href="${siteSettings['zaloUrl'] != null and !siteSettings['zaloUrl'].isEmpty() ? siteSettings['zaloUrl'] : 'https://zalo.me/0987654321'}" class="zalo-float" title="Chat Zalo">Z</a>
+        <a th:href="${'tel:' + (siteSettings['hotline'] != null and !siteSettings['hotline'].isEmpty() ? siteSettings['hotline'] : '0987654321')}" class="hotline-float" title="Gọi Hotline">📞</a>
         <button class="back-to-top" title="Lên đầu trang">↑</button>
     </div>
     <script th:src="@{/js/cart.js}"></script>
+    <th:block th:if="${siteSettings != null}" th:utext="${siteSettings['facebookPixelScript']}"></th:block>
+    <th:block th:if="${siteSettings != null}" th:utext="${siteSettings['chatWidgetScript']}"></th:block>
 </footer>
 </html>

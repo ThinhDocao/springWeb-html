@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <form class="admin-form-grid" method="post" enctype="multipart/form-data"
+                  data-upload-type="blog"
+                  th:attr="data-current-slug=${post.slug}"
+                  th:action="${post.id == null} ? @{/admin/blog} : @{/admin/blog/{id}(id=${post.id})}">
+                <div class="admin-panel form-panel span-2">
+                    <div class="panel-header">
+                        <div>
+                            <h2>Nội dung bài viết</h2>
+                        </div>
+                    </div>
+                    <div class="form-grid two">
+                        <label>
+                            <span>Tiêu đề *</span>
+                            <input type="text" name="title" th:value="${post.title}" required>
+                        </label>
+                        <label>
+                            <span>Slug</span>
+                            <input type="text" name="slug" th:value="${post.slug}" placeholder="Tự tạo nếu để trống">
+                        </label>
+                        <label>
+                            <span>Chuyên mục</span>
+                            <select name="categoryId">
+                                <option value="">Chọn chuyên mục</option>
+                                <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"
+                                        th:selected="${post.category != null and post.category.id == cat.id}"></option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Ngày đăng</span>
+                            <input type="date" name="publishDate" th:value="${post.publishDate}">
+                        </label>
+                        <label>
+                            <span>Tác giả</span>
+                            <input type="text" name="author" th:value="${post.author}">
+                        </label>
+                    </div>
+                    <label>
+                        <span>Đoạn trích</span>
+                        <textarea name="excerpt" rows="3" th:text="${post.excerpt}"></textarea>
+                    </label>
+                    <label>
+                        <span>Nội dung</span>
+                        <textarea name="content" class="rich-editor" rows="14" th:text="${post.content}"></textarea>
+                    </label>
+                    <div class="toggle-grid">
+                        <label><input type="checkbox" name="isPublished" value="true" th:checked="${post.published}"> Xuất bản</label>
+                    </div>
+                </div>
+
+                <div class="admin-panel form-panel">
+                    <div class="panel-header"><h2>Thumbnail</h2></div>
+                    <img class="preview-image" th:if="${post.imageUrl}" th:src="@{${post.imageUrl}}" th:alt="${post.title}">
+                    <label>
+                        <span>URL ảnh</span>
+                        <input type="text" name="imageUrl" th:value="${post.imageUrl}">
+                    </label>
+                    <label class="upload-box small">
+                        <span>Upload ảnh mới</span>
+                        <input type="file" name="imageFile" accept="image/jpeg,image/png,image/webp">
+                    </label>
+                </div>
+
+                <div class="admin-panel form-panel">
+                    <div class="panel-header"><h2>SEO</h2></div>
+                    <label>
+                        <span>Meta title</span>
+                        <input type="text" name="metaTitle" th:value="${post.metaTitle}">
+                    </label>
+                    <label>
+                        <span>Meta description</span>
+                        <textarea name="metaDescription" rows="4" th:text="${post.metaDescription}"></textarea>
+                    </label>
+                </div>
+
+                <div class="form-actions span-2">
+                    <a th:href="@{/admin/blog}" class="admin-btn ghost">Hủy</a>
+                    <button type="submit" class="admin-btn primary">Lưu bài viết</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</div>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js"></script>
+<script th:src="@{/js/admin.js(v=${#dates.createNow().time})}"></script>
+</body>
+</html>

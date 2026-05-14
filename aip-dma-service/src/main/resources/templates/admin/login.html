@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head('Đăng nhập admin')"></head>
+<body class="admin-login-body">
+<main class="admin-login-card">
+    <div class="login-brand">
+        <span class="brand-mark">Đ</span>
+        <div>
+            <h1>Admin Panel</h1>
+            <p>Quản trị Đồ Đồng Mỹ Nghệ</p>
+        </div>
+    </div>
+    <div th:if="${param.error}" class="admin-flash error">Sai tài khoản hoặc mật khẩu.</div>
+    <div th:if="${param.logout}" class="admin-flash success">Bạn đã đăng xuất.</div>
+    <form th:action="@{/admin/login}" method="post" class="admin-form compact">
+        <label>
+            <span>Tài khoản</span>
+            <input type="text" name="username" autocomplete="username" required autofocus>
+        </label>
+        <label>
+            <span>Mật khẩu</span>
+            <input type="password" name="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit" class="admin-btn primary full">Đăng nhập</button>
+    </form>
+</main>
+</body>
+</html>

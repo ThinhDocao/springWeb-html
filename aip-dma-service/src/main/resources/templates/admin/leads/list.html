@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <div th:replace="admin/fragments/flash :: flash"></div>
+            <div class="admin-panel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Danh sách yêu cầu</h2>
+                        <p>Gộp form liên hệ và đơn xác nhận từ giỏ hàng.</p>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Khách hàng</th>
+                            <th>Nguồn</th>
+                            <th>Loại</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày tạo</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="lead : ${leads}">
+                            <td th:text="${lead.code}">LH-1</td>
+                            <td>
+                                <strong th:text="${lead.fullName}">Khách</strong>
+                                <small>
+                                    <span th:text="${lead.phone}">SĐT</span>
+                                    <span th:if="${lead.email}" th:text="' · ' + ${lead.email}">email</span>
+                                </small>
+                            </td>
+                            <td th:text="${lead.source}">Form liên hệ</td>
+                            <td th:text="${lead.type == 'ORDER' ? 'Đơn tư vấn' : 'Liên hệ'}">Liên hệ</td>
+                            <td><span class="status-pill" th:classappend="${lead.status}" th:text="${lead.status}">NEW</span></td>
+                            <td th:text="${lead.createdAt != null ? #temporals.format(lead.createdAt, 'dd/MM/yyyy HH:mm') : '-'}">-</td>
+                            <td><a th:href="@{'/admin/leads/' + ${lead.type} + '/' + ${lead.id}}" class="text-link">Chi tiết</a></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(leads)}">
+                            <td colspan="7" class="empty-cell">Chưa có yêu cầu nào.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

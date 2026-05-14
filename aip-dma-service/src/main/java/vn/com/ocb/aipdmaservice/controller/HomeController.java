@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import vn.com.ocb.aipdmaservice.model.BlogPost;
 import vn.com.ocb.aipdmaservice.model.Product;
 import vn.com.ocb.aipdmaservice.service.AppService;
@@ -43,8 +45,8 @@ public class HomeController {
 
     @GetMapping("/san-pham")
     public String allProducts(
-            @org.springframework.web.bind.annotation.RequestParam(required = false) String price,
-            @org.springframework.web.bind.annotation.RequestParam(required = false) String material,
+            @RequestParam(required = false) String price,
+            @RequestParam(required = false) String material,
             Model model) {
         model.addAttribute("products", appService.getFilteredProducts("san-pham", price, material));
         model.addAttribute("categories", appService.getCategories());
@@ -69,15 +71,17 @@ public class HomeController {
 
         model.addAttribute("product", product);
         model.addAttribute("relatedProducts", relatedProducts);
-        model.addAttribute("pageTitle", product.getName() + " - Đồ Đồng Mỹ Nghệ");
-        model.addAttribute("pageDescription", product.getShortDescription());
+        model.addAttribute("pageTitle", product.getMetaTitle() != null && !product.getMetaTitle().trim().isEmpty()
+                ? product.getMetaTitle() : product.getName() + " - Đồ Đồng Mỹ Nghệ");
+        model.addAttribute("pageDescription", product.getMetaDescription() != null && !product.getMetaDescription().trim().isEmpty()
+                ? product.getMetaDescription() : product.getShortDescription());
         return "product-detail";
     }
 
     @GetMapping("/{slug}")
     public String categoryBySlug(@PathVariable String slug,
-            @org.springframework.web.bind.annotation.RequestParam(required = false) String price,
-            @org.springframework.web.bind.annotation.RequestParam(required = false) String material,
+            @RequestParam(required = false) String price,
+            @RequestParam(required = false) String material,
             Model model) {
         vn.com.ocb.aipdmaservice.entity.CategoryEntity category = appService.getCategoryEntityBySlug(slug);
         if (category != null) {
@@ -87,16 +91,17 @@ public class HomeController {
             model.addAttribute("currentSlug", slug);
             model.addAttribute("currentPrice", price);
             model.addAttribute("currentMaterial", material);
-            model.addAttribute("pageTitle", category.getName() + " - Đồ Đồng Mỹ Nghệ");
-            model.addAttribute("pageDescription",
-                    category.getDescription() != null ? category.getDescription() : category.getName());
+            model.addAttribute("pageTitle", category.getMetaTitle() != null && !category.getMetaTitle().trim().isEmpty()
+                    ? category.getMetaTitle() : category.getName() + " - Đồ Đồng Mỹ Nghệ");
+            model.addAttribute("pageDescription", category.getMetaDescription() != null && !category.getMetaDescription().trim().isEmpty()
+                    ? category.getMetaDescription() : (category.getDescription() != null ? category.getDescription() : category.getName()));
             return "category";
         }
         return "error";
     }
 
     @GetMapping("/tin-tuc")
-    public String blog(@org.springframework.web.bind.annotation.RequestParam(required = false) String category, Model model) {
+    public String blog(@RequestParam(required = false) String category, Model model) {
         if (category != null && !category.isEmpty()) {
             model.addAttribute("blogPosts", appService.getBlogPostsByCategorySlug(category));
             model.addAttribute("currentCategory", category);
@@ -119,13 +124,31 @@ public class HomeController {
         }
         model.addAttribute("post", post);
         model.addAttribute("recentPosts", appService.getAllBlogPosts());
-        model.addAttribute("pageTitle", post.getTitle() + " - Đồ Đồng Mỹ Nghệ");
-        model.addAttribute("pageDescription", post.getExcerpt());
+        model.addAttribute("pageTitle", post.getMetaTitle() != null && !post.getMetaTitle().trim().isEmpty()
+                ? post.getMetaTitle() : post.getTitle() + " - Đồ Đồng Mỹ Nghệ");
+        model.addAttribute("pageDescription", post.getMetaDescription() != null && !post.getMetaDescription().trim().isEmpty()
+                ? post.getMetaDescription() : post.getExcerpt());
         return "blog-detail";
     }
 
     @GetMapping("/lien-he")
     public String contact(Model model) {
+        model.addAttribute("pageTitle", "Liên Hệ - Đồ Đồng Mỹ Nghệ");
+        model.addAttribute("pageDescription",
+                "Liên hệ với chúng tôi để được tư vấn miễn phí về đồ đồng mỹ nghệ. Hotline: 0987.654.321");
+        return "contact";
+    }
+
+    @PostMapping("/lien-he")
+    public String submitContact(@RequestParam String fullName,
+                                @RequestParam String phone,
+                                @RequestParam(required = false) String email,
+                                @RequestParam(required = false) String subject,
+                                @RequestParam String message,
+                                Model model) {
+        appService.createContactInquiry(fullName, phone, email, subject, message,
+                "Trang liên hệ", null, null);
+        model.addAttribute("sent", true);
         model.addAttribute("pageTitle", "Liên Hệ - Đồ Đồng Mỹ Nghệ");
         model.addAttribute("pageDescription",
                 "Liên hệ với chúng tôi để được tư vấn miễn phí về đồ đồng mỹ nghệ. Hotline: 0987.654.321");

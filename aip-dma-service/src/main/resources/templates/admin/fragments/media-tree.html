@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="mediaNode(item)" class="media-node" th:if="${item != null}">
+    <details th:if="${item.directory}" open>
+        <summary class="media-folder-row">
+            <span class="media-folder-icon">Folder</span>
+            <strong th:text="${item.name}">uploads</strong>
+            <small th:text="${item.path}">uploads</small>
+        </summary>
+        <div class="media-children" th:if="${item.children != null and !#lists.isEmpty(item.children)}">
+            <th:block th:each="child : ${item.children}">
+                <th:block th:replace="admin/fragments/media-tree :: mediaNode(item=${child})"></th:block>
+            </th:block>
+        </div>
+        <div class="media-empty" th:if="${item.children == null or #lists.isEmpty(item.children)}">Thư mục rỗng.</div>
+    </details>
+
+    <a th:if="${item.image}" class="media-image-card" th:href="@{${item.url}}" target="_blank" rel="noopener">
+        <img th:src="@{${item.url}}" th:alt="${item.name}">
+        <span>
+            <strong th:text="${item.name}">image.png</strong>
+            <small th:text="${item.path}">uploads/image.png</small>
+            <small th:text="${item.size} + ' B'">0 B</small>
+        </span>
+    </a>
+</div>
+</body>
+</html>

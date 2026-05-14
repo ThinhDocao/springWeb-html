@@ -39,6 +39,12 @@ public class CategoryEntity {
     @Column(unique = true, nullable = false, length = 100)
     private String slug;
 
+    @Column(name = "meta_title", length = 255)
+    private String metaTitle;
+
+    @Column(name = "meta_description", length = 500)
+    private String metaDescription;
+
     @Column(name = "image_url", length = 500)
     private String imageUrl;
 

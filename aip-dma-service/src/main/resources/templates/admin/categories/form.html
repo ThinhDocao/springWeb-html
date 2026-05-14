@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: head(${pageTitle})"></head>
+<body class="admin-body">
+<div class="admin-shell">
+    <div th:replace="admin/fragments/sidebar :: sidebar(${activePage})"></div>
+    <main class="admin-main">
+        <div th:replace="admin/fragments/topbar :: topbar(${pageTitle})"></div>
+        <section class="admin-content">
+            <form class="admin-form-grid narrow" method="post" enctype="multipart/form-data"
+                  th:action="${category.id == null} ? @{/admin/categories} : @{/admin/categories/{id}(id=${category.id})}">
+                <div class="admin-panel form-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2>Thông tin danh mục</h2>
+                        </div>
+                    </div>
+                    <div class="form-grid two">
+                        <label>
+                            <span>Tên danh mục *</span>
+                            <input type="text" name="name" th:value="${category.name}" required>
+                        </label>
+                        <label>
+                            <span>Slug</span>
+                            <input type="text" name="slug" th:value="${category.slug}" placeholder="Tự tạo nếu để trống">
+                        </label>
+                        <label>
+                            <span>Danh mục cha</span>
+                            <select name="parentId">
+                                <option value="">Không có</option>
+                                <option th:each="parent : ${parentCategories}" th:value="${parent.id}" th:text="${parent.name}"
+                                        th:selected="${category.parent != null and category.parent.id == parent.id}"
+                                        th:if="${category.id == null or parent.id != category.id}"></option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Thứ tự</span>
+                            <input type="number" name="sortOrder" th:value="${category.sortOrder}">
+                        </label>
+                    </div>
+                    <label>
+                        <span>Mô tả</span>
+                        <textarea name="description" rows="4" th:text="${category.description}"></textarea>
+                    </label>
+                    <div class="form-grid two">
+                        <label>
+                            <span>Ảnh hiện tại / URL ảnh</span>
+                            <input type="text" name="imageUrl" th:value="${category.imageUrl}">
+                        </label>
+                        <label class="upload-box small">
+                            <span>Upload ảnh mới</span>
+                            <input type="file" name="imageFile" accept="image/jpeg,image/png,image/webp">
+                        </label>
+                    </div>
+                    <div class="form-grid two">
+                        <label>
+                            <span>Meta title</span>
+                            <input type="text" name="metaTitle" th:value="${category.metaTitle}">
+                        </label>
+                        <label>
+                            <span>Meta description</span>
+                            <input type="text" name="metaDescription" th:value="${category.metaDescription}">
+                        </label>
+                    </div>
+                    <div class="toggle-grid">
+                        <label><input type="checkbox" name="isActive" value="true" th:checked="${category.active}"> Hiển thị</label>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <a th:href="@{/admin/categories}" class="admin-btn ghost">Hủy</a>
+                    <button type="submit" class="admin-btn primary">Lưu danh mục</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

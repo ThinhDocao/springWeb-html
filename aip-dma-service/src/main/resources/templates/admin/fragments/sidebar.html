@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<aside th:fragment="sidebar(activePage)" class="admin-sidebar" id="adminSidebar">
+    <a th:href="@{/admin}" class="admin-brand">
+        <span class="brand-mark">Đ</span>
+        <span>
+            <strong>Đồ Đồng</strong>
+            <small>Admin Panel</small>
+        </span>
+    </a>
+    <nav class="admin-nav">
+        <a th:href="@{/admin}" th:classappend="${activePage == 'dashboard'} ? 'active'">
+            <span>📊</span> Tổng quan
+        </a>
+        <a th:href="@{/admin/products}" th:classappend="${activePage == 'products'} ? 'active'">
+            <span>📦</span> Sản phẩm
+        </a>
+        <a th:href="@{/admin/categories}" th:classappend="${activePage == 'categories'} ? 'active'">
+            <span>🗂</span> Danh mục
+        </a>
+        <a th:href="@{/admin/materials}" th:classappend="${activePage == 'materials'} ? 'active'">
+            <span>⚒</span> Chất liệu
+        </a>
+        <a th:href="@{/admin/blog}" th:classappend="${activePage == 'blog'} ? 'active'">
+            <span>📝</span> Bài viết
+        </a>
+        <a th:href="@{/admin/blog/categories}" th:classappend="${activePage == 'blogCategories'} ? 'active'">
+            <span>🏷</span> Chuyên mục blog
+        </a>
+        <a th:href="@{/admin/media}" th:classappend="${activePage == 'media'} ? 'active'">
+            <span>IMG</span> Thư viện ảnh
+        </a>
+        <a th:href="@{/admin/leads}" th:classappend="${activePage == 'leads'} ? 'active'">
+            <span>📞</span> Liên hệ & tư vấn
+        </a>
+        <a th:href="@{/admin/settings}" th:classappend="${activePage == 'settings'} ? 'active'">
+            <span>⚙</span> Cài đặt
+        </a>
+    </nav>
+    <form th:action="@{/admin/logout}" method="post" class="admin-logout">
+        <button type="submit">Đăng xuất</button>
+    </form>
+</aside>
+</html>
