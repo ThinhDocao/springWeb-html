@@ -714,7 +714,8 @@
 }
 
 /* BLOG DETAIL */
-.blog-detail-layout {
+.blog-detail-layout,
+.product-detail-layout {
   display: grid;
   grid-template-columns: 1fr 300px;
   gap: 48px;
@@ -1021,7 +1022,8 @@
     position: static;
   }
 
-  .blog-detail-layout {
+  .blog-detail-layout,
+  .product-detail-layout {
     grid-template-columns: 1fr;
   }
 

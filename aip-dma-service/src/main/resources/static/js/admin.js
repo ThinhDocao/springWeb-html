@@ -65,18 +65,69 @@
             '|',
             'bold',
             'italic',
+            'underline',
+            'strikethrough',
+            'removeFormat',
+            '|',
+            'fontFamily',
+            'fontSize',
+            'fontColor',
+            'fontBackgroundColor',
+            '|',
+            'alignment',
+            'outdent',
+            'indent',
+            '|',
             'link',
             'bulletedList',
             'numberedList',
+            'todoList',
             '|',
             'uploadImage',
             'resizeImage',
             'insertTable',
+            'horizontalLine',
             'blockQuote',
             'mediaEmbed',
+            'specialCharacters',
             '|',
             'undo',
             'redo'
+          ],
+          shouldNotGroupWhenFull: false
+        },
+        fontFamily: {
+          supportAllValues: true
+        },
+        fontSize: {
+          options: [
+            12,
+            14,
+            'default',
+            18,
+            20,
+            24,
+            28,
+            32,
+            36
+          ],
+          supportAllValues: true
+        },
+        alignment: {
+          options: [
+            'left',
+            'center',
+            'right',
+            'justify'
+          ]
+        },
+        table: {
+          contentToolbar: [
+            'tableColumn',
+            'tableRow',
+            'mergeTableCells',
+            'tableProperties',
+            'tableCellProperties'
           ]
         },
         image: {
@@ -145,6 +196,12 @@
           editor.updateSourceElement();
         }
       });
+    });
+  });
+
+  document.querySelectorAll('input[type="file"][data-preview-target]').forEach(function (input) {
+    input.addEventListener('change', function () {
+      renderImagePreviews(input);
     });
   });
 
@@ -221,6 +278,47 @@
       if (input) {
         input.value = index;
       }
+    });
+  }
+
+  function renderImagePreviews(input) {
+    const targetId = input.getAttribute('data-preview-target');
+    const target = targetId ? document.getElementById(targetId) : null;
+    if (!target) {
+      return;
+    }
+
+    target.querySelectorAll('img[data-preview-url]').forEach(function (img) {
+      URL.revokeObjectURL(img.getAttribute('data-preview-url'));
+    });
+    target.innerHTML = '';
+
+    const files = Array.prototype.slice.call(input.files || []);
+    const imageFiles = files.filter(function (file) {
+      return file.type && file.type.indexOf('image/') === 0;
+    });
+    if (!imageFiles.length) {
+      target.hidden = true;
+      return;
+    }
+
+    target.hidden = false;
+    imageFiles.forEach(function (file) {
+      const previewUrl = URL.createObjectURL(file);
+      const item = document.createElement('div');
+      item.className = 'upload-preview-item';
+
+      const img = document.createElement('img');
+      img.src = previewUrl;
+      img.alt = file.name;
+      img.setAttribute('data-preview-url', previewUrl);
+
+      const caption = document.createElement('span');
+      caption.textContent = file.name;
+
+      item.appendChild(img);
+      item.appendChild(caption);
+      target.appendChild(item);
     });
   }
 

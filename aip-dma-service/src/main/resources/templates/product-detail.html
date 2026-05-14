@@ -66,46 +66,50 @@
         </div>
     </div>
 
-    <!-- TABS -->
-    <div class="detail-tabs">
-        <div class="detail-tab-nav">
-            <button class="detail-tab-btn active" data-tab="desc-tab">Mô tả chi tiết</button>
-            <button class="detail-tab-btn" data-tab="specs-tab">Thông số</button>
-            <button class="detail-tab-btn" data-tab="feng-tab">Ý nghĩa phong thủy</button>
-        </div>
-        <div id="desc-tab" class="detail-tab-content active">
-            <h3>Mô Tả Chi Tiết</h3>
-            <div th:utext="${product.detailDescription}">Chi tiết sản phẩm</div>
-            <div th:utext="${product.description}">Mô tả</div>
-        </div>
-        <div id="specs-tab" class="detail-tab-content">
-            <h3>Thông Số Kỹ Thuật</h3>
-            <div th:utext="${product.specifications}">Thông số</div>
-        </div>
-        <div id="feng-tab" class="detail-tab-content">
-            <h3>Ý Nghĩa Phong Thủy</h3>
-            <div th:utext="${product.fengShuiMeaning}">Phong thủy</div>
-        </div>
-    </div>
-
-    <!-- RELATED -->
-    <div class="related-section section" th:if="${!#lists.isEmpty(relatedProducts)}">
-        <div class="section-title"><div class="divider"></div><h2>Sản Phẩm Liên Quan</h2></div>
-        <div class="products-grid">
-            <div th:each="p : ${relatedProducts}" class="product-card fade-up">
-                <a th:href="@{'/san-pham/' + ${p.slug}}">
-                    <div class="product-card-image">
-                        <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
-                    </div>
-                </a>
-                <div class="product-card-info">
-                    <h3><a th:href="@{'/san-pham/' + ${p.slug}}" th:text="${p.name}">SP</a></h3>
-                    <div class="product-price">
-                        <span class="current" th:text="${p.price}">0₫</span>
-                    </div>
+    <div class="product-detail-layout">
+        <div class="product-detail-main">
+            <!-- TABS -->
+            <div class="detail-tabs">
+                <div class="detail-tab-nav">
+                    <button class="detail-tab-btn active" data-tab="overview-tab">Mô tả tổng quan</button>
+                    <button class="detail-tab-btn" data-tab="desc-tab">Mô tả chi tiết</button>
+                    <button class="detail-tab-btn" data-tab="specs-tab">Thông số</button>
+                    <button class="detail-tab-btn" data-tab="feng-tab">Ý nghĩa phong thủy</button>
+                </div>
+                <div id="overview-tab" class="detail-tab-content active">
+                    <h3>Mô Tả Tổng Quan</h3>
+                    <div th:utext="${product.description}">Mô tả tổng quan</div>
+                </div>
+                <div id="desc-tab" class="detail-tab-content">
+                    <h3>Mô Tả Chi Tiết</h3>
+                    <div th:utext="${product.detailDescription}">Chi tiết sản phẩm</div>
+                </div>
+                <div id="specs-tab" class="detail-tab-content">
+                    <h3>Thông Số Kỹ Thuật</h3>
+                    <div th:utext="${product.specifications}">Thông số</div>
+                </div>
+                <div id="feng-tab" class="detail-tab-content">
+                    <h3>Ý Nghĩa Phong Thủy</h3>
+                    <div th:utext="${product.fengShuiMeaning}">Phong thủy</div>
                 </div>
             </div>
         </div>
+
+        <aside class="product-detail-sidebar">
+            <!-- RELATED -->
+            <div class="blog-sidebar-block" th:if="${!#lists.isEmpty(relatedProducts)}">
+                <h4>Sản Phẩm Liên Quan</h4>
+                <div th:each="p : ${relatedProducts}" class="sidebar-post">
+                    <a th:href="@{'/san-pham/' + ${p.slug}}">
+                        <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
+                    </a>
+                    <div>
+                        <h5><a th:href="@{'/san-pham/' + ${p.slug}}" th:text="${p.name}">SP</a></h5>
+                        <span class="date" style="color:var(--bronze); font-weight:600; font-size:14px;" th:text="${p.price}">0₫</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
     </div>
 </div>
 

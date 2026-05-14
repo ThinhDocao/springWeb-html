@@ -26,7 +26,7 @@
                             <th>Cấp</th>
                             <th>Thứ tự</th>
                             <th>Trạng thái</th>
-                            <th></th>
+                            <th class="actions-col">Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -36,9 +36,13 @@
                                 <span th:unless="${cat.imageUrl}" class="thumb empty"></span>
                             </td>
                             <td>
-                                <div class="category-tree-cell" th:style="'padding-left:' + (${cat.level} * 24) + 'px'">
-                                    <span th:if="${cat.level > 0}" class="tree-connector">└</span>
-                                    <strong th:text="${cat.name}">Danh mục</strong>
+                                <div class="category-tree-cell"
+                                     th:classappend="${cat.level > 0} ? ' child-category' : ' root-category'"
+                                     th:style="'padding-left:' + (${cat.level} * 24) + 'px'">
+                                    <strong>
+                                        <span th:if="${cat.level > 0}" class="tree-connector">└</span>
+                                        <span th:text="${cat.name}">Danh mục</span>
+                                    </strong>
                                     <small th:text="${cat.parent != null ? 'Con của: ' + cat.parent.name : 'Danh mục gốc'}">Gốc</small>
                                 </div>
                             </td>
@@ -46,12 +50,14 @@
                             <td th:text="${cat.level}">0</td>
                             <td th:text="${cat.sortOrder}">0</td>
                             <td><span class="status-pill" th:classappend="${cat.active} ? 'ACTIVE' : 'HIDDEN'" th:text="${cat.active} ? 'Hiển thị' : 'Ẩn'">Hiển thị</span></td>
-                            <td class="row-actions">
-                                <a th:href="@{'/' + ${cat.slug}}" target="_blank" class="text-link">Xem</a>
-                                <a th:href="@{/admin/categories/{id}/edit(id=${cat.id})}" class="text-link">Sửa</a>
-                                <form th:action="@{/admin/categories/{id}/delete(id=${cat.id})}" method="post" data-confirm="Xóa danh mục này?">
-                                    <button type="submit" class="link-danger">Xóa</button>
-                                </form>
+                            <td class="actions-col">
+                                <div class="row-actions">
+                                    <a th:href="@{'/' + ${cat.slug}}" target="_blank" class="text-link">Xem</a>
+                                    <a th:href="@{/admin/categories/{id}/edit(id=${cat.id})}" class="text-link">Sửa</a>
+                                    <form th:action="@{/admin/categories/{id}/delete(id=${cat.id})}" method="post" data-confirm="Xóa danh mục này?">
+                                        <button type="submit" class="link-danger">Xóa</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(categories)}">

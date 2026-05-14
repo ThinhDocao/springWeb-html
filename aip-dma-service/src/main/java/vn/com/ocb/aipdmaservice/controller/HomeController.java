@@ -23,7 +23,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("categories", appService.getCategories());
         model.addAttribute("bestSellers", appService.getBestSellers());
         model.addAttribute("newProducts", appService.getNewProducts());
         model.addAttribute("premiumProducts", appService.getPremiumProducts());
@@ -49,7 +48,6 @@ public class HomeController {
             @RequestParam(required = false) String material,
             Model model) {
         model.addAttribute("products", appService.getFilteredProducts("san-pham", price, material));
-        model.addAttribute("categories", appService.getCategories());
         model.addAttribute("categoryName", "Tất Cả Sản Phẩm");
         model.addAttribute("currentSlug", "san-pham");
         model.addAttribute("currentPrice", price);
@@ -66,8 +64,7 @@ public class HomeController {
         if (product == null) {
             return "error";
         }
-        List<Product> relatedProducts = appService.getProductsByCategory(product.getCategorySlug());
-        relatedProducts.removeIf(p -> p.getSlug().equals(slug));
+        List<Product> relatedProducts = appService.getRelatedProducts(product.getCategorySlug(), slug);
 
         model.addAttribute("product", product);
         model.addAttribute("relatedProducts", relatedProducts);
@@ -86,7 +83,6 @@ public class HomeController {
         vn.com.ocb.aipdmaservice.entity.CategoryEntity category = appService.getCategoryEntityBySlug(slug);
         if (category != null) {
             model.addAttribute("products", appService.getFilteredProducts(slug, price, material));
-            model.addAttribute("categories", appService.getCategories());
             model.addAttribute("categoryName", category.getName());
             model.addAttribute("currentSlug", slug);
             model.addAttribute("currentPrice", price);
@@ -151,7 +147,7 @@ public class HomeController {
         model.addAttribute("sent", true);
         model.addAttribute("pageTitle", "Liên Hệ - Đồ Đồng Mỹ Nghệ");
         model.addAttribute("pageDescription",
-                "Liên hệ với chúng tôi để được tư vấn miễn phí về đồ đồng mỹ nghệ. Hotline: 0987.654.321");
+                "Liên hệ with us to get free consultancy. Hotline: 0987.654.321");
         return "contact";
     }
 

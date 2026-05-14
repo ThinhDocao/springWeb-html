@@ -18,6 +18,7 @@ import vn.com.ocb.aipdmaservice.repository.ContactInquiryRepository;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,10 +29,20 @@ public class AppService {
     private final ProductRepository productRepository;
     private final BlogPostRepository blogPostRepository;
     private final BlogCategoryRepository blogCategoryRepository;
+    private final vn.com.ocb.aipdmaservice.repository.SiteSettingRepository siteSettingRepository;
     private final vn.com.ocb.aipdmaservice.repository.OrderRepository orderRepository;
     private final ContactInquiryRepository contactInquiryRepository;
 
     private static final DecimalFormat df = new DecimalFormat("#,###₫");
+
+    public java.util.Map<String, String> getAllSiteSettings() {
+        return siteSettingRepository.findAll().stream()
+                .collect(java.util.stream.Collectors.toMap(
+                        vn.com.ocb.aipdmaservice.entity.SiteSettingEntity::getSettingKey,
+                        vn.com.ocb.aipdmaservice.entity.SiteSettingEntity::getSettingValue,
+                        (existing, replacement) -> existing
+                ));
+    }
 
     public List<Category> getCategories() {
         List<CategoryEntity> rootEntities = categoryRepository.findByParentIsNullAndIsActiveTrueOrderBySortOrderAsc();
@@ -69,7 +80,6 @@ public class AppService {
             }
         }
         
-        // Treat empty or "all" as null for the query
         String materialFilter = (material != null && !material.isEmpty() && !material.equals("all")) ? material : null;
         
         return productRepository.findFiltered(categorySlug, min, max, materialFilter)
@@ -77,13 +87,29 @@ public class AppService {
     }
 
     public List<Product> getProductsByCategory(String categorySlug) {
-        // Fetch products by exactly this category
         List<ProductEntity> directProducts = productRepository.findByCategory_SlugAndIsActiveTrueOrderBySortOrderAsc(categorySlug);
-        // Also fetch products of its subcategories
         List<ProductEntity> subProducts = productRepository.findByCategory_Parent_SlugAndIsActiveTrueOrderBySortOrderAsc(categorySlug);
         
-        directProducts.addAll(subProducts);
-        return directProducts.stream().distinct().map(this::mapToProduct).collect(Collectors.toList());
+        java.util.Set<ProductEntity> allProducts = new java.util.LinkedHashSet<>(directProducts);
+        allProducts.addAll(subProducts);
+        
+        return allProducts.stream().map(this::mapToProduct).collect(Collectors.toList());
+    }
+
+    public List<Product> getRelatedProducts(String categorySlug, String currentSlug) {
+        List<Product> related = getProductsByCategory(categorySlug);
+        
+        if (related.size() <= 1) {
+            Optional<CategoryEntity> catOpt = categoryRepository.findBySlug(categorySlug);
+            if (catOpt.isPresent() && catOpt.get().getParent() != null) {
+                related = getProductsByCategory(catOpt.get().getParent().getSlug());
+            }
+        }
+        
+        return related.stream()
+                .filter(p -> !p.getSlug().equals(currentSlug))
+                .limit(5)
+                .collect(Collectors.toList());
     }
 
     public List<Product> getBestSellers() {
@@ -208,8 +234,6 @@ public class AppService {
         return orderCode;
     }
 
-    // --- MAPPERS ---
-
     private Category mapToCategory(CategoryEntity entity) {
         Category dto = new Category();
         dto.setId(entity.getId());
@@ -224,7 +248,6 @@ public class AppService {
         }
         dto.setLevel(entity.getLevel());
         
-        // Calculate product count (own + subcategories)
         long count = productRepository.countByCategory_SlugAndIsActiveTrue(entity.getSlug());
         count += productRepository.countByCategory_Parent_SlugAndIsActiveTrue(entity.getSlug());
         dto.setProductCount((int) count);
@@ -279,9 +302,7 @@ public class AppService {
         dto.setNewProduct(entity.isNew());
         dto.setPremium(entity.isPremium());
         
-        // Map images from database
         if (entity.getImages() != null && !entity.getImages().isEmpty()) {
-            // Find primary image or use the first one
             String primaryImageUrl = entity.getImages().stream()
                     .filter(vn.com.ocb.aipdmaservice.entity.ProductImageEntity::isPrimary)
                     .map(vn.com.ocb.aipdmaservice.entity.ProductImageEntity::getImageUrl)
@@ -290,12 +311,10 @@ public class AppService {
             
             dto.setImageUrl(primaryImageUrl);
             
-            // Map all image URLs
             dto.setImages(entity.getImages().stream()
                     .map(vn.com.ocb.aipdmaservice.entity.ProductImageEntity::getImageUrl)
                     .collect(java.util.stream.Collectors.toList()));
         } else {
-            // Fallback if no images in DB
             dto.setImageUrl("/images/product-tuong-dong.png");
             dto.setImages(java.util.Arrays.asList("/images/product-tuong-dong.png"));
         }

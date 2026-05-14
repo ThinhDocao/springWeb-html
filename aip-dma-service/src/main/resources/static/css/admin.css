@@ -308,9 +308,10 @@ textarea {
 }
 
 .row-actions {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
+  justify-content: flex-end;
+  gap: 8px;
   white-space: nowrap;
 }
 
@@ -318,9 +319,31 @@ textarea {
   margin: 0;
 }
 
+.actions-col {
+  width: 1%;
+  text-align: right;
+  white-space: nowrap;
+}
+
 .text-link {
   color: var(--admin-bronze);
   font-weight: 700;
+}
+
+.row-actions .text-link,
+.row-actions .link-danger {
+  min-height: 32px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #FAFAF7;
+  border: 1px solid var(--admin-border);
+}
+
+.row-actions .text-link:hover {
+  background: #F4EFE8;
 }
 
 .link-danger {
@@ -537,19 +560,31 @@ textarea:focus {
 .category-tree-cell {
   position: relative;
   display: grid;
-  gap: 3px;
+  gap: 4px;
 }
 
 .category-tree-cell strong {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+}
+
+.category-tree-cell.root-category strong {
+  color: var(--admin-text);
+}
+
+.category-tree-cell.child-category strong {
+  color: #245BA7;
+}
+
+.category-tree-cell.child-category small {
+  color: #5E7194;
 }
 
 .tree-connector {
-  color: var(--admin-muted);
+  color: #245BA7;
   font-weight: 800;
-  margin-right: 6px;
+  margin-right: 2px;
 }
 
 .upload-box {
@@ -562,6 +597,42 @@ textarea:focus {
 .upload-box.small {
   min-height: 74px;
   align-content: center;
+}
+
+.upload-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+.upload-preview-grid:empty,
+.upload-preview-grid[hidden] {
+  display: none;
+}
+
+.upload-preview-item {
+  display: grid;
+  gap: 7px;
+  padding: 8px;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  background: #FAFAF7;
+}
+
+.upload-preview-item img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--admin-border);
+  background: #F1F1EC;
+}
+
+.upload-preview-item span {
+  color: var(--admin-muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .media-browser {

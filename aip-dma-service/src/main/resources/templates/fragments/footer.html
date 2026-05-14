@@ -18,11 +18,9 @@
             <div class="footer-col">
                 <h4>Danh Mục</h4>
                 <ul>
-                    <li><a th:href="@{/tuong-dong}">Tượng Đồng</a></li>
-                    <li><a th:href="@{/tranh-dong}">Tranh Đồng</a></li>
-                    <li><a th:href="@{/do-phong-thuy}">Đồ Phong Thủy</a></li>
-                    <li><a th:href="@{/do-tho-dong}">Đồ Thờ</a></li>
-                    <li><a th:href="@{/qua-tang}">Quà Tặng</a></li>
+                    <li th:each="cat : ${categories}">
+                        <a th:href="@{'/' + ${cat.slug}}" th:text="${cat.name}">Danh mục</a>
+                    </li>
                 </ul>
             </div>
             <div class="footer-col">

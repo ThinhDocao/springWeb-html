@@ -25,7 +25,7 @@
                             <th>Chuyên mục</th>
                             <th>Ngày đăng</th>
                             <th>Trạng thái</th>
-                            <th></th>
+                            <th class="actions-col">Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -41,12 +41,14 @@
                             <td th:text="${post.category != null ? post.category.name : '-'}">Chuyên mục</td>
                             <td th:text="${post.publishDate != null ? #temporals.format(post.publishDate, 'dd/MM/yyyy') : '-'}">-</td>
                             <td><span class="status-pill" th:classappend="${post.published} ? 'ACTIVE' : 'HIDDEN'" th:text="${post.published} ? 'Đã xuất bản' : 'Nháp'">Đã xuất bản</span></td>
-                            <td class="row-actions">
-                                <a th:href="@{/tin-tuc/{slug}(slug=${post.slug})}" target="_blank" class="text-link">Xem</a>
-                                <a th:href="@{/admin/blog/{id}/edit(id=${post.id})}" class="text-link">Sửa</a>
-                                <form th:action="@{/admin/blog/{id}/delete(id=${post.id})}" method="post" data-confirm="Xóa bài viết này?">
-                                    <button type="submit" class="link-danger">Xóa</button>
-                                </form>
+                            <td class="actions-col">
+                                <div class="row-actions">
+                                    <a th:href="@{/tin-tuc/{slug}(slug=${post.slug})}" target="_blank" class="text-link">Xem</a>
+                                    <a th:href="@{/admin/blog/{id}/edit(id=${post.id})}" class="text-link">Sửa</a>
+                                    <form th:action="@{/admin/blog/{id}/delete(id=${post.id})}" method="post" data-confirm="Xóa bài viết này?">
+                                        <button type="submit" class="link-danger">Xóa</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(posts)}">

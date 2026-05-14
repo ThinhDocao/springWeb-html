@@ -37,8 +37,8 @@ public class AdminCatalogController {
     @GetMapping("/admin/products")
     public String products(@RequestParam(required = false) String q, Model model) {
         List<ProductEntity> products = q != null && !q.trim().isEmpty()
-                ? productRepository.findByNameContainingIgnoreCaseOrderBySortOrderAsc(q.trim())
-                : productRepository.findAllByOrderBySortOrderAsc();
+                ? productRepository.findByNameContainingIgnoreCaseOrderByUpdatedAtDescCreatedAtDescIdDesc(q.trim())
+                : productRepository.findAllByOrderByUpdatedAtDescCreatedAtDescIdDesc();
         model.addAttribute("activePage", "products");
         model.addAttribute("pageTitle", "Sản phẩm");
         model.addAttribute("products", products);

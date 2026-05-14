@@ -55,6 +55,34 @@ public class DatabaseInitializer implements CommandLineRunner {
             ensureMaterialsAndAssignToProducts();
             syncProductDetailsAndImages();
             syncBlogPostsAndCategories();
+            seedSiteSettings();
+        }
+    }
+
+    private final vn.com.ocb.aipdmaservice.repository.SiteSettingRepository siteSettingRepository;
+
+    private void seedSiteSettings() {
+        log.info("Seeding site settings...");
+        Map<String, String> defaults = new HashMap<>();
+        defaults.put("siteName", "Đồ Đồng Mỹ Nghệ");
+        defaults.put("hotline", "0987.654.321");
+        defaults.put("email", "info@dodongmynghe.vn");
+        defaults.put("address", "123 Đường Nguyễn Trãi, Quận 1, TP. Hồ Chí Minh");
+        defaults.put("facebookUrl", "https://facebook.com/dodongmynghe");
+        defaults.put("youtubeUrl", "https://youtube.com/dodongmynghe");
+        defaults.put("zaloUrl", "https://zalo.me/0987654321");
+        defaults.put("footerDescription", "Chuyên cung cấp đồ đồng mỹ nghệ cao cấp, chế tác thủ công bởi nghệ nhân lành nghề với hơn 30 năm kinh nghiệm.");
+        defaults.put("facebookPixelScript", "<!-- Facebook Pixel Code Placeholder -->");
+        defaults.put("chatWidgetScript", "<!-- Chat Widget Script Placeholder -->");
+
+        for (Map.Entry<String, String> entry : defaults.entrySet()) {
+            if (!siteSettingRepository.findBySettingKey(entry.getKey()).isPresent()) {
+                siteSettingRepository.save(vn.com.ocb.aipdmaservice.entity.SiteSettingEntity.builder()
+                        .settingKey(entry.getKey())
+                        .settingValue(entry.getValue())
+                        .description("Default " + entry.getKey())
+                        .build());
+            }
         }
     }
 

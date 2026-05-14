@@ -96,8 +96,10 @@
                     <div class="removed-images-inputs"></div>
                     <label class="upload-box">
                         <span>Thêm ảnh mới</span>
-                        <input type="file" name="imageFiles" accept="image/jpeg,image/png,image/webp" multiple>
+                        <input type="file" name="imageFiles" accept="image/jpeg,image/png,image/webp" multiple
+                               data-preview-target="newProductImagePreview">
                     </label>
+                    <div id="newProductImagePreview" class="upload-preview-grid" aria-live="polite"></div>
                 </div>
 
                 <div class="admin-panel form-panel span-2">
