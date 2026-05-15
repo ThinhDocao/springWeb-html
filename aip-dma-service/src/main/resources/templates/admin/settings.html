@@ -19,18 +19,16 @@
                         <span>Logo URL</span>
                         <input type="text" name="logoUrl" th:value="${settings['logoUrl']}">
                     </label>
+                    <div class="settings-image-preview"
+                         th:if="${settings['logoUrl'] != null and !settings['logoUrl'].isEmpty()}">
+                        <span>Logo hiện tại</span>
+                        <img th:src="@{${settings['logoUrl']}}" alt="Logo hiện tại">
+                    </div>
                     <label class="upload-box small">
                         <span>Upload logo</span>
-                        <input type="file" name="logoFile" accept="image/jpeg,image/png,image/webp">
+                        <input type="file" name="logoFile" accept="image/jpeg,image/png,image/webp" data-preview-target="logoUploadPreview">
                     </label>
-                    <label>
-                        <span>Favicon URL</span>
-                        <input type="text" name="faviconUrl" th:value="${settings['faviconUrl']}">
-                    </label>
-                    <label class="upload-box small">
-                        <span>Upload favicon</span>
-                        <input type="file" name="faviconFile" accept="image/jpeg,image/png,image/webp">
-                    </label>
+                    <div id="logoUploadPreview" class="upload-preview-grid settings-upload-preview" hidden></div>
                 </div>
 
                 <div class="admin-panel form-panel">

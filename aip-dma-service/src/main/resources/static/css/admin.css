@@ -599,6 +599,32 @@ textarea:focus {
   align-content: center;
 }
 
+.settings-image-preview {
+  display: grid;
+  gap: 7px;
+}
+
+.settings-image-preview span {
+  color: var(--admin-muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.settings-image-preview img {
+  width: min(220px, 100%);
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid var(--admin-border);
+  background: #FAFAF7;
+  padding: 8px;
+}
+
+.settings-upload-preview .upload-preview-item img {
+  object-fit: contain;
+  background: #fff;
+}
+
 .upload-preview-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));

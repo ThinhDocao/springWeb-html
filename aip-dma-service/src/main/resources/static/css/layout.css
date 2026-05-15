@@ -16,9 +16,22 @@
   display: flex; justify-content: space-between; align-items: center;
   padding: 12px 0; gap: 32px;
 }
-.logo img { height: 50px; width: auto; }
-.logo-text { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; color: var(--bronze); }
-.logo-text span { display: block; font-size: 0.7rem; font-weight: 400; color: var(--gray-500); letter-spacing: 2px; text-transform: uppercase; }
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.logo-image {
+  display: block;
+  height: 64px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* NAV */
 
 /* NAV */
 .main-nav { display: flex; align-items: center; gap: 4px; }
@@ -101,6 +114,20 @@
   content: ''; position: absolute; bottom: 0; left: 0;
   width: 30px; height: 2px; background: var(--bronze);
 }
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.footer-logo-image {
+  display: block;
+  width: auto;
+  height: 70px;
+  max-width: 240px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
 .footer-col p { font-size: 0.9rem; line-height: 1.8; margin-bottom: 8px; }
 .footer-col ul li { margin-bottom: 10px; }
 .footer-col ul li a { font-size: 0.9rem; color: var(--gray-300); }
@@ -168,4 +195,18 @@
 @media (max-width: 576px) {
   .header-top { display: none; }
   .footer-grid { grid-template-columns: 1fr; }
+}
+
+/* Mobile Logo Fix */
+@media (max-width: 992px) {
+  .logo-image {
+    height: 48px !important;
+    max-width: 160px !important;
+  }
+}
+@media (max-width: 576px) {
+  .logo-image {
+    height: 40px !important;
+    max-width: 130px !important;
+  }
 }

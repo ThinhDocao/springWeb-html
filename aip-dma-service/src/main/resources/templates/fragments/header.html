@@ -7,12 +7,11 @@
             <span th:text="${siteSettings['workingHours'] != null and !siteSettings['workingHours'].isEmpty() ? siteSettings['workingHours'] : '🕐 Giờ làm việc: 8:00 - 18:00 | Thứ 2 - Chủ Nhật'}">🕐 Giờ làm việc: 8:00 - 18:00 | Thứ 2 - Chủ Nhật</span>
         </div>
         <div class="header-main">
-            <a href="/" class="logo">
-                <img th:if="${siteSettings['logoUrl'] != null and !siteSettings['logoUrl'].isEmpty()}" th:src="@{${siteSettings['logoUrl']}}" th:alt="${siteSettings['siteName']}" style="height:54px;width:auto;">
-                <div th:unless="${siteSettings['logoUrl'] != null and !siteSettings['logoUrl'].isEmpty()}" class="logo-text">
-                    <span th:remove="tag" th:text="${siteSettings['siteName'] != null and !siteSettings['siteName'].isEmpty() ? siteSettings['siteName'] : 'ĐỒ ĐỒNG MỸ NGHỆ'}">ĐỒ ĐỒNG MỸ NGHỆ</span>
-                    <span>Tinh hoa đồng Việt</span>
-                </div>
+            <a href="/" class="logo brand-logo">
+                <img th:if="${siteSettings['logoUrl'] != null and !siteSettings['logoUrl'].isEmpty()}"
+                     class="logo-image"
+                     th:src="@{${siteSettings['logoUrl']}}"
+                     th:alt="${siteSettings['siteName'] != null and !siteSettings['siteName'].isEmpty() ? siteSettings['siteName'] : 'Đồ Đồng Mỹ Nghệ'}">
             </a>
             <ul class="main-nav" id="mainNav">
 

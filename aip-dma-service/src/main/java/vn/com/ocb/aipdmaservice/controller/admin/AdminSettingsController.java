@@ -31,15 +31,11 @@ public class AdminSettingsController {
     @PostMapping("/admin/settings")
     public String saveSettings(@RequestParam Map<String, String> params,
                                @RequestParam(required = false) MultipartFile logoFile,
-                               @RequestParam(required = false) MultipartFile faviconFile,
                                RedirectAttributes redirectAttributes) {
+        params.put("faviconUrl", siteSettingService.get("faviconUrl", ""));
         String logoUrl = uploadService.storeImage(logoFile, "settings/logo");
         if (logoUrl != null) {
             params.put("logoUrl", logoUrl);
-        }
-        String faviconUrl = uploadService.storeImage(faviconFile, "settings/favicon");
-        if (faviconUrl != null) {
-            params.put("faviconUrl", faviconUrl);
         }
         siteSettingService.saveSettings(params);
         redirectAttributes.addFlashAttribute("successMessage", "Đã lưu cài đặt.");
