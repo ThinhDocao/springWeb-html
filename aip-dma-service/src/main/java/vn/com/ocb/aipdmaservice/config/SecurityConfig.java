@@ -1,6 +1,7 @@
 package vn.com.ocb.aipdmaservice.config;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +14,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import vn.com.ocb.aipdmaservice.helper.jwtToken;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Order(1)
+@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PUBLIC_MATCHERS = {
@@ -65,10 +68,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        String resolvedUsername = resolveAdminValue(adminUsername, "admin");
+        String resolvedPassword = resolveAdminValue(adminPassword, "admin123");
+        log.info("Configured admin login user '{}'.", resolvedUsername);
+
         auth.inMemoryAuthentication()
-                .withUser(adminUsername)
-                .password(passwordEncoder().encode(adminPassword))
+                .withUser(resolvedUsername)
+                .password(passwordEncoder().encode(resolvedPassword))
                 .roles("ADMIN");
+    }
+
+    private String resolveAdminValue(String value, String fallback) {
+        String trimmed = value == null ? "" : value.trim();
+        return StringUtils.hasText(trimmed) ? trimmed : fallback;
     }
 
     @Override
