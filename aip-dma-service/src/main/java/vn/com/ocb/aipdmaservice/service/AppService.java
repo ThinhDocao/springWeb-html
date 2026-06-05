@@ -45,15 +45,15 @@ public class AppService {
     private final CacheEntry<List<Product>> popularProductsCache = new CacheEntry<>(30000);
 
     private static class CacheEntry<T> {
-        private T value;
-        private long expiry;
+        private volatile T value;
+        private volatile long expiry;
         private final long ttl;
 
         public CacheEntry(long ttlMillis) {
             this.ttl = ttlMillis;
         }
 
-        public synchronized T get(java.util.function.Supplier<T> supplier) {
+        public T get(java.util.function.Supplier<T> supplier) {
             long now = System.currentTimeMillis();
             if (value == null || now > expiry) {
                 value = supplier.get();
