@@ -22,7 +22,8 @@ public class HomeController {
     private final AppService appService;
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(Model model, javax.servlet.http.HttpServletResponse response) {
+        response.setHeader("Cache-Control", "max-age=30, must-revalidate");
         model.addAttribute("bestSellers", appService.getBestSellers());
         model.addAttribute("newProducts", appService.getNewProducts());
         model.addAttribute("premiumProducts", appService.getPremiumProducts());

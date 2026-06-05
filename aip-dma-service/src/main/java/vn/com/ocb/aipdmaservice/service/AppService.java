@@ -35,18 +35,50 @@ public class AppService {
 
     private static final DecimalFormat df = new DecimalFormat("#,###₫");
 
+    private final CacheEntry<List<Product>> bestSellersCache = new CacheEntry<>(30000);
+    private final CacheEntry<List<Product>> newProductsCache = new CacheEntry<>(30000);
+    private final CacheEntry<List<Product>> premiumProductsCache = new CacheEntry<>(30000);
+    private final CacheEntry<List<Product>> allProductsCache = new CacheEntry<>(30000);
+    private final CacheEntry<List<BlogPost>> allBlogPostsCache = new CacheEntry<>(30000);
+    private final CacheEntry<java.util.Map<String, String>> siteSettingsCache = new CacheEntry<>(30000);
+    private final CacheEntry<List<Category>> categoriesCache = new CacheEntry<>(30000);
+    private final CacheEntry<List<Product>> popularProductsCache = new CacheEntry<>(30000);
+
+    private static class CacheEntry<T> {
+        private T value;
+        private long expiry;
+        private final long ttl;
+
+        public CacheEntry(long ttlMillis) {
+            this.ttl = ttlMillis;
+        }
+
+        public synchronized T get(java.util.function.Supplier<T> supplier) {
+            long now = System.currentTimeMillis();
+            if (value == null || now > expiry) {
+                value = supplier.get();
+                expiry = now + ttl;
+            }
+            return value;
+        }
+    }
+
     public java.util.Map<String, String> getAllSiteSettings() {
-        return siteSettingRepository.findAll().stream()
-                .collect(java.util.stream.Collectors.toMap(
-                        vn.com.ocb.aipdmaservice.entity.SiteSettingEntity::getSettingKey,
-                        vn.com.ocb.aipdmaservice.entity.SiteSettingEntity::getSettingValue,
-                        (existing, replacement) -> existing
-                ));
+        return siteSettingsCache.get(() -> 
+            siteSettingRepository.findAll().stream()
+                    .collect(java.util.stream.Collectors.toMap(
+                            vn.com.ocb.aipdmaservice.entity.SiteSettingEntity::getSettingKey,
+                            vn.com.ocb.aipdmaservice.entity.SiteSettingEntity::getSettingValue,
+                            (existing, replacement) -> existing
+                    ))
+        );
     }
 
     public List<Category> getCategories() {
-        List<CategoryEntity> rootEntities = categoryRepository.findByParentIsNullAndIsActiveTrueOrderBySortOrderAsc();
-        return rootEntities.stream().map(this::mapToCategory).collect(Collectors.toList());
+        return categoriesCache.get(() -> {
+            List<CategoryEntity> rootEntities = categoryRepository.findByParentIsNullAndIsActiveTrueOrderBySortOrderAsc();
+            return rootEntities.stream().map(this::mapToCategory).collect(Collectors.toList());
+        });
     }
 
     public CategoryEntity getCategoryEntityBySlug(String slug) {
@@ -54,7 +86,9 @@ public class AppService {
     }
 
     public List<Product> getAllProducts() {
-        return productRepository.findAll().stream().map(this::mapToProduct).collect(Collectors.toList());
+        return allProductsCache.get(() -> 
+            productRepository.findAll().stream().map(this::mapToProduct).collect(Collectors.toList())
+        );
     }
 
     public List<Product> getFilteredProducts(String categorySlug, String priceRange, String material) {
@@ -113,18 +147,24 @@ public class AppService {
     }
 
     public List<Product> getBestSellers() {
-        return productRepository.findByIsBestSellerTrueAndIsActiveTrueOrderBySortOrderAsc()
-                .stream().map(this::mapToProduct).collect(Collectors.toList());
+        return bestSellersCache.get(() -> 
+            productRepository.findByIsBestSellerTrueAndIsActiveTrueOrderBySortOrderAsc()
+                    .stream().map(this::mapToProduct).collect(Collectors.toList())
+        );
     }
 
     public List<Product> getNewProducts() {
-        return productRepository.findByIsNewTrueAndIsActiveTrueOrderBySortOrderAsc()
-                .stream().map(this::mapToProduct).collect(Collectors.toList());
+        return newProductsCache.get(() -> 
+            productRepository.findByIsNewTrueAndIsActiveTrueOrderBySortOrderAsc()
+                    .stream().map(this::mapToProduct).collect(Collectors.toList())
+        );
     }
 
     public List<Product> getPremiumProducts() {
-        return productRepository.findByIsPremiumTrueAndIsActiveTrueOrderBySortOrderAsc()
-                .stream().map(this::mapToProduct).collect(Collectors.toList());
+        return premiumProductsCache.get(() -> 
+            productRepository.findByIsPremiumTrueAndIsActiveTrueOrderBySortOrderAsc()
+                    .stream().map(this::mapToProduct).collect(Collectors.toList())
+        );
     }
 
     public List<Product> searchProducts(String keyword) {
@@ -133,8 +173,10 @@ public class AppService {
     }
 
     public List<Product> getPopularProducts() {
-        return productRepository.findByIsBestSellerTrueAndIsActiveTrueOrderBySortOrderAsc(org.springframework.data.domain.PageRequest.of(0, 4))
-                .stream().map(this::mapToProduct).collect(Collectors.toList());
+        return popularProductsCache.get(() -> 
+            productRepository.findByIsBestSellerTrueAndIsActiveTrueOrderBySortOrderAsc(org.springframework.data.domain.PageRequest.of(0, 4))
+                    .stream().map(this::mapToProduct).collect(Collectors.toList())
+        );
     }
 
     public Product getProductBySlug(String slug) {
@@ -142,8 +184,10 @@ public class AppService {
     }
 
     public List<BlogPost> getAllBlogPosts() {
-        return blogPostRepository.findByIsPublishedTrueOrderByPublishDateDesc()
-                .stream().map(this::mapToBlogPost).collect(Collectors.toList());
+        return allBlogPostsCache.get(() -> 
+            blogPostRepository.findByIsPublishedTrueOrderByPublishDateDesc()
+                    .stream().map(this::mapToBlogPost).collect(Collectors.toList())
+        );
     }
 
     public List<BlogPost> getBlogPostsByCategorySlug(String slug) {
