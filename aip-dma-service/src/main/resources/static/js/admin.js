@@ -8,6 +8,21 @@
     });
   }
 
+  // Auto-hide flash messages after 5 seconds
+  document.querySelectorAll('.admin-flash').forEach(function (flash) {
+    setTimeout(function () {
+      flash.style.transition = 'opacity 0.5s ease';
+      flash.style.opacity = '0';
+      setTimeout(function () {
+        const wrap = flash.parentElement;
+        flash.remove();
+        if (wrap && wrap.classList.contains('admin-flash-wrap') && wrap.children.length === 0) {
+          wrap.style.display = 'none';
+        }
+      }, 500);
+    }, 5000);
+  });
+
   document.querySelectorAll('form[data-confirm]').forEach(function (form) {
     form.addEventListener('submit', function (event) {
       const message = form.getAttribute('data-confirm') || 'Bạn chắc chắn muốn tiếp tục?';

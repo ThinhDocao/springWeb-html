@@ -91,8 +91,12 @@ public class AdminBlogController {
 
     @PostMapping("/admin/blog/{id}/delete")
     public String deletePost(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        blogPostRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("successMessage", "Đã xóa bài viết.");
+        try {
+            blogPostRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Đã xóa bài viết.");
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa bài viết này do có ràng buộc dữ liệu liên quan.");
+        }
         return "redirect:/admin/blog";
     }
 
@@ -141,8 +145,20 @@ public class AdminBlogController {
 
     @PostMapping("/admin/blog/categories/{id}/delete")
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        blogCategoryRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("successMessage", "Đã xóa chuyên mục.");
+        try {
+            // Check if any blog post is using this category
+            long postCount = blogPostRepository.findAll().stream()
+                    .filter(p -> p.getCategory() != null && id.equals(p.getCategory().getId()))
+                    .count();
+            if (postCount > 0) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa chuyên mục này vì đang có bài viết thuộc về nó. Vui lòng chuyển hoặc xóa các bài viết trước.");
+                return "redirect:/admin/blog/categories";
+            }
+            blogCategoryRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Đã xóa chuyên mục.");
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa chuyên mục này do có ràng buộc dữ liệu liên quan.");
+        }
         return "redirect:/admin/blog/categories";
     }
 

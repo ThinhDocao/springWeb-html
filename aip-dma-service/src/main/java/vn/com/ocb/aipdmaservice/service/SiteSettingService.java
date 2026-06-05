@@ -16,7 +16,7 @@ public class SiteSettingService {
 
     public static final String[] EDITABLE_KEYS = {
             "siteName", "logoUrl", "faviconUrl", "hotline", "email", "address", "workingHours",
-            "facebookUrl", "zaloUrl", "youtubeUrl", "footerDescription",
+            "facebookUrl", "zaloUrl", "youtubeUrl", "tiktokUrl", "footerDescription",
             "googleAnalyticsScript", "facebookPixelScript", "chatWidgetScript"
     };
 

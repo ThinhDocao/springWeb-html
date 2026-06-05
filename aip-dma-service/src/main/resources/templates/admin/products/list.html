@@ -9,13 +9,62 @@
         <section class="admin-content">
             <div th:replace="admin/fragments/flash :: flash"></div>
             <div class="panel-header page-actions">
-                <form th:action="@{/admin/products}" method="get" class="admin-search">
-                    <input type="search" name="q" th:value="${q}" placeholder="Tìm sản phẩm...">
-                    <button type="submit" class="admin-btn ghost">Tìm</button>
-                </form>
+                <div>
+                    <h2>Danh sách sản phẩm</h2>
+                    <p>Quản lý sản phẩm, tồn kho, giá cả và nhãn nổi bật.</p>
+                </div>
                 <a th:href="@{/admin/products/new}" class="admin-btn primary">Thêm sản phẩm</a>
             </div>
             <div class="admin-panel">
+                <form th:action="@{/admin/products}" method="get" class="admin-filters-form">
+                    <div class="filter-row">
+                        <div class="filter-col">
+                            <label>Tìm kiếm</label>
+                            <input type="search" name="q" th:value="${q}" placeholder="Tìm sản phẩm...">
+                        </div>
+                        <div class="filter-col">
+                            <label>Danh mục</label>
+                            <select name="categoryId">
+                                <option value="">Tất cả danh mục</option>
+                                <option th:each="cat : ${categories}"
+                                        th:value="${cat.id}"
+                                        th:selected="${cat.id == categoryId}"
+                                        th:text="${cat.level > 0 ? '└ ' + cat.name : cat.name}"></option>
+                            </select>
+                        </div>
+                        <div class="filter-col">
+                            <label>Chất liệu</label>
+                            <select name="materialId">
+                                <option value="">Tất cả chất liệu</option>
+                                <option th:each="mat : ${materials}"
+                                        th:value="${mat.id}"
+                                        th:selected="${mat.id == materialId}"
+                                        th:text="${mat.name}"></option>
+                            </select>
+                        </div>
+                        <div class="filter-col">
+                            <label>Trạng thái</label>
+                            <select name="status">
+                                <option value="">Tất cả</option>
+                                <option value="active" th:selected="${status == 'active'}">Hiển thị</option>
+                                <option value="hidden" th:selected="${status == 'hidden'}">Ẩn</option>
+                            </select>
+                        </div>
+                        <div class="filter-col">
+                            <label>Nhãn</label>
+                            <select name="tag">
+                                <option value="">Tất cả nhãn</option>
+                                <option value="bestSeller" th:selected="${tag == 'bestSeller'}">Bán chạy</option>
+                                <option value="new" th:selected="${tag == 'new'}">Mới</option>
+                                <option value="premium" th:selected="${tag == 'premium'}">Premium</option>
+                            </select>
+                        </div>
+                        <div class="filter-col actions">
+                            <button type="submit" class="admin-btn primary">Lọc</button>
+                            <a th:href="@{/admin/products}" class="admin-btn ghost">Xóa</a>
+                        </div>
+                    </div>
+                </form>
                 <div class="table-wrap">
                     <table class="admin-table">
                         <thead>

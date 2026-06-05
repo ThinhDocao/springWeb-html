@@ -20,6 +20,7 @@ import vn.com.ocb.aipdmaservice.service.UploadService;
 import vn.com.ocb.aipdmaservice.util.SlugUtils;
 
 import java.math.BigDecimal;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -35,14 +36,67 @@ public class AdminCatalogController {
     private final UploadService uploadService;
 
     @GetMapping("/admin/products")
-    public String products(@RequestParam(required = false) String q, Model model) {
-        List<ProductEntity> products = q != null && !q.trim().isEmpty()
-                ? productRepository.findByNameContainingIgnoreCaseOrderByUpdatedAtDescCreatedAtDescIdDesc(q.trim())
-                : productRepository.findAllByOrderByUpdatedAtDescCreatedAtDescIdDesc();
+    public String products(@RequestParam(required = false) String q,
+                           @RequestParam(required = false) Long categoryId,
+                           @RequestParam(required = false) Long materialId,
+                           @RequestParam(required = false) String status,
+                           @RequestParam(required = false) String tag,
+                           Model model) {
+        List<ProductEntity> products = productRepository.findAllByOrderByUpdatedAtDescCreatedAtDescIdDesc();
+        
+        // Filter by search query
+        if (q != null && !q.trim().isEmpty()) {
+            String query = q.trim().toLowerCase();
+            products = products.stream()
+                    .filter(p -> p.getName() != null && p.getName().toLowerCase().contains(query))
+                    .collect(Collectors.toList());
+        }
+        
+        // Filter by category (including subcategories)
+        if (categoryId != null) {
+            Set<Long> categoryIds = getCategoryAndChildrenIds(categoryId);
+            products = products.stream()
+                    .filter(p -> p.getCategory() != null && categoryIds.contains(p.getCategory().getId()))
+                    .collect(Collectors.toList());
+        }
+        
+        // Filter by material
+        if (materialId != null) {
+            products = products.stream()
+                    .filter(p -> p.getMaterial() != null && materialId.equals(p.getMaterial().getId()))
+                    .collect(Collectors.toList());
+        }
+        
+        // Filter by status (active/hidden)
+        if (status != null && !status.isEmpty()) {
+            if ("active".equals(status)) {
+                products = products.stream().filter(ProductEntity::isActive).collect(Collectors.toList());
+            } else if ("hidden".equals(status)) {
+                products = products.stream().filter(p -> !p.isActive()).collect(Collectors.toList());
+            }
+        }
+        
+        // Filter by tag
+        if (tag != null && !tag.isEmpty()) {
+            if ("bestSeller".equals(tag)) {
+                products = products.stream().filter(ProductEntity::isBestSeller).collect(Collectors.toList());
+            } else if ("new".equals(tag)) {
+                products = products.stream().filter(ProductEntity::isNew).collect(Collectors.toList());
+            } else if ("premium".equals(tag)) {
+                products = products.stream().filter(ProductEntity::isPremium).collect(Collectors.toList());
+            }
+        }
+        
         model.addAttribute("activePage", "products");
         model.addAttribute("pageTitle", "Sản phẩm");
         model.addAttribute("products", products);
+        model.addAttribute("categories", getHierarchicalCategories(false));
+        model.addAttribute("materials", materialRepository.findAllByOrderByNameAsc());
         model.addAttribute("q", q);
+        model.addAttribute("categoryId", categoryId);
+        model.addAttribute("materialId", materialId);
+        model.addAttribute("status", status);
+        model.addAttribute("tag", tag);
         return "admin/products/list";
     }
 
@@ -143,8 +197,12 @@ public class AdminCatalogController {
 
     @PostMapping("/admin/products/{id}/delete")
     public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        productRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("successMessage", "Đã xóa sản phẩm.");
+        try {
+            productRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Đã xóa sản phẩm.");
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa sản phẩm này do có ràng buộc dữ liệu liên quan (ví dụ: đơn hàng chứa sản phẩm này).");
+        }
         return "redirect:/admin/products";
     }
 
@@ -206,8 +264,36 @@ public class AdminCatalogController {
 
     @PostMapping("/admin/categories/{id}/delete")
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        categoryRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("successMessage", "Đã xóa danh mục.");
+        try {
+            CategoryEntity category = categoryRepository.findById(id).orElse(null);
+            if (category == null) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy danh mục cần xóa.");
+                return "redirect:/admin/categories";
+            }
+            
+            // Check if there are subcategories
+            long childCount = categoryRepository.findAll().stream()
+                    .filter(c -> c.getParent() != null && id.equals(c.getParent().getId()))
+                    .count();
+            if (childCount > 0) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa danh mục này vì đang có danh mục con thuộc về nó. Vui lòng xóa các danh mục con trước.");
+                return "redirect:/admin/categories";
+            }
+            
+            // Check if there are products
+            long productCount = productRepository.findAll().stream()
+                    .filter(p -> p.getCategory() != null && id.equals(p.getCategory().getId()))
+                    .count();
+            if (productCount > 0) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa danh mục này vì đang có sản phẩm thuộc danh mục này. Vui lòng di chuyển hoặc xóa các sản phẩm trước.");
+                return "redirect:/admin/categories";
+            }
+            
+            categoryRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Đã xóa danh mục.");
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa danh mục này do có ràng buộc dữ liệu liên quan.");
+        }
         return "redirect:/admin/categories";
     }
 
@@ -254,8 +340,20 @@ public class AdminCatalogController {
 
     @PostMapping("/admin/materials/{id}/delete")
     public String deleteMaterial(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        materialRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("successMessage", "Đã xóa chất liệu.");
+        try {
+            // Check if any product is using this material
+            long productCount = productRepository.findAll().stream()
+                    .filter(p -> p.getMaterial() != null && id.equals(p.getMaterial().getId()))
+                    .count();
+            if (productCount > 0) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa chất liệu này vì đang có sản phẩm sử dụng chất liệu này. Vui lòng cập nhật chất liệu sản phẩm trước.");
+                return "redirect:/admin/materials";
+            }
+            materialRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Đã xóa chất liệu.");
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa chất liệu này do có ràng buộc dữ liệu liên quan.");
+        }
         return "redirect:/admin/materials";
     }
 
@@ -439,6 +537,29 @@ public class AdminCatalogController {
                     && candidate.getParent().getId() != null
                     && candidate.getParent().getId().equals(category.getId())) {
                 appendCategoryWithChildren(candidate, all, result, visitedIds);
+            }
+        }
+    }
+
+    private Set<Long> getCategoryAndChildrenIds(Long categoryId) {
+        Set<Long> ids = new HashSet<>();
+        if (categoryId == null) {
+            return ids;
+        }
+        ids.add(categoryId);
+        List<CategoryEntity> all = categoryRepository.findAll();
+        collectChildIds(categoryId, all, ids);
+        return ids;
+    }
+
+    private void collectChildIds(Long parentId, List<CategoryEntity> all, Set<Long> ids) {
+        for (CategoryEntity category : all) {
+            if (category.getParent() != null
+                    && category.getParent().getId() != null
+                    && parentId.equals(category.getParent().getId())) {
+                if (ids.add(category.getId())) {
+                    collectChildIds(category.getId(), all, ids);
+                }
             }
         }
     }

@@ -72,6 +72,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         defaults.put("facebookUrl", "https://facebook.com/dodongmynghe");
         defaults.put("youtubeUrl", "https://youtube.com/dodongmynghe");
         defaults.put("zaloUrl", "https://zalo.me/0987654321");
+        defaults.put("tiktokUrl", "https://tiktok.com/@dodongmynghe");
         defaults.put("logoUrl", "/images/logo.png");
         defaults.put("footerDescription", "Chuyên cung cấp đồ đồng mỹ nghệ cao cấp, chế tác thủ công bởi nghệ nhân lành nghề với hơn 30 năm kinh nghiệm.");
         defaults.put("facebookPixelScript", "<!-- Facebook Pixel Code Placeholder -->");

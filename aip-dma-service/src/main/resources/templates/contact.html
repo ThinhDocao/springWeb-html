@@ -49,7 +49,7 @@
                 <div><h4>Zalo</h4><p><a th:href="${siteSettings['zaloUrl'] != null and !siteSettings['zaloUrl'].isEmpty() ? siteSettings['zaloUrl'] : 'https://zalo.me/0987654321'}" style="color:var(--bronze);font-weight:600;">Chat ngay trên Zalo</a></p></div>
             </div>
             <div class="contact-map">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4!2d106.6!3d10.77!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z!5e0!3m2!1svi!2svn!4v1" allowfullscreen loading="lazy"></iframe>
+                <iframe th:src="${siteSettings['address'] != null and !siteSettings['address'].isEmpty() ? 'https://maps.google.com/maps?q=' + #uris.escapeQueryParam(siteSettings['address']) + '&amp;t=&amp;z=16&amp;ie=UTF8&amp;iwloc=&amp;output=embed' : 'https://maps.google.com/maps?q=25bis%20M%E1%BA%A1c%20%C4%90%C4%A9nh%20Chi%20Ph%C6%B0%E1%BB%9Dng%20%C4%90a%20Kao%20Qu%E1%BA%ADn%201%20TPHCM&amp;t=&amp;z=16&amp;ie=UTF8&amp;iwloc=&amp;output=embed'}" allowfullscreen loading="lazy"></iframe>
             </div>
         </div>
     </div>

@@ -1209,15 +1209,15 @@
   bottom: 24px;
   right: 24px;
   z-index: 1500;
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: #27ae60;
   color: var(--white);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   box-shadow: 0 4px 20px rgba(39, 174, 96, 0.4);
   cursor: pointer;
   transition: var(--transition);
@@ -1226,18 +1226,17 @@
 
 .zalo-float {
   position: fixed;
-  bottom: 90px;
+  bottom: 82px;
   right: 24px;
   z-index: 1500;
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: #0068FF;
   color: var(--white);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 104, 255, 0.4);
   cursor: pointer;
   transition: var(--transition);
@@ -1260,35 +1259,34 @@
   100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
 }
 
-/* BACK TO TOP */
-.back-to-top {
+/* TIKTOK FLOAT */
+.tiktok-float {
   position: fixed;
-  bottom: 156px;
+  bottom: 140px;
   right: 24px;
   z-index: 1500;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: var(--bronze);
+  background: #010101;
   color: var(--white);
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
   transition: var(--transition);
-  border: none;
-  font-size: 1rem;
+  animation: pulse-black 2s infinite;
 }
 
-.back-to-top.visible {
-  opacity: 1;
-  visibility: visible;
+.tiktok-float:hover {
+  background: #111;
+  transform: scale(1.1);
 }
 
-.back-to-top:hover {
-  background: var(--bronze-dark);
-  transform: translateY(-3px);
+@keyframes pulse-black {
+  0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4); }
+  70% { box-shadow: 0 0 0 15px rgba(0, 0, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
 }
-.zalo-float:hover, .hotline-float:hover, .back-to-top:hover { transform: scale(1.1); }
+.zalo-float:hover, .hotline-float:hover, .tiktok-float:hover { transform: scale(1.1); }
