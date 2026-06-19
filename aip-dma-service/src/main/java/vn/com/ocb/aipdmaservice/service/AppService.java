@@ -55,9 +55,16 @@ public class AppService {
 
         public T get(java.util.function.Supplier<T> supplier) {
             long now = System.currentTimeMillis();
-            if (value == null || now > expiry) {
+            if (value == null) {
+                System.out.println("--- Cache Entry MISS (value is null) ---");
                 value = supplier.get();
                 expiry = now + ttl;
+            } else if (now > expiry) {
+                System.out.println("--- Cache Entry MISS (expired by " + (now - expiry) + "ms) ---");
+                value = supplier.get();
+                expiry = now + ttl;
+            } else {
+                System.out.println("--- Cache Entry HIT (valid for another " + (expiry - now) + "ms) ---");
             }
             return value;
         }
